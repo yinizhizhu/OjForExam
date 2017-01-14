@@ -1,0 +1,65 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+//A: 65, a: 97
+
+int get(string a) {
+	if (a == "one")
+		return 1;
+	if (a == "two")
+		return 2;
+	if (a == "three")
+		return 3;
+	if (a == "four")
+		return 4;
+	if (a == "five")
+		return 5;
+	if (a == "six")
+		return 6;
+	if (a == "seven")
+		return 7;
+	if (a == "eight")
+		return 8;
+	if (a == "nine")
+		return 9;
+	if (a == "zero")
+		return 0;
+	return -1;
+}
+
+int calc(vector<int> a) {
+	int res = 0, basis = 1, i = a.size() - 1;
+	for (; i>=0; i--) {
+		res += a[i] * basis;
+		basis *= 10;
+	}
+	return res;
+}
+
+int main() {
+	int i;
+	string x;
+	int a, b;
+	while (cin >> x) {
+		i = 0;
+		vector<int> tmp;
+		for (; x != "="; cin >> x) {
+			if (x != "+") {
+				tmp.push_back(get(x));
+			}
+			else {
+				i = 0;
+				a = calc(tmp);
+				tmp.resize(0);
+			}
+		}
+		b = calc(tmp);
+		if (a == 0 && b == 0)
+			break;
+		cout << a + b << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,185 @@
+95.123 12
+0.4321 20
+5.1234 15
+6.7592 9
+98.999 10
+1.0100 12
+.00001 1
+.12345 1
+0001.1 1
+1.1000 1
+10.000 1
+000.10 1
+000000 1
+000.00 1
+.00000 0
+000010 1
+000.10 1
+0000.1 1
+00.111 1
+
+0.0001 1
+0.0001 3
+0.0010 1
+0.0010 3
+0.0100 1
+0.0100 3
+0.1000 1
+0.1000 3
+1.0000 1
+1.0000 3
+1.0001 1
+1.0001 3
+1.0010 1
+1.0010 3
+1.0100 1
+1.0100 3
+1.1000 1
+1.1000 3
+10.000 1
+10.000 3
+10.001 1
+10.001 3
+10.010 1
+10.010 3
+10.100 1
+10.100 3
+99.000 1
+99.000 3
+99.001 1
+99.001 3
+99.010 1
+99.010 3
+99.100 1
+99.100 3
+99.998 1
+99.998 3
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+//A: 65, a: 97
+
+void getV(string s, string n, vector<int>& basis, int& num, int& point) {
+	int i, j = 0, counter = 0;
+	point = 0;
+	int tag = 0;
+	for (i = s.size() - 1; i >= 0; i--) {
+		if (s[i] == '.')
+			break;
+		if (s[i] != '0') tag = 1;
+		else {
+			if (tag == 0)
+				counter++;
+		}
+		if (tag) point++;
+	}
+	for (i = s.size() - 1 - counter; i >= 0; i--) {
+		if (s[i] != '.')
+			basis[j++] = s[i] - '0';
+	}
+	int len = n.size();
+	if (len == 1) num = n[0] - '0';
+	else num = (n[0] - '0') * 10 + n[1] - '0';
+}
+
+void multi(vector<int>& resZ, vector<int>& tmp, int time, int num, int index) {
+	int step , carry = 0, len = time * 6 + 1;
+	for (int i = 0; i < index; i++)
+		tmp[i] = 0;
+	for (int i = 0; i < len; i++) {
+		step = resZ[i] * num + carry;
+		tmp[index + i] = step % 10;
+		carry = step / 10;
+	}
+	tmp[index + len] = carry;
+}
+
+void add(vector< vector<int> >& res, int time) {
+	int i, j;
+	int step, carry = 0, len = time * 6 + 7;
+	for (i = 0; i < len; i++) {
+		step = carry;
+		for (j = 1; j < 7; j++)
+			step += res[j][i];
+		res[0][i] = step % 10;
+		carry = step / 10;
+	}
+	res[0][len] = carry;
+}
+
+void expon(vector<int>& basis, vector< vector<int> >& res, int num) {
+	int i;
+	for (i = 0; i < 6; i++)
+		res[0][i] = basis[i];
+	num--;
+	int time = 1;
+	while (num > 0) {
+		for (i = 0; i < 6; i++)
+			multi(res[0], res[i + 1], time, basis[i], i);
+		add(res, time);
+		num--, time++;
+	}
+}
+
+void getIndex(vector<int>& res, int& i, int& j, int time) {
+	int len = time * 6 + 1; 
+	for (j = len; j >= 0; j--)
+		if (res[j] != 0)
+			break;
+	i = 0;
+}
+
+int main() {
+	int i, j, k;
+	string s, n;
+	while (cin >> s >> n) {
+		int num, point, len;
+		vector<int> basis(6, 0);
+		vector< vector<int> > res(7, vector<int>(600, 0));
+		getV(s, n, basis, num, point);
+		int tmp = 0;
+		for (i = 0; i < 6; i++)
+			tmp += basis[i];
+		if (tmp == 0) {
+			if (num == 0)
+				cout << endl;
+			else
+				cout << "0" << endl;
+			continue;
+		}
+		else {
+			if (num == 0) {
+				cout << "1" << endl;
+				continue;
+			}
+		}
+
+		expon(basis, res, num);
+		getIndex(res[0], i, j, num);
+		len = j - i + 1;
+		k = j + (num*point - len);
+
+		if (k >= j) {
+			cout << '.';
+			for (; k > j; k--)
+				cout << '0';
+			for (; j >= i; j--)
+				cout << res[0][j];
+		}
+		else {
+			for (; j > k; j--)
+				cout << res[0][j];
+			if (j >= i) {
+				cout << '.';
+				for (; j >= i; j--)
+					cout << res[0][j];
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,24 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+	int n, m;
+	int i, a, b;
+	while (cin >> n >> m) {
+		vector<int> res(n + 1, 0);
+		for (; m > 0; m--) {
+			cin >> a >> b;
+			for (i = a; i <= b; i++) {
+				if (res[i])
+					continue;
+				res[i] = 1;
+				n--;
+			}
+		}
+		cout << n + 1 << endl;
+	}
+	return 0;
+}

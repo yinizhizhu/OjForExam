@@ -1,0 +1,24 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include <stack>
+
+using namespace std;
+
+//A: 65, a: 97
+
+int main() {
+	int n, i;
+	vector<int> res;
+	while (cin >> n) {
+		res.resize(n);
+		for (i = 0; i < n; i++)
+			cin >> res[i];
+		sort(res.begin(), res.end());
+		for (i = 0; i < n; i++)
+			cout << res[i] << " ";
+		cout << endl;
+	}
+	return 0;
+}

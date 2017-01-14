@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+	int m, n, i, tmp;
+	while (cin >> n >> m) {
+		vector<int> student(n, 0);
+		vector<int> res(m + 1, 0);
+		for (i = 0; i < n; i++) {
+			cin >> tmp;
+			student[i] = tmp;
+			res[tmp] ++;
+		}
+		for (i = 0; i < n; i++) {
+			tmp = res[student[i]] - 1;
+			if (tmp > 0)
+				cout << tmp << endl;
+			else
+				cout << "BeiJu" << endl;
+		}
+	}
+	return 0;
+}

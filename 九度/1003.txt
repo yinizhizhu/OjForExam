@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+//A: 65, a: 97
+
+int atoi(string a) {
+	int flag = 1, res = 0, basis = 1, i, tail = 0;
+	if (a[0] == '-')
+		flag = -1, tail = 1;
+	if (a[0] == '+')
+		tail = 1;
+	for (i = a.size() - 1; i >= tail; i--) {
+		res += basis*(a[i] - '0');
+		basis *= 10;
+	}
+	return res*flag;
+}
+
+void get(string a, string& x) {
+	x = "";
+	int i, len = a.size();
+	for (i = 0; i < len; i++) {
+		if (a[i] == ',')
+			continue;
+		x += a[i];
+	}
+}
+
+int main() {
+	int res;
+	string a, b, x;
+	while (cin >> a >> b) {
+		get(a, x);
+		res = atoi(x);
+		get(b, x);
+		res += atoi(x);
+		cout << res << endl;
+	}
+	return 0;
+}

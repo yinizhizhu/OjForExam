@@ -1,0 +1,35 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <iomanip>
+#include <stdio.h>
+
+using namespace std;
+
+typedef struct subject {
+	int start;
+	int end;
+} subject;
+
+bool cmp(const subject& s1, const subject& s2) {
+	return s1.end < s2.end;
+}
+
+int main()
+{
+	int i, n, res, tmp;
+	vector<subject> con;
+	while (cin >>n && n) {
+		con.resize(n);
+		for (i = 0; i < n; i++)
+			cin >> con[i].start >> con[i].end;
+		sort(con.begin(), con.end(), cmp);
+		res = tmp = 0;
+		for (i = 0; i < n; i++) {
+			if (con[i].start >= tmp)
+				tmp = con[i].end, res++;
+		}
+		cout << res << endl;
+	}
+	return 0;
+}

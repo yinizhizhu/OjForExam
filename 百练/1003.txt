@@ -1,0 +1,25 @@
+#include <iostream>
+
+using namespace std;
+
+//A: 65, a: 97
+
+int calc(float flag) {
+	int i = 2;
+	float res = 0;
+	while (res < flag) {
+		res += 1.0 / i;
+		i++;
+	}
+	return i - 2;
+}
+
+int main() {
+	float flag =  1;
+	while (flag) {
+		cin >> flag;
+		if (flag)
+			cout << calc(flag) << " card(s)" << endl;
+	}
+	return 0;
+}

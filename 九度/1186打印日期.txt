@@ -1,0 +1,38 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<algorithm>
+using namespace std;
+#define ISYEAP(x) (x%100!=0&&x%4==0||x%400==0)?1:0
+
+
+int dayOfMonth[13][2] =
+{
+	{ 0, 0 },//0
+	{ 31, 31 },//1
+	{ 28, 29 },//2
+	{ 31, 31 },//3
+	{ 30, 30 },//4
+	{ 31, 31 },//5
+	{ 30, 30 },//6
+	{ 31, 31 },//7
+	{ 31, 31 },//8
+	{ 30, 30 },//9
+	{ 31, 31 },//10
+	{ 30, 30 },//11
+	{ 31, 31 }//12
+};
+
+
+int main()
+{
+	int y, n;
+	while (scanf("%d %d", &y, &n) != EOF)
+	{
+		int i;
+		int m = ISYEAP(y);
+		for (i = 0; n>dayOfMonth[i][m]; i++)
+			n -= dayOfMonth[i][m];
+		printf("%04d-%02d-%02d\n", y, i, n);
+	}
+}

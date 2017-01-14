@@ -1,0 +1,66 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+void copy(vector< vector<char> >& res, int x, int m, int n, int tag) {
+	int i, j, p, q;
+	for (i = 0, p = m; i < x; i++, p++)
+		for (j = 0, q = n; j < x; j++, q++) {
+			if (tag)
+				res[p][q] = res[i][j];
+			else
+				res[p][q] = ' ';
+		}
+}
+
+void step(vector< vector<char> >& con, vector< vector<char> >& res, int n, int q) {
+	int i, j;
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			if (con[i][j] != ' ')
+				copy(res, q, i*q, j*q, 1);
+		}
+	}
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			if (con[i][j] == ' ')
+				copy(res, q, i*q, j*q, 0);
+		}
+	}
+}
+
+void show(vector< vector<char> >& res, int n) {
+	int i, j;
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++)
+			cout << res[i][j];
+		cout << endl;
+	}
+}
+
+int main()
+{
+	string tmp;
+	int i, j, n, q;
+	cin >> n;
+	while (n) {
+		getline(cin, tmp);		//remove the '\n'
+		vector< vector<char> > con(n, vector<char>(n, ' '));
+		vector< vector<char> > res(3000, vector<char>(3000, ' '));
+		for (i = 0; i < n; i++) {
+			getline(cin, tmp);
+			for (j = 0; j < tmp.size(); j++)
+				res[i][j] = con[i][j] = tmp[j];
+		}
+		cin >> q;
+		for (i = q, q = n; i > 1; i--) {
+			step(con, res, n, q);
+			q *= n;
+		}
+		show(res, q);
+		cin >> n;
+	}
+	return 0;
+}

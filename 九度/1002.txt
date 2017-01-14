@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+//A: 65, a: 97
+
+bool judge(float t, float gap) {
+	if (gap >= -t && gap <= t)
+		return true;
+	return false;
+}
+
+int main() {
+	bool tag1, tag2;
+	float gap, res;
+	float p, t, g1, g2, g3, gj;
+	while (scanf("%f %f %f %f %f %f", &p, &t, &g1, &g2, &g3, &gj) != EOF) {
+		gap = g1 - g2;
+		if (judge(t, gap))
+			res = (g1 + g2) / 2;
+		else {
+			tag1 = judge(t, g3 - g1);
+			tag2 = judge(t, g3 - g2);
+			if (tag1&&tag2) {
+				res = (g3 > g2 ? g3 : g2);
+				res = (g1 > res ? g1 : res);
+			}
+			else if (tag1)
+				res = (g1 + g3) / 2;
+			else if (tag2)
+				res = (g2 + g3) / 2;
+			else
+				res = gj;
+		}
+		printf("%.1f\n", res);
+	}
+	return 0;
+}

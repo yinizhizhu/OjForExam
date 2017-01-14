@@ -1,0 +1,59 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+typedef struct student {
+	string id;
+	string name;
+	string sex;
+	int age;
+	student() {
+		id = name = sex = "";
+		age = 0;
+	}
+} student;
+
+bool cmp(const student& s1, const student& s2) {
+	return s1.id < s2.id;
+}
+
+void show(student& s){
+	cout << s.id << " " << s.name << " " << s.sex << " " << s.age << endl;
+}
+
+void search(vector<student>& res, string id) {
+	int head = 0, mid, tail = res.size() - 1;
+	while (head <= tail) {
+		mid = (head + tail) / 2;
+		if (res[mid].id == id) {
+			show(res[mid]);
+			return;
+		}
+		else if (res[mid].id < id)
+			head = mid + 1;
+		else
+			tail = mid - 1;
+	}
+	cout << "No Answer!" << endl;
+}
+
+int main()
+{
+	int i, n;
+	string con;
+	while (cin >> n) {
+		vector<student> res(n);
+		for (i = 0; i < n; i++)
+			cin >> res[i].id >> res[i].name >> res[i].sex >> res[i].age;
+		sort(res.begin(), res.end(), cmp);
+		cin >> n;
+		for (; n > 0; n--) {
+			cin >> con;
+			search(res, con);
+		}
+	}
+	return 0;
+}

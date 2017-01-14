@@ -1,0 +1,27 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+bool cmp(const int& a, const int& b) {
+	return a > b;
+}
+
+int main()
+{
+	int n, m, tmp;
+	vector<int> res;
+	while (cin >> n >> m) {
+		res.resize(n);
+		m = (m < n ? m : n);
+		for (n--; n >= 0; n--)
+			cin >> res[n];
+		sort(res.begin(), res.end(), cmp);
+		for (int i = 0; i < m - 1; i++)
+			cout << res[i] << " ";
+		if (m > 0)
+			cout << res[m - 1];
+		cout << endl;
+	}	return 0;
+}

@@ -1,0 +1,57 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include <stack>
+
+using namespace std;
+
+//A: 65, a: 97
+
+typedef struct student {
+	string id;
+	string name;
+	int grade;
+	student() {
+		id = name = "";
+		grade = 0;
+	}
+} student;
+
+bool cmp1(const student& s1, const student& s2) {//for sort
+	return s1.id < s2.id;
+}
+
+bool cmp2(const student& s1, const student& s2) {//for sort
+	if (s1.name == s2.name)
+		return s1.id < s2.id;
+	return s1.name < s2.name;
+}
+
+bool cmp3(const student& s1, const student& s2) {//for sort
+	if (s1.grade == s2.grade)
+		return s1.id < s2.id;
+	return s1.grade < s2.grade;
+}
+
+int main() {
+	int n, i, num = 1, c;
+	vector<student> res;
+	while (cin >> n >> c) {
+		if (n == 0 && c == 0)
+			break;
+		res.resize(n);
+		for (i = 0; i < n; i++)
+			cin >> res[i].id >> res[i].name >> res[i].grade;
+		if (c == 1)
+			sort(res.begin(), res.end(), cmp1);
+		else if (c == 2)
+			sort(res.begin(), res.end(), cmp2);
+		else
+			sort(res.begin(), res.end(), cmp3);
+		cout << "Case " << num++ << ":" << endl;
+		for (i = 0; i < n; i++)
+			cout << res[i].id << " " << res[i].name << " " << res[i].grade << endl;
+	}
+	return 0;
+}

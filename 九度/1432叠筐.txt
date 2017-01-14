@@ -1,0 +1,92 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void output(int n, char c) {
+	for (int i = 0; i < n; i++)
+		cout << c;
+}
+
+int main()
+{
+	int tag, flag;
+	int i, j, n;
+	char center, around;
+	while (cin >> n) {
+		if (n / 2 % 2)
+			cin >> center >> around;
+		else
+			cin >> around >> center;
+		if (n == 1) {
+			cout << around << endl << endl;
+			continue;
+		}
+		cout << " ";
+		output(n - 2, around);
+		cout << " " << endl;
+		tag = -1;
+		for (i = 2; i <= n / 2; i++) {
+			flag = 1;
+			for (j = 1; j < i; j++) {
+				if (flag == 1)
+					cout << around;
+				else
+					cout << center;
+				flag *= -1;
+			}
+			if (tag == 1)
+				output(n - 2 * i + 2, around);
+			else
+				output(n - 2 * i + 2, center);
+			for (j = 1; j < i; j++) {
+				if (flag == -1)
+					cout << around;
+				else
+					cout << center;
+				flag *= -1;
+			}
+			tag *= -1;
+			cout << endl;
+		}
+
+		flag = 1;
+		for (j = 1; j <= n; j++) {
+			if (flag == 1)
+				cout << around;
+			else
+				cout << center;
+			flag *= -1;
+		}
+		cout << endl;
+		
+		for (i = n / 2; i >= 2; i--) {
+			flag = 1;
+			for (j = 1; j < i; j++) {
+				if (flag == 1)
+					cout << around;
+				else
+					cout << center;
+				flag *= -1;
+			}
+			if (tag == -1)
+				output(n - 2 * i + 2, around);
+			else
+				output(n - 2 * i + 2, center);
+			for (j = 1; j < i; j++) {
+				if (flag == -1)
+					cout << around;
+				else
+					cout << center;
+				flag *= -1;
+			}
+			tag *= -1;
+			cout << endl;
+		}
+
+		cout << " ";
+		output(n - 2, around);
+		cout << " " << endl << endl;
+	}
+	return 0;
+}

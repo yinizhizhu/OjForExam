@@ -1,0 +1,25 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void output(int n, char c) {
+	for (int i = 0; i < n; i++)
+		cout << c;
+}
+
+int main()
+{
+	int h, total, step;
+	while (cin >> h) {
+		total = h + 2 * (h - 1);
+		step = h;
+		for (; h > 0; h--) {
+			output(total - step, ' ');
+			output(step, '*');
+			cout << endl;
+			step += 2;
+		}
+	}
+	return 0;
+}

@@ -1,0 +1,18 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+	int n, tmp;
+	while (cin >> n && n) {
+		vector<int> res(101, 0);
+		for (; n > 0; n--) {
+			cin >> tmp;
+			res[tmp]++;
+		}
+		cin >> tmp;
+		cout << res[tmp] << endl;
+	}	return 0;
+}

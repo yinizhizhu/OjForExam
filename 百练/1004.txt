@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+using namespace std;
+
+//A: 65, a: 97
+
+int main() {
+	float res = 0, tmp;
+	for (int i = 0; i < 12; i++) {
+		scanf("%f", &tmp);
+		res += tmp;
+	}
+	printf("$%.2f\n", res / 12);
+	return 0;
+}

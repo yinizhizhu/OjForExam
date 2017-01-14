@@ -1,0 +1,101 @@
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+//A: 65, a: 97
+
+int isYear(int year) {
+	if (year % 100 != 0 && year % 4 == 0 || year % 400 == 0)
+		return 1;
+	return 0;
+}
+
+int dayOfMonth[13][2] = {
+	0, 0,
+	31, 31,
+	28, 29,
+	31, 31,
+	30, 30,
+	31, 31,
+	30, 30,
+	31, 31,
+	31, 31,
+	30, 30,
+	31, 31,
+	30, 30,
+	31, 31
+};
+
+struct date {
+	int day;
+	int month;
+	int year;
+	void nextDay() {
+		day++;
+		if (day > dayOfMonth[month][isYear(year)]) {
+			day = 1;
+			month++;
+			if (month > 12) {
+				month = 1;
+				year++;
+			}
+		}
+	}
+};
+
+int Abs(int x) {
+	return (x >= 0 ? x : -x);
+}
+
+int buf[3001][13][32];
+
+char monthName[13][20] = {
+	"",
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December"
+};
+
+char weekName[7][20] = {
+	"Sunday",
+	"Monday",
+	"Tuesday",
+	"Wednesday",
+	"Thursday",
+	"Friday",
+	"Saturday"
+};
+
+int main() {
+	date tmp;
+	int cnt = 0;
+	tmp.day = 1;
+	tmp.month = 1;
+	tmp.year = 0;
+	while (tmp.year != 3001) {
+		buf[tmp.year][tmp.month][tmp.day] = cnt;
+		tmp.nextDay();
+		cnt++;
+	}
+	char s[20];
+	int d, m, y;
+	while (cin >> d >> s >> y) {
+		for (m = 1; m < 13; m++)
+			if (strcmp(s, monthName[m]) == 0)
+				break;
+		d = buf[y][m][d] - buf[2012][7][16];
+		d++;
+		cout << weekName[(d % 7 + 7) % 7] << endl;
+	}
+	return 0;
+}

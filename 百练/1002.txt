@@ -1,0 +1,90 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+//A: 65, a: 97
+
+typedef struct phoneN {
+	string number;
+	int counter;
+	phoneN(string num, int c) {
+		number = num;
+		counter = c;
+	}
+} phoneN;
+
+string mapD(char c) {
+	if (c == 'A' || c == 'B' || c == 'C')
+		return "2";
+	else if (c == 'D' || c == 'E' || c == 'F')
+		return "3";
+	else if (c == 'G' || c == 'H' || c == 'I')
+		return "4";
+	else if (c == 'J' || c == 'K' || c == 'L')
+		return "5";
+	else if (c == 'M' || c == 'N' || c == 'O')
+		return "6";
+	else if (c == 'P' || c == 'R' || c == 'S')
+		return "7";
+	else if (c == 'T' || c == 'U' || c == 'V')
+		return "8";
+	return "9";
+}
+
+void showOne(phoneN& p) {
+	int i = 0;
+	for (; i < 3; i++)
+		cout << p.number[i];
+	cout << "-";
+	for (; i < 7; i++)
+		cout << p.number[i];
+	cout << " " << p.counter << endl;
+}
+
+bool cmp(const phoneN& s1, const phoneN& s2) {
+	return s1.number < s2.number;
+}
+
+int main() {
+	int n, i;
+	cin >> n;
+	char c;
+	string line, mid;
+	unordered_map<string, int> res;
+	for (; n > 0; n--) {
+		mid = "";
+		cin >> line;
+		for (i = 0; i < line.size(); i++) {
+			c = line[i];
+			if (c == '-');
+			else if (c >= 'A' && c <= 'Z')
+				mid += mapD(c);
+			else
+				mid += c;
+		}
+		auto iter = res.find(mid);
+		if (iter == res.end())
+			res.insert(unordered_map<string, int>::value_type(mid, 1));
+		else
+			iter->second++;
+	}
+	vector<phoneN> all;
+	auto iter = res.begin();
+	for (; iter != res.end(); iter++) {
+		if (iter->second > 1)
+			all.push_back(phoneN(iter->first, iter->second));
+	}
+	n = all.size();
+	if (n == 0)
+		cout << "No duplicates." << endl;
+	else {
+		sort(all.begin(), all.end(), cmp);
+		for (i = 0; i < n; i++)
+			showOne(all[i]);
+	}
+	return 0;
+}
