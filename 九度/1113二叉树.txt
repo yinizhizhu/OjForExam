@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int power(int n) {
+	int res = 1;
+	for (; n > 0; n--)
+		res *= 2;
+	return res;
+}
+
+int main()
+{
+	int h1, h2;
+	int n, m, ans, tmp;
+	while (cin >> m >> n && (m || n)) {
+		h1 = log(n) / log(2) + 1;
+		n -= power(h1 - 1) - 1;
+		h2 = log(m) / log(2) + 1;
+		m -= power(h2 - 1) - 1;
+		ans = power(h1 - h2) - 1;
+		tmp = power(h1 - h2);
+		n -= tmp * (m - 1);
+		if (n > 0)
+			ans += (n > tmp ? tmp : n);
+		cout << ans << endl;
+	}
+	return 0;
+}

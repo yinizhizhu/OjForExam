@@ -1,0 +1,146 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <string>
+#include <stack>
+#include <stdio.h>
+
+using namespace std;
+
+typedef struct part {
+	int head;
+	int tail;
+	part(int a, int b) {
+		head = a;
+		tail = b;
+	}
+} part;
+
+int atoI(string& tmp, int head, int tail) {
+	int res = 0, basis = 1;
+	for (; tail >= head; tail--, basis *= 10)
+		res += (tmp[tail] - '0')*basis;
+	return res;
+}
+
+bool cmp(char a, char b) {
+	if (a == '+' || a == '-') {
+		if (b == '+' || b == '-')
+			return true;
+		return false;
+	}
+	return true;
+}
+
+void getPost(string& s, stack<part>& op, vector<part>& post, int head) {
+	int tmp;
+	if (head == -1) {
+		while (!op.empty()) {
+			tmp = op.top().head;
+			post.push_back(part(tmp, tmp));
+			op.pop();
+		}
+		return;
+	}
+	if (op.empty()) {
+		op.push(part(head, head));
+		return;
+	}
+	tmp = op.top().head;
+	while (cmp(s[tmp], s[head])) {
+		post.push_back(part(tmp, tmp));
+		op.pop();
+		if (op.empty())
+			break;
+		tmp = op.top().head;
+	}
+	op.push(part(head, head));
+}
+
+void calc(stack<double>& res, vector<part>& post, string& s) {
+	double a, b;
+	int i, head, tail, len = post.size();
+	for (i = 0; i < len; i++) {
+		head = post[i].head;
+		tail = post[i].tail;
+		if (head < tail)
+			res.push(atoI(s, head, tail));
+		else {
+			if (s[head] >= '0' && s[head] <= '9')
+				res.push(s[head] - '0');
+			else {
+				b = res.top(), res.pop();
+				a = res.top(), res.pop();
+				if (s[head] == '+')
+					res.push(a + b);
+				else if (s[head] == '-')
+					res.push(a - b);
+				else if (s[head] == '*')
+					res.push(a*b);
+				else
+					res.push(a*1.0 / b);
+			}
+		}
+	}
+}
+
+int main()
+{
+	int i, head, tail, len;
+	string s;
+	while (getline(cin, s) && s != "0") {
+		stack<part> op;
+		vector<part> post;
+		len = s.size();
+		i = 0;
+		while (i< len && s[i] == ' ') i++;
+		for (; i < len; i++) {
+			head = i;
+			while (i < len && s[i] != ' ') i++;
+			tail = i - 1;
+			if (head == tail) {
+				if (s[head] >= '0' && s[head] <= '9')
+					post.push_back(part(head, tail));
+				else
+					getPost(s, op, post, head);
+			}
+			else
+				post.push_back(part(head, tail));
+		}
+		getPost(s, op, post, -1);
+		stack<double> res;
+		calc(res, post, s);
+		printf("%.2f\n", res.top());
+	}
+	return 0;
+}
+
+//Another one which is too simple to study something new!
+#include<stdio.h>
+
+int main()
+{
+	char ch;
+	int i, j, temp;
+	double a[200];
+	while (scanf("%d", &temp) != EOF && temp)
+	{
+		i = 1;
+		a[0] = 0;
+		a[1] = temp;
+		scanf("%c", &ch);
+		while (ch != '\n' && scanf("%c", &ch) != EOF)
+		{
+			scanf(" %d", &temp);
+			if (ch == '-')a[++i] = -temp;
+			else if (ch == '+')a[++i] = temp;
+			else if (ch == '*')a[i] *= temp;
+			else if (ch == '/')a[i] /= temp*1.0;
+			scanf("%c", &ch);
+		}
+		for (j = 1; j <= i; ++j)
+			a[0] += a[j];
+		printf("%.2f\n", a[0]);
+	}
+	return 0;
+}

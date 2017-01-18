@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+typedef struct node {
+	struct node* lchild;
+	struct node* rchild;
+	char c;
+	node(char a) {
+		lchild = rchild = NULL;
+		c = a;
+	}
+} node;
+
+typedef struct sector {
+	int head;
+	int tail;
+	sector(int a, int b) : head(a), tail(b) {}
+} sector;
+
+void post(node* root) {
+	if (root) {
+		post(root->lchild);
+		post(root->rchild);
+		cout << root->c;
+	}
+}
+
+void getTree(string& pre, sector p, string& mid, sector m, node* root, int tag) {
+	char c;
+	int i, head, tail, len;
+	head = m.head;
+	tail = m.tail;
+	c = pre[p.head];
+	for (i = head; i <= tail; i++)
+		if (mid[i] == c)
+			break;
+	if (tag) // 1: lchild
+		root->lchild = new node(pre[p.head]);
+	else
+		root->rchild = new node(pre[p.head]);
+	len = i - head;
+	if (p.head != p.tail) {
+		if (len != 0)
+			getTree(pre, sector(p.head + 1, p.head + len), mid, sector(head, i - 1), (tag ? root->lchild : root->rchild), 1);
+		len = tail - i;
+		if (len != 0)
+			getTree(pre, sector(p.tail - len + 1, p.tail), mid, sector(i + 1, tail), (tag ? root->lchild : root->rchild), 0);
+	}
+}
+
+int main()
+{
+	string pre, mid;
+	while (cin >> pre >> mid) {
+		node* root = new node('\n');
+		sector p(0, pre.size() - 1);
+		sector m(0, mid.size() - 1);
+		getTree(pre, p, mid, m, root, 1);
+		post(root);
+	}
+	return 0;
+}

@@ -1,0 +1,32 @@
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+int main()
+{
+	int n, con;
+	char op;
+	while (cin >> n && n) {
+		stack<int> res;
+		for (; n > 0; n--) {
+			cin >> op;
+			if (op == 'A') {
+				if (res.empty())
+					cout << "E" << endl;
+				else
+					cout << res.top() << endl;
+			}
+			else if (op == 'P') {
+				cin >> con;
+				res.push(con);
+			}
+			else {
+				if (!res.empty())
+					res.pop();
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}

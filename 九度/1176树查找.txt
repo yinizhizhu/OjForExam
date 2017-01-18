@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+typedef struct sector {
+	int head;
+	int tail;
+	sector(int a, int b) : head(a), tail(b) {}
+} sector;
+
+int power(int n) {
+	int res = 1;
+	for (; n > 0; n--)
+		res *= 2;
+	return res;
+}
+
+int main()
+{
+	int i, n, d, tmp;
+	vector<sector> con(11, sector(1, 1));
+	d = n = 1;
+	for (i = 2; i < 11; i++) {
+		con[i].head = d + 1;
+		n *= 2;
+		d += n;
+		con[i].tail = d;
+	}
+	vector<int> res;
+	while (cin >> n) {
+		res.resize(n+1);
+		for (i = 1; i <= n; i++)
+			cin >> res[i];
+		cin >> d;
+		tmp = log(n) / log(2) + 1;
+		if (tmp > d)
+			n = con[d].tail;
+		for (i = con[d].head; i < n; i++)
+			cout << res[i] << " ";
+		cout << res[n] << endl;
+	}
+	return 0;
+}

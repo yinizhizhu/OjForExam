@@ -1,0 +1,37 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stack>
+
+using namespace std;
+
+int main()
+{
+	int i, len;
+	string res;
+	stack<int> index;
+	while (getline(cin, res)) {
+		cout << res << endl;
+		for (i = 0; i < res.size(); i++) {
+			if (res[i] == ')') {
+				if (index.empty())
+					res[i] = '?';
+				else {
+					res[i] = ' ';
+					res[index.top()] = ' ';
+					index.pop();
+				}
+			}
+			else if (res[i] == '(')
+				index.push(i);
+			else
+				res[i] = ' ';
+		}
+		while (!index.empty()) {
+			res[index.top()] = '$';
+			index.pop();
+		}
+		cout << res << endl;
+	}
+	return 0;
+}

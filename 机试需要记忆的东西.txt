@@ -2,3 +2,4 @@
 2.精度的设置头文件<iomanip>: setprecision, setiosflags
 3. printf("%.1f\n", res);scanf("%4d%2d%2d", &y2, &m2, &d2);scanf("%4d%2d%2d", &y1, &m1, &d1) != EOF;printf("%04d-%02d-%02d\n", y, i, n);
 4.  getline(cin, str);cout << str << endl;//读入一行包含空格的字符串为string
+5. #include <vector> #include <queue> #include <functional>： priority_queue
