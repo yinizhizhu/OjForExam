@@ -1,0 +1,23 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int calc(string& s) {
+	int res = 0, i;
+	for (i = 0; i < s.size(); i++) res += s[i] - '0';
+	while (res > 9) {
+		i = res;
+		res = 0;
+		for (; i; i /= 10)	res += i % 10;
+	}
+	return res;
+}
+
+int main()
+{
+	string s;
+	while (cin >> s && s != "0")
+		cout << calc(s) << endl;
+	return 0;
+}

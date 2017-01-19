@@ -1,0 +1,28 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int power(int k) {
+	int res = 1;
+	for (; k > 0; k--)res *= 10;
+	return res;
+}
+
+int main()
+{
+	int tmp;
+	int a, b, k;
+	vector<int> con(9, 1);
+	for (a = 1; a < 9; a++)
+		con[a] = power(a);
+
+	while (cin >> a >> b >> k && (a || b)) {
+		tmp = con[k];
+		if ((a % tmp) == (b % tmp))
+			cout << "-1" << endl;
+		else
+			cout << a + b << endl;
+	}
+	return 0;
+}

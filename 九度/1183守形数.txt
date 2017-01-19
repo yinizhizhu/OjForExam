@@ -1,0 +1,22 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+int main()
+{
+	int n, m, tmp;
+	while (cin >> n) {
+		m = n*n;
+		if (n < 10)
+			tmp = 10;
+		else
+			tmp = 100;
+		if (m%tmp == n)
+			cout << "Yes!" << endl;
+		else
+			cout << "No!" << endl;
+	}
+	return 0;
+}

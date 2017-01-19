@@ -1,0 +1,29 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void calc(int m, unsigned int a, unsigned int b) {
+	vector<int> res;
+	a += b;
+	if (a) {
+		for (; a; a /= m)
+			res.push_back(a%m);
+		for (a = res.size() - 1; a; a--)
+			cout << res[a];
+		cout << res[0] << endl;
+	}
+	else
+		cout << 0 << endl;
+}
+
+int main()
+{
+	int m;
+	unsigned int a, b;
+	while (cin >> m && m) {
+		cin >> a >> b;
+		calc(m, a, b);
+	}
+	return 0;
+}

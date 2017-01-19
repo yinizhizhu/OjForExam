@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+typedef struct num {
+	int d[4];
+	num() {
+		for (int i = 0; i < 4; i++)
+			d[i] = 0;
+		d[3] = 1;
+	}
+	void next() {
+		int i = 0;
+		for (; d[i] == 9; i++)
+			d[i] = 0;
+		d[i] ++;
+	}
+	void show() {
+		for (int i = 3; i >= 0; i--)
+			cout << d[i];
+		cout << endl;
+	}
+} num;
+
+bool judge(num& x) {
+	int d;
+	int i, c = 0, tmp;
+	for (i = 0; i < 4; i++) {
+		tmp = c + x.d[i] * 9;
+		c = tmp / 10;
+		d = tmp % 10;
+		if (d != x.d[3 - i])
+			return false;
+	}
+	return true;
+}
+
+int main()
+{
+	num a;
+	for (int i = 0; i < 1112; i++)
+	{
+		if (judge(a))
+			a.show();
+		a.next();
+	}
+	return 0;
+}
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+bool judge(int x) {
+	int y = 9 * x, basis = 1000;
+	for (int i = 0; i < 4; i++) {
+		if (y / basis != x % 10)
+			return false;
+		y %= basis;
+		basis /= 10;
+		x /= 10;
+	}
+	return true;
+}
+
+int main()
+{
+	for (int i = 1000; i < 1112; i++)
+	{
+		if (judge(i))
+			cout << i << endl;
+	}
+	return 0;
+}

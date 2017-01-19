@@ -1,0 +1,25 @@
+#include <iostream>
+
+using namespace std;
+
+int gcd(int a, int b) {
+	if (b == 0) return a;
+	return gcd(b, a%b);
+}
+
+int main()
+{
+	int t, n, a, res;
+	cin >> t;
+	for (; t > 0; t--) {
+		cin >> n;
+		cin >> a;
+		res = a;
+		for (; n > 1; n--) {
+			cin >> a;
+			res = (a / gcd(a, res)) * res;
+		}
+		cout << res << endl;
+	}
+	return 0;
+}

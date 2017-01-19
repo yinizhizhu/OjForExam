@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int value(char c) {
+	if (c >= '0' && c <= '9')
+		return c - '0';
+	if (c >= 'a' && c <= 'z')
+		return 10 + c - 'a';
+	return 10 + c - 'A';
+}
+
+void calc(string& n, int a, int b) {
+	char c;
+	int i = n.size() - 1, basis = a;
+	long res = value(n[i--]);
+	for (; i >= 0; i--) {
+		res += value(n[i])*basis;
+		basis *= a;
+	}
+	vector<int> con;
+	for (; res; res /= b)
+		con.push_back(res%b);
+	i = con.size() - 1;
+	if (i < 0)
+		cout << 0;
+	for (i = con.size() - 1; i >= 0; i--) {
+		if (con[i] >= 10) {
+			c = 'A' + con[i] + -10;
+			cout << c;
+		}
+		else
+			cout << con[i];
+	}
+	cout << endl;
+}
+
+int main()
+{
+	int a, b;
+	string n;
+	while (cin >> a >> n >> b)
+		calc(n, a, b);
+	return 0;
+}

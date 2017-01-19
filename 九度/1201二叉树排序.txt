@@ -1,0 +1,90 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+typedef struct node {
+	int data;
+	struct node* lchild;
+	struct node* rchild;
+	node(int a) : data(a), lchild(NULL), rchild(NULL) {}
+} node;
+
+void insert(node* root, int a) {
+	int d;
+	node* tmp = root;
+	for (;;) {
+		d = tmp->data;
+		if (a > d) {
+			if (tmp->rchild)
+				tmp = tmp->rchild;
+			else {
+				tmp->rchild = new node(a);
+				return;
+			}
+		}
+		else if (a < d) {
+			if (tmp->lchild)
+				tmp = tmp->lchild;
+			else {
+				tmp->lchild = new node(a);
+				return;
+			}
+		}
+		else
+			return;
+	}
+}
+
+void preOrder(node* root) {
+	if (root) {
+		cout << root->data << " ";
+		preOrder(root->lchild);
+		preOrder(root->rchild);
+	}
+}
+
+void inOrder(node* root) {
+	if (root) {
+		inOrder(root->lchild);
+		cout << root->data << " ";
+		inOrder(root->rchild);
+	}
+}
+
+void postOrder(node* root) {
+	if (root) {
+		postOrder(root->lchild);
+		postOrder(root->rchild);
+		cout << root->data << " ";
+	}
+}
+
+void del(node* root) {
+	if (root) {
+		del(root->lchild);
+		del(root->rchild);
+		delete root;
+	}
+}
+
+int main()
+{
+	int n, tmp;
+	while (cin >> n) {
+		cin >> tmp;
+		node* root = new node(tmp);
+		for (; n > 1; n--) {
+			cin >> tmp;
+			insert(root, tmp);
+		}
+		preOrder(root);
+		cout << endl;
+		inOrder(root);
+		cout << endl;
+		postOrder(root);
+		cout << endl;
+		del(root);
+	}
+	return 0;
+}

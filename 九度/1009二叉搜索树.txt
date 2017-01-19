@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+void getT(vector<string>& res) {
+	int i, len = res[0].size();
+	string tmp = res[0];
+	char c = tmp[0];
+	res[1] = res[2] = "";
+	for (i = 1; i < len; i++)
+		res[(tmp[i] > c) + 1] += tmp[i];
+}
+
+int main()
+{
+	int n;
+	vector<string> res(3, ""), test(3, "");
+	while (cin >> n && n) {
+		cin >> res[0];
+		getT(res);
+		for (; n > 0; n--) {
+			cin >> test[0];
+			if (test[0][0] != res[0][0]) {
+				cout << "NO" << endl;
+				continue;
+			}
+			if (test[0].size() != res[0].size()) {
+				cout << "NO" << endl;
+				continue;
+			}
+			getT(test);
+			if (test[1] == res[1] && test[2] == res[2])
+				cout << "YES" << endl;
+			else
+				cout << "NO" << endl;
+		}
+	}
+	return 0;
+}

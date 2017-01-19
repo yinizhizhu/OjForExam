@@ -1,0 +1,25 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+bool judge(int a) {
+	int n = a*a, m = 0;
+	vector<int> res;
+	for (; n; n /= 10) res.push_back(n % 10);
+	n = res.size() - 1;
+	for (; m < n; m++, n--)
+		if (res[m] != res[n])
+			return false;
+	return true;
+}
+
+int main()
+{
+	int i;
+	for (i = 0; i < 256; i++)
+		if (judge(i))
+			cout << i << endl;
+	return 0;
+}

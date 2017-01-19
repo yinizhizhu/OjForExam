@@ -1,0 +1,85 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int value(char c) {
+	if (c >= '0' && c <= '9')
+		return c - '0';
+	if (c >= 'a' && c <= 'z')
+		return 10 + c - 'a';
+	return 10 + c - 'A';
+}
+
+void calc(string& n, int a, int b) {
+	int i = n.size() - 1, basis = a;
+	long res = value(n[i--]);
+	for (; i>=0; i--) {
+		res += value(n[i])*basis;
+		basis *= a;
+	}
+	vector<int> con;
+	for (; res; res /= b)
+		con.push_back(res%b);
+	for (i = con.size() - 1; i >= 0; i--)
+		cout << con[i];
+	cout << endl;
+}
+
+int main()
+{
+	int a, b;
+	string n;
+	while (cin >> a >> b >> n)
+		calc(n, a, b);
+	return 0;
+}
+
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+
+using namespace std;
+
+const int maxn = 100000;
+void solve(char *s, int m, int  n){
+	int a[maxn], b[maxn], i, f, k = 0;
+	int len = strlen(s);
+	for (i = 0; i < len; i++){//转换成数字  
+		if ('0' <= s[i] && s[i] <= '9')
+			a[i] = s[i] - '0';
+		else
+			a[i] = s[i] - 'A' + 10;
+	}
+	while (1){
+		f = 1;
+		for (i = 0; i < len - 1; i++){
+			if (a[i] != 0){
+				a[i + 1] += a[i] % n*m;
+				a[i] /= n;
+			}
+		}
+		b[k++] = a[i] % n;
+		a[i] /= n;
+		for (i = 0; i < len; i++){
+			if (a[i] != 0){ f = 0; break; }
+		}
+		if (f) break;
+	}
+	for (i = k - 1; i >= 0; i--){
+		if (0 <= b[i] && b[i] <= 9) printf("%c", b[i] + '0');
+		else printf("%c", b[i] - 10 + 'a');
+	}
+	puts("");
+}
+
+int main(){
+	int m, n;
+	char s[1000];
+	while (cin >> m >> n){
+		scanf("%s", s);
+		solve(s, m, n);
+	}
+	return 0;
+}
