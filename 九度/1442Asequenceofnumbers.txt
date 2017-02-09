@@ -1,0 +1,48 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int judge(int a, int b) {
+	if (a == b)
+		return 0; //the alg seq
+	return b / a; //the geo seq
+}
+
+int calc(int a, int k, int d) {
+	int times;
+	long long ans;
+	while (k > 3) {
+		times = (int)(log(k) / log(2));
+		k -= (int)pow(2, times);
+		ans = d % 200907;
+		for (; times > 0; times--) {
+			ans *= ans;
+			ans %= 200907;
+		}
+		a = (a*ans) % 200907;
+	}
+	for (; k > 0; k--) {
+		a *= d;
+		a %= 200907;
+	}
+	return a;
+}
+
+int main()
+{
+	int n, a, b, c, d, k;
+	while (cin >> n) {
+		for (; n; n--) {
+			cin >> a >> b >> c >> k;
+			d = judge(b - a, c - b);
+			if (!d) {
+				d = b - a;
+				cout << (c + ((k - 3) % 200907)*(d % 200907)) % 200907 << endl;
+			}
+			else
+				cout << calc(a, k - 1, d) << endl;
+		}
+	}
+	return 0;
+}

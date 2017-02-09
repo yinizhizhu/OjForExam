@@ -1,0 +1,75 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+struct bigInterger {
+	vector<int> integer;
+	vector<int> decimal;
+	bigInterger(string str) {
+		int i = str.size() - 1;
+		for (; str[i] != '.'; i--);
+		for (int j = i + 1; j < str.size(); j++)
+			decimal.push_back(str[j] - '0');
+		for (--i; i >= 0; i--)
+			integer.push_back(str[i] - '0');
+	}
+	void add(bigInterger b) {
+		int i, carry = 0, ans, size;
+		size = decimal.size() < b.decimal.size() ? decimal.size() : b.decimal.size();
+		for (i = size - 1; i>=0; i--) {
+			ans = decimal[i] + b.decimal[i] + carry;
+			carry = ans / 10;
+			decimal[i] = ans % 10;
+		}
+		for (i = size; i < b.decimal.size(); i++)
+			decimal.push_back(b.decimal[i]);
+
+		size = integer.size() < b.integer.size() ? integer.size() : b.integer.size();
+		for (i = 0; i < size; i++) {
+			ans = integer[i] + b.integer[i] + carry;
+			carry = ans / 10;
+			integer[i] = ans % 10;
+		}
+		for (; i < b.integer.size(); i++) {
+			ans = b.integer[i] + carry;
+			carry = ans / 10;
+			integer.push_back(ans % 10);
+		}
+		for (; i < integer.size(); i++) {
+			ans = integer[i] + carry;
+			carry = ans / 10;
+			integer[i]= ans % 10;
+		}
+
+		if (carry)
+			integer.push_back(carry);
+	}
+	void show() {
+		int i, j;
+		for (i = integer.size() - 1; integer[i] == 0 && i > 0; i--);
+		for (; i >= 0; i--)
+			cout << integer[i];
+		cout << ".";
+		for (i = decimal.size() - 1; decimal[i] == 0 && i > 0; i--);
+		for (j = 0; j <= i; j++)
+			cout << decimal[j];
+		cout << endl;
+	}
+};
+
+int main()
+{
+	int k;
+	string m, n;
+	while (cin >> k) {
+		for (; k; k--) {
+			cin >> m >> n;
+			bigInterger a(m), b(n);
+			a.add(b);
+			a.show();
+		}
+	}
+	return 0;
+}

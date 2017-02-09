@@ -1,0 +1,50 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+typedef struct bigInterger {
+	vector<char> integer;
+	bigInterger() {
+	}
+	bigInterger(string str) {
+		int i = str.size() - 1;
+		for (; i >= 0; i--)
+			integer.push_back(str[i]);
+	}
+	void show() {
+		for (int i = integer.size() - 1; i >= 0; i--)
+			cout << integer[i];
+		cout << endl;
+	}
+} bigInteger;
+
+bool cmp(const bigInterger& s1, const bigInterger& s2) { //for sort
+	int size1 = s1.integer.size(), size2 = s2.integer.size();
+	if (size1 == size2) {
+		for (--size1; size1 >= 0; size1--) {
+			if (s1.integer[size1] != s2.integer[size1])
+				return s1.integer[size1] < s2.integer[size1];
+		}
+	}
+	return size1 < size2;
+}
+
+int main()
+{
+	int n;
+	string m;
+	while (cin >> n) {
+		vector<bigInterger> con;
+		for (; n; n--) {
+			cin >> m;
+			con.push_back(bigInterger(m));
+		}
+		sort(con.begin(), con.end(), cmp);
+		for (int i = 0; i < con.size(); i++)
+			con[i].show();
+	}
+	return 0;
+}

@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+void give(vector< vector<int> >& a, vector<int>& b) { // a = b;
+	int i, j, n = a.size();
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			a[i][j] = b[i*n + j];
+}
+
+void give(vector< vector<int> >& a, vector< vector<int> >& b) { // a = b;
+	int i, j, n = a.size();
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			a[i][j] = b[i][j];
+}
+
+void mul(vector< vector<int> >& a, vector< vector<int> >& b) { // a = a*b;
+	int n, i, j, k, ans;
+	vector<int> con;
+	n = a.size();
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			ans = 0;
+			for (k = 0; k < n; k++)
+				ans += a[i][k] * b[k][j];
+			con.push_back(ans);
+		}
+	}
+	give(a, con);
+}
+
+void calc(vector< vector<int> >& a, int k) {
+	int times, n = a.size();
+	vector< vector<int> > b(n, vector<int>(n));
+	vector< vector<int> > ans(n, vector<int>(n));
+	give(ans, a);
+	while (k > 3) {
+		times = (int)(log(k) / log(2));
+		k -= (int)pow(2, times);
+		give(b, a);
+		for (; times > 0; times--)
+			mul(b, b);
+		mul(ans, b);
+	}
+	for (; k > 0; k--)
+		mul(ans, a);
+	give(a, ans);
+}
+
+void show(vector< vector<int> >& a) {
+	int i, j, n = a.size();
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n - 1; j++)
+			cout << a[i][j] << " ";
+		cout << a[i][n - 1] << endl;
+	}
+}
+
+int main()
+{
+	int t, n, k, i, j;
+	while (cin >> t) {
+		for (; t; t--) {
+			cin >> n >> k;
+			vector< vector<int> > a(n, vector<int>(n));
+			for (i = 0; i < n; i++)
+				for (j = 0; j < n; j++)
+					cin >> a[i][j];
+			calc(a, k - 1);
+			show(a);
+		}
+	}
+	return 0;
+}

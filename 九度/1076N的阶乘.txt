@@ -1,0 +1,51 @@
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+struct bigInterger {
+	vector<int> digit;
+	bigInterger() {
+		digit.push_back(1);
+	}
+	void mul(int k) {
+		int i, carry = 0, ans, size;
+		for (; k > 1; k--) {
+			size = digit.size();
+			for (i = 0; i < size; i++) {
+				ans = digit[i] * k + carry;
+				carry = ans / 10000;
+				digit[i] = ans % 10000;
+			}
+			for (; carry; carry /= 10000)
+				digit.push_back(carry % 10000);
+		}
+	}
+	void show() {
+		int i = digit.size() - 1;
+		cout << digit[i--];
+		for (; i >= 0; i--)
+			printf("%04d", digit[i]);
+		cout << endl;
+	}
+};
+
+int main()
+{
+	int k;
+	vector<int> con(1001, 0);
+	vector<bigInterger> ans(1001, bigInterger());
+	while (cin>>k) {
+		if (con[k])
+			ans[k].show();
+		else {
+			con[k] = 1;
+			ans[k].mul(k);
+			ans[k].show();
+		}
+	}
+	return 0;
+}

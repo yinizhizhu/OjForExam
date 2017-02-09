@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+struct bigInterger {
+	int size;
+	int digit[2000]; // store the four pos
+	bigInterger(string str) {
+		int i, j;
+		size = str.size();
+		for (i = size - 1, j = 0; i >= 0; i--, j++)
+			digit[j] = str[i] - '0';
+	}
+	void add(bigInterger& b) {
+		int i, carry = 0, ans, n;
+		n = (size < b.size ? size : b.size);
+		for (i = 0; i < n; i++) {
+			ans = digit[i] + b.digit[i] + carry;
+			carry = ans / 10;
+			digit[i] = ans % 10;
+		}
+		for (; i < size; i++) {
+			ans = digit[i] + carry;
+			carry = ans / 10;
+			digit[i] = ans % 10;
+		}
+		for (; i < b.size; i++) {
+			ans = b.digit[i] + carry;
+			carry = ans / 10;
+			digit[i] = ans % 10;
+		}
+		if (size < b.size)
+			size = b.size;
+		if (carry)
+			digit[i] = carry, size++;
+	}
+	void show() {
+		for (int i = size - 1; i >= 0; i--)
+			cout << digit[i];
+		cout << endl;
+	}
+};
+
+int main()
+{
+	string m, n;
+	while (cin >> m >> n) {
+		bigInterger a(m), b(n);
+		a.add(b);
+		a.show();
+	}
+	return 0;
+}
