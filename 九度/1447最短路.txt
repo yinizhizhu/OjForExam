@@ -1,0 +1,93 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+const int unr = -1;
+const int N = 101;
+int ans[N][N];
+
+int main()
+{
+	int i, j, k, n, m, step;
+	for (i = 0; i < N; i++)
+		for (j = 0; j < N; j++) {
+			if (i == j)
+				ans[i][i] = 0;
+			else
+				ans[i][j] = unr;
+		}
+	while (cin >> n >> m && (n || m)) {
+		for (; m; m--) {
+			cin >> i >> j >> step;
+			ans[i][j] = ans[j][i] = step;
+		}
+		for (k = 1; k <= n; k++)
+			for (i = 1; i <= n; i++)
+				for (j = 1; j <= n; j++) {
+					if (ans[i][k] == unr || ans[k][j] == unr) continue;
+					if (ans[i][j] == unr || ans[i][k] + ans[k][j] < ans[i][j])
+						ans[i][j] = ans[i][k] + ans[k][j];
+				}
+		cout << ans[1][n] << endl;
+	}
+	return 0;
+}
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+const int N = 101;
+
+struct E {
+	int next;
+	int cost;
+	E(int n, int c) : next(n), cost(c) {}
+};
+
+vector<E> edge[N]; // the link list
+bool mark[N];
+int dis[N];
+
+int main()
+{
+	int n, m;
+	int i, j, d, next, cost;
+	while (cin >> n >> m && (n || m)) {
+		for (i = 1; i <= n; i++) {
+			edge[i].clear();
+			dis[i] = -1;
+			mark[i] = false;
+		}
+		for (; m; m--) {
+			cin >> i >> j >> d;
+			edge[i].push_back(E(j, d));
+			edge[j].push_back(E(i, d));
+		}
+		dis[1] = 0, mark[1] = true;
+		int newP = 1;
+		for (i = 1; i < n; i++) {
+			for (j = 0; j < edge[newP].size(); j++) {
+				next = edge[newP][j].next;
+				if (mark[next]) continue;
+				cost = edge[newP][j].cost;
+				if (dis[next] == -1 || dis[next] > dis[newP] + cost)
+					dis[next] = dis[newP] + cost;
+			}
+			int min = 123123123;
+			for (j = 1; j <= n; j++) {
+				if (mark[j]) continue;
+				if (dis[j] == -1) continue;
+				if (dis[j] < min) {
+					min = dis[j];
+					newP = j;
+				}
+			}
+			mark[newP] = true;
+		}
+		cout << dis[n] << endl;
+	}
+	return 0;
+}

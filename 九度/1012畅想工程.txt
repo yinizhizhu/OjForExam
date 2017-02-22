@@ -1,0 +1,34 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int findRoot(vector<int>& con, int k) {
+	if (con[k] == -1)
+		return k;
+	int a = k;
+	for (; con[a] != -1; a = con[a]);
+	con[k] = a;
+	return a;
+}
+
+int main()
+{
+	int ans;
+	int n, m, i, j;
+	while (cin >> n && n) {
+		vector<int> con(n + 1, -1);
+		cin >> m;
+		for (; m; m--) {
+			cin >> i >> j;
+			i = findRoot(con, i);
+			j = findRoot(con, j);
+			if (i != j) con[i] = j;
+		}
+		ans = 0;
+		for (i = 1; i <= n; i++)
+			if (con[i] == -1) ans++;
+		cout << ans - 1 << endl;
+	}
+	return 0;
+}

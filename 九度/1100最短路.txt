@@ -1,0 +1,38 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+const int N = 100;
+int ans[N][N];
+
+int main()
+{
+	int i, j, k, n, m, step;
+	for (i = 0; i < N; i++)
+		for (j = 0; j < N; j++) {
+			if (i == j)
+				ans[i][i] = 0;
+			else
+				ans[i][j] = -1;
+		}
+	while (cin >> n >> m) {
+		step = 1;
+		for (k = 0; k < m; k++) {
+			cin >> i >> j;
+			ans[i][j] = ans[j][i] = step;
+			step = ((step << 1) % 100000);
+		}
+		for (k = 0; k < n; k++)
+			for (i = 0; i < n; i++)
+				for (j = 0; j < n; j++) {
+					if (ans[i][k] == -1 || ans[k][j] == -1) continue;
+					if (ans[i][j] == -1 || ans[i][k] + ans[k][j] < ans[i][j])
+						ans[i][j] = ((ans[i][k] + ans[k][j]) % 100000);
+				}
+		for (i = 1; i < n; i++)
+			cout << ans[0][i] << endl;
+	}
+	return 0;
+}

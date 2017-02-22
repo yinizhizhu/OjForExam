@@ -1,0 +1,32 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<char> res(201, 'A');
+void show(int n) {
+	char c;
+	int i, j;
+	for (i = 0, j = n - 1; i < j; i++, j--) {
+		c = res[i];
+		res[i] = res[j];
+		res[j] = c;
+	}
+	for (i = 0; i < n; i++)
+		cout << res[i];
+	cout << endl;
+}
+
+int main() {
+	int i, n;
+	string a;
+	while (cin >> a) {
+		n = a.size();
+		for (i = 0; i < n; i++)
+			res[i] = a[i];
+		show(n);
+	}
+	return 0;
+}

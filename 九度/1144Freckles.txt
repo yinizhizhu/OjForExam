@@ -1,0 +1,73 @@
+#include <iostream>
+#include <stdio.h>
+#include <algorithm>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+const int N = 101;
+int road[N];
+
+struct node {
+	float x;
+	float y;
+	node() : x(0), y(0) {}
+	node(float a, float b) : x(a), y(b) {}
+} Node[N];
+
+struct edge {
+	int vi;
+	int vj;
+	float distance;
+	edge(int i, int j) {
+		float d, ans;
+		d = Node[i].x - Node[j].x;
+		ans = d*d;
+		d = Node[i].y - Node[j].y;
+		ans += d*d;
+		vi = i, vj = j;
+		distance = sqrt(ans);
+	}
+	bool operator<(const edge& rhs) const {  //for asc
+		return distance < rhs.distance;
+	}
+};
+
+int findRoot(int k) {
+	if (road[k] == -1)
+		return k;
+	int a = k;
+	for (; road[a] != -1; a = road[a]);
+	road[k] = a;
+	return a;
+}
+
+int main()
+{
+	vector<edge> ans;
+	int i, j, n, vi, vj;
+	float total;
+	for (i = 1; i < N; i++) road[i] = -1;
+	while (cin >> n && n) {
+		ans.clear();
+		for (i = 1, j = 1; j <= n; j++, i++)
+			cin >> Node[i].x >> Node[i].y;
+		for (i = 1; i < n; i++)
+			for (j = i + 1; j <= n; j++)
+				ans.push_back(edge(i, j));
+		sort(ans.begin(), ans.end());
+
+		for (i = 0, total = 0; i < n*(n - 1) / 2; i++) {
+			vi = findRoot(ans[i].vi);
+			vj = findRoot(ans[i].vj);
+			if (vi != vj) {
+				road[vi] = vj;
+				total += ans[i].distance;
+			}
+		}
+		printf("%.2f\n", total);
+		for (i = 1; i <= n; i++) road[i] = -1;
+	}
+	return 0;
+}

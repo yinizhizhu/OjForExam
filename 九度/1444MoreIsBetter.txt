@@ -1,0 +1,44 @@
+#include <iostream>
+
+using namespace std;
+
+int boys[10000001];
+
+int findRoot(int k) {
+	if (boys[k] < 0)
+		return k;
+	int a = k;
+	for (; boys[a] > 0; a = boys[a]);
+	boys[k] = a;
+	return a;
+}
+
+int main()
+{
+	int h = 10000001, t = 0;
+	int n, i, j, ans;
+	for (i = 0; i < 10000001; i++) boys[i] = -1;
+	while (cin >> n) {
+		for (; n; n--) {
+			cin >> i >> j;
+			if (h > i || h > j)
+				h = (i < j ? i : j);
+			if (t < i || t < j)
+				t = (i > j ? i : j);
+			i = findRoot(i);
+			j = findRoot(j);
+			if (i != j) {
+				boys[j] += boys[i];
+				boys[i] = j;
+			}
+		}
+		ans = -1;
+		for (; h <= t; h++) {
+			if (boys[h] < ans)
+				ans = boys[h];
+			boys[h] = -1;
+		}
+		cout << -ans << endl;
+	}
+	return 0;
+}

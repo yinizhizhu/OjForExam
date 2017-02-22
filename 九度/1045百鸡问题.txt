@@ -1,0 +1,18 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int i, j, k, n;
+	while (cin >> n) {
+		for (i = 0; i <= 100; i++) {
+			for (j = 0; j <= 100 - i; j++) {
+				k = 100 - i - j;
+				if (i * 15 + j * 9 + k <= n * 3)
+					cout << "x=" << i << ",y=" << j << ",z=" << k << endl;
+			}
+		}
+	}
+	return 0;
+}

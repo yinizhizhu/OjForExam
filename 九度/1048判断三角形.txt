@@ -1,0 +1,33 @@
+#include <iostream>
+
+using namespace std;
+
+void swap(int& a, int &b) {
+	int tmp;
+	tmp = a;
+	a = b;
+	b = tmp;
+}
+
+void reset(int& a, int& b, int& c) {
+	if (a > c)
+		swap(a, c);
+	if (b > c)
+		swap(b, c);
+}
+
+int main() {
+	int a, b, c;
+	while (cin >> a >> b >> c) {
+		reset(a, b, c);
+		c *= c;
+		a = a*a + b*b;
+		if (c == a)
+			cout << "直角三角形" << endl;
+		else if (c < a)
+			cout << "锐角三角形" << endl;
+		else
+			cout << "钝角三角形" << endl;
+	}
+	return 0;
+}

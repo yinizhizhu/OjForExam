@@ -1,0 +1,24 @@
+#include <iostream>
+
+using namespace std;
+
+int abc(int a, int b, int c) {
+	return (a * 100 + b * 10 + c);
+}
+
+int bcc(int a, int b, int c) {
+	return (b * 100 + c * 10 + c);
+}
+
+int main() {
+	int a, b, c;
+	for (a = 0; a <= 5; a++) {
+		for (b = 0; b <= 5 - a; b++) {
+			for (c = 0; c <= 9; c++) {
+				if (abc(a, b, c) + bcc(a, b, c) == 532)
+					cout << a << " " << b << " " << c << endl;
+			}
+		}
+	}
+	return 0;
+}

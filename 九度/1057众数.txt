@@ -1,0 +1,23 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	int a, i, ans;
+	int res[11];
+	while (cin >> a) {
+		for (i = 1; i < 11; i++) res[i] = 0;
+		res[a]++;
+		for (i = 1; i < 20; i++) {
+			cin >> a;
+			res[a]++;
+		}
+		ans = 1;
+		for (i = 1; i < 11; i++) {
+			if (res[i] > res[ans])
+				ans = i;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

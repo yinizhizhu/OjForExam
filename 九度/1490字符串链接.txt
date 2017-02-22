@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <string.h>
+
+const int N = 1001;
+
+void myStrcat(char a[], char b[]) {
+	int i = strlen(a), j;
+	int lenb = strlen(b);
+	for (j = 0; j <= lenb; j++, i++)
+		a[i] = b[j];
+}
+
+int main() {
+	char a[N], b[N];
+	while (scanf("%s %s", a, b) != EOF) {
+		myStrcat(a, b);
+		printf("%s\n", a);
+	}
+	return 0;
+}

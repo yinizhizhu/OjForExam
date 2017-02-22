@@ -1,0 +1,142 @@
+#include <stdio.h>  
+#include <vector>  
+using namespace std;
+struct E{
+	int next;
+	int t;
+};
+vector <E> edge[610];
+bool mark[610];
+int time[610];
+int owner[610];
+int main(){
+	int n, m;
+	while (scanf("%d", &n) != EOF && n != 0){
+		scanf("%d", &m);
+		for (int i = 1; i <= n; i++){
+			edge[i].clear();
+		}
+		int a, b, t;
+		for (int i = 0; i<m; i++){
+			scanf("%d%d%d", &a, &b, &t);
+			E tmp;
+			tmp.next = b;
+			tmp.t = t;
+			edge[a].push_back(tmp);
+			tmp.next = a;
+			edge[b].push_back(tmp);
+		}
+		for (int i = 1; i <= n; i++){
+			mark[i] = false;
+			time[i] = -1;
+			scanf("%d", &owner[i]);
+		}
+		for (int i = 1; i <= n; i++){
+			if (owner[i] == 2){
+				for (int j = 0; j<edge[i].size(); j++){
+					if (owner[edge[i][j].next] == 1){
+						edge[i][j].t = 0;
+					}
+				}
+			}
+		}
+		time[1] = 0;
+		mark[1] = true;
+		int newp = 1;
+		for (int i = 1; i<n; i++){
+			for (int j = 0; j<edge[newp].size(); j++){
+				int next_ = edge[newp][j].next;
+				int time_ = edge[newp][j].t;
+				if (mark[next_] == true)
+					continue;
+				if (time_ == 0)
+					continue;
+				if (time[next_] == -1 || time[next_]>time[newp] + time_){
+					time[next_] = time[newp] + time_;
+				}
+			}
+			int min = 1000;
+			for (int j = 1; j <= n; j++){
+				if (mark[j] == true)
+					continue;
+				if (time[j] == -1)
+					continue;
+				if (time[j]<min){
+					min = time[j];
+					newp = j;
+				}
+			}
+			mark[newp] = true;
+		}
+		printf("%d\n", time[2]);
+	}
+	return 0;
+}
+
+#include <iostream>
+#include <vector>  
+
+using namespace std;
+
+struct E{
+	int next;
+	int cost;
+	E(int n, int c) : next(n), cost(c) {}
+};
+const int N = 610;
+vector <E> edge[N];
+bool mark[N];
+int cost[N];
+int owner[N];
+
+int main(){
+	int n, m;
+	int a, b, t;
+	while (cin>>n && n){
+		cin >> m;
+		for (int i = 1; i <= n; i++) edge[i].clear();
+		for (int i = 0; i<m; i++) {
+			cin >> a >> b >> t;
+			edge[a].push_back(E(b, t));
+			edge[b].push_back(E(a, t));
+		}
+		for (int i = 1; i <= n; i++) {
+			cost[i] = -1;
+			mark[i] = false;
+			cin >> owner[i];
+		}
+		for (int i = 1; i <= n; i++) {
+			if (owner[i] == 2){
+				for (int j = 0; j < edge[i].size(); j++) {
+					if (owner[edge[i][j].next] == 1)
+						edge[i][j].cost = 0;
+				}
+			}
+		}
+		cost[1] = 0;
+		mark[1] = true;
+		int newp = 1;
+		for (int i = 1; i < n; i++) {
+			for (int j = 0; j < edge[newp].size(); j++) {
+				int next_ = edge[newp][j].next;
+				int cost_ = edge[newp][j].cost;
+				if (mark[next_] == true || cost_ == 0)
+					continue;
+				if (cost[next_] == -1 || cost[next_] > cost[newp] + cost_)
+					cost[next_] = cost[newp] + cost_;
+			}
+			int min = 1000;
+			for (int j = 1; j <= n; j++) {
+				if (mark[j] == true || cost[j] == -1)
+					continue;
+				if (cost[j] < min) {
+					min = cost[j];
+					newp = j;
+				}
+			}
+			mark[newp] = true;
+		}
+		cout << cost[2] << endl;
+	}
+	return 0;
+}

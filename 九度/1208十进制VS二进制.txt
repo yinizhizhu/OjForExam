@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+struct bigInterger {
+	vector<int> integer;
+	vector<int> bit;
+	bigInterger(string str) {
+		int i = str.size() - 1;
+		for (; i >= 0; i--)
+			integer.push_back(str[i] - '0');
+	}
+	void half() {
+		int i = integer.size() - 1, carry = 0;
+		for (; i >= 0; i--) {
+			carry = carry * 10 + integer[i];
+			integer[i] = carry / 2;
+			carry %= 2;
+		}
+		while (integer.size() && !integer[integer.size() - 1])
+			integer.erase(integer.begin() + integer.size() - 1);
+	}
+	void calc() {
+		while (integer.size()) {
+			bit.push_back(integer[0] % 2);
+			half();
+		}
+		while (bit.size() && !bit[0])
+			bit.erase(bit.begin());
+	}
+	void get() {
+		int i, j, len = bit.size();
+		if (len)
+			integer.push_back(bit[0]);
+		for (i = 1; i < len; i++) {
+			integer[0] = (integer[0] << 1) + bit[i];
+			for (j = 1; j < integer.size(); j++)
+				integer[j] = (integer[j] << 1);
+			for (j = 0; j < integer.size() - 1; j++) {
+				if (integer[j] / 10) {
+					integer[j] %= 10;
+					integer[j + 1]++;
+				}
+			}
+			if (integer[j] / 10) {
+				integer[j] %= 10;
+				integer.push_back(1);
+			}
+		}
+	}
+	void show() {
+		if (!integer.size())
+			cout << 0;
+		for (int i = integer.size() - 1; i >= 0; i--)
+			cout << integer[i];
+		cout << endl;
+	}
+};
+
+int main()
+{
+	string n;
+	while (cin >> n) {
+		bigInterger a(n);
+		a.calc();
+		a.get();
+		a.show();
+	}
+	return 0;
+}

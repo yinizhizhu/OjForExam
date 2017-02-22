@@ -1,0 +1,16 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	int i, max, con[10];
+	while (cin >> max) {
+		for (i = 1; i < 10; i++) cin >> con[i];
+		for (i = 1; i < 10; i++) {
+			if (max < con[i])
+				max = con[i];
+		}
+		cout << "max=" << max << endl;
+	}
+	return 0;
+}

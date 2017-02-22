@@ -1,0 +1,67 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int res[35];
+int step = 1;
+const int N = 17;
+struct seq {
+	int total;
+	int series[N][N];
+	seq() : total(0) {}
+	void getS(int n) {
+		int flag[N];
+	}
+};
+
+void init();
+bool prime(int n);
+void show(vector<seq>& con, int n);
+
+int main()
+{
+	int n;
+	init();
+	vector<seq> con(N, seq());
+	while (cin >> n) {
+		if (con[n].total == 0)
+			con[n].getS(n);
+		show(con, n);
+		step++;
+	}
+	return 0;
+}
+
+void init() {
+	for (int i = 1; i < 35; i++) {
+		if (prime(i))
+			res[i] = 1;
+		else
+			res[i] = 0;
+	}
+}
+
+bool prime(int n) {
+	if (n == 1 || n == 2)
+		return true;
+	if (n % 2) {
+		int i = 3;
+		for (; i < n; i += 2)
+			if (n%i == 0)
+				return false;
+		return true;
+	}
+	return false;
+}
+
+void show(vector<seq>& con, int n) {
+	int i, j;
+	cout << "Case " << step << ":" << endl;
+	for (i = 0; i < con[n].total; i++) {
+		for (j = 0; j < n - 1; j++)
+			cout << con[n].series[i][j] << " ";
+		cout << con[n].series[i][j] << endl;
+	}
+	cout << endl;
+}

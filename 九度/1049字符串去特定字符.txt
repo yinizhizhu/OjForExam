@@ -1,0 +1,25 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+void del(char str[], char c) {
+	int i, j, len = strlen(str);
+	for (i = 0; i <= len; i++) {
+		if (str[i] == c) {
+			for (j = i; j <= len; j++)
+				str[j] = str[j + 1];
+			len--;
+			i--;
+		}
+	}
+}
+
+int main() {
+	char c, str[1000];
+	while (cin >> str >> c) {
+		del(str, c);
+		cout << str << endl;
+	}
+	return 0;
+}

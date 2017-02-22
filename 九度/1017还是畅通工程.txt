@@ -1,0 +1,68 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+const int N = 101;
+int road[N];
+
+struct edge {
+	int vi;
+	int vj;
+	int distance;
+	edge(int i, int j, int d) : vi(i), vj(j), distance(d) {}
+	bool operator<(const edge& rhs) const {  //for asc
+		return distance < rhs.distance;
+	}
+};
+
+int findRoot(int k) {
+	if (road[k] == -1)
+		return k;
+	int a = k;
+	for (; road[a] != -1; a = road[a]);
+	road[k] = a;
+	return a;
+}
+
+bool check(int n) {
+	int ans = 0;
+	for (int i = 1; i <= n; i++) {
+		if (road[i] == -1) {
+			if (ans)
+				return false;
+			ans = 1;
+		}
+	}
+	return true;
+}
+
+int main()
+{
+	vector<edge> ans;
+	int i, n, vi, vj, d, total;
+	for (i = 1; i < N; i++) road[i] = -1;
+	while (cin >> n && n) {
+		ans.clear();
+		total = n*(n - 1) / 2;
+		for (; total; total--) {
+			cin >> vi >> vj >> d;
+			ans.push_back(edge(vi, vj, d));
+		}
+		sort(ans.begin(), ans.end());
+		for (i = 0, total = 0; !check(n); i++) {
+			vi = findRoot(ans[i].vi);
+			vj = findRoot(ans[i].vj);
+			if (vi != vj) {
+				road[vi] = vj;
+				total += ans[i].distance;
+			}
+		}
+		cout << total << endl;
+		for (i = 1; i <= n; i++) road[i] = -1;
+	}
+	return 0;
+}

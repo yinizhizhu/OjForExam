@@ -1,0 +1,30 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int N = 101;
+int dp[N][N];
+
+int max(int a, int b) {
+	return (a > b ? a : b);
+}
+
+int lms(string a, string b) {
+	int i, j, lena = a.size(), lenb = b.size();
+	for (i = 1; i <= lena; i++)
+		for (j = 1; j <= lenb; j++) {
+			if (a[i - 1] == b[j - 1])
+				dp[i][j] = dp[i - 1][j - 1] + 1;
+			else
+				dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+		}
+	return dp[lena][lenb];
+}
+
+int main() {
+	string a, b;
+	for (int i = 0; i < N; i++) dp[0][i] = dp[i][0] = 0;
+	while (cin >> a >> b) cout << lms(a, b) << endl;
+	return 0;
+}

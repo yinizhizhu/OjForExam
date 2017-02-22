@@ -1,0 +1,30 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 26;
+int dp[N], list[N];
+
+int m(int a, int b) {
+	return (a > b ? a : b);
+}
+
+int main() {
+	int i, j, n, _max;
+	while (cin >> n) {
+		for (i = 1; i <= n; i++) cin >> list[i];
+		dp[1] = 1;
+		for (i = 2; i <= n; i++) {
+			_max = 1;
+			for (j = 1; j < i; j++) {
+				if (list[j] >= list[i])
+					_max = m(_max, dp[j] + 1);
+			}
+			dp[i] = _max;
+		}
+		for (_max = 1; n; n--)
+			_max = m(_max, dp[n]);
+		cout << _max << endl;
+	}
+	return 0;
+}

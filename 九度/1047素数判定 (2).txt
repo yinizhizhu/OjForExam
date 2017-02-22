@@ -1,0 +1,28 @@
+#include <iostream>
+
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+string judge(int a) {
+	if (a < 2)
+		return "no";
+	if (a == 2)
+		return "yes";
+	if (a % 2) {
+		int i, len = (int)(sqrt(a) + 1);
+		for (int i = 3; i < len; i += 2)
+			if (a %i == 0)
+				return "no";
+		return "yes";
+	}
+	return "no";
+}
+
+int main() {
+	int n;
+	while (cin >> n)
+		cout << judge(n) << endl;
+	return 0;
+}

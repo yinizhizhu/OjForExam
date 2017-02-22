@@ -1,0 +1,92 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+const int N = 501;
+
+vector<int> edge[N];
+queue<int> Q;
+
+int main(){
+	int inDegree[N];
+	int a, b, i, n, m;
+	while (cin >> n >> m && (n || m)) {
+		for (i = 0; i < n; i++) {
+			inDegree[i] = 0;
+			edge[i].clear();
+		}
+		while (m--) {
+			cin >> a >> b;
+			inDegree[b]++;
+			edge[a].push_back(b);
+		}
+		while (!Q.empty()) Q.pop();
+		for (i = 0; i < n; i++)
+			if (inDegree[i] == 0)
+				Q.push(i);
+		int cnt = 0;
+		while (!Q.empty()) {
+			int nowP = Q.front();
+			Q.pop();
+			cnt++;
+			for (i = 0; i < edge[nowP].size(); i++) {
+				inDegree[edge[nowP][i]] --;
+				if (inDegree[edge[nowP][i]] == 0)
+					Q.push(edge[nowP][i]);
+			}
+		}
+		if (cnt == n)
+			cout << "YES" << endl;
+		else
+			cout << "NO" << endl;
+	}
+	return 0;
+}
+
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+const int N = 501;
+
+vector<int> edge[N];
+int inDegree[N];
+queue<int> Q;
+
+int main(){
+	int cnt, p, nowP;
+	int a, b, i, n, m;
+	while (cin >> n >> m && (n || m)) {
+		for (i = 0; i < n; i++) {
+			inDegree[i] = 0;
+			edge[i].clear();
+		}
+		while (m--) {
+			cin >> a >> b;
+			inDegree[b]++;
+			edge[a].push_back(b);
+		}
+		for (; !Q.empty(); Q.pop());
+		for (i = 0; i < n; i++)
+			if (inDegree[i] == 0)
+				Q.push(i);
+		cnt = 0;
+		while (!Q.empty()) {
+			nowP = Q.front();
+			Q.pop();
+			cnt++;
+			for (i = 0; i < edge[nowP].size(); i++) {
+				p = edge[nowP][i];
+				inDegree[p] --;
+				if (inDegree[p] == 0)
+					Q.push(p);
+			}
+		}
+		cout << (cnt == n ? "YES" : "NO") << endl;
+	}
+	return 0;
+}

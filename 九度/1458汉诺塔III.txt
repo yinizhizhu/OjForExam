@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+static long long ans = 0;
+vector<long long> con(36, 0);
+
+void hanoi(int n) {
+	if (n == 1)
+		ans += 2;
+	else {
+		if (con[n - 1]) {
+			ans += 2;
+			ans += 3 * con[n - 1];
+		}
+		else {
+			hanoi(n - 1);
+			ans++;
+			hanoi(n - 1);
+			ans++;
+			hanoi(n - 1);
+		}
+	}
+}
+
+int main()
+{
+	int n;
+	while (cin >> n) {
+		if (con[n])
+			cout << con[n] << endl;
+		else {
+			hanoi(n);
+			con[n] = ans;
+			cout << ans << endl;
+			ans = 0;
+		}
+	}
+	return 0;
+}
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<long long> con(36, 0);
+
+long long hanoi(int n) {
+	if (n == 1)
+		return 2;
+	if (con[n - 1])
+		return (3 * con[n - 1] + 2);
+	return (3 * hanoi(n - 1) + 2);
+}
+
+int main()
+{
+	int n;
+	while (cin >> n) {
+		if (con[n])
+			cout << con[n] << endl;
+		else {
+			con[n] = hanoi(n);
+			cout << con[n] << endl;
+		}
+	}
+	return 0;
+}

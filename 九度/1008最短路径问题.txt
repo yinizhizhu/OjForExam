@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+const int N = 1001;
+
+struct E {
+	int next;
+	int distance;
+	int expense;
+	E(int n, int d, int e) : next(n), distance(d), expense(e) {}
+};
+
+vector<E> edge[N]; // the link list
+bool mark[N];
+int dis[N];
+int expense[N];
+
+int main()
+{
+	int n, m, s, t;
+	int i, j, d, e, next;
+	while (cin >> n >> m && (n || m)) {
+		for (i = 1; i <= n; i++) {
+			edge[i].clear();
+			dis[i] = -1;
+			mark[i] = false;
+		}
+		for (; m; m--) {
+			cin >> i >> j >> d >> e;
+			edge[i].push_back(E(j, d, e));
+			edge[j].push_back(E(i, d, e));
+		}
+		cin >> s >> t;
+		dis[s] = 0, mark[s] = true;
+		int newP = s;
+		while (!mark[t]) {
+			for (j = 0; j < edge[newP].size(); j++) {
+				next = edge[newP][j].next;
+				if (mark[next]) continue;
+				d = edge[newP][j].distance;
+				if (dis[next] == -1 || dis[next] > dis[newP] + d || dis[next] == dis[newP] + d && expense[next] > expense[newP] + edge[newP][j].expense) {
+					dis[next] = dis[newP] + d;
+					expense[next] = expense[newP] + edge[newP][j].expense;
+				}
+			}
+			int min = 123123123;
+			for (j = 1; j <= n; j++) {
+				if (mark[j]) continue;
+				if (dis[j] == -1) continue;
+				if (dis[j] < min) {
+					min = dis[j];
+					newP = j;
+				}
+			}
+			mark[newP] = true;
+		}
+		cout << dis[t] << " " << expense[t] << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int min(int a, int b) {
+	return (a < b ? a : b);
+}
+
+const int N = 101;
+struct num {
+	int len;
+	int aaa[N];
+	num(int l, int a) {
+		len = l;
+		for (int i = 0; i < len; i++)
+			aaa[i] = a;
+	}
+	void add(num& a) {
+		int i, n, carry;
+		carry = 0;
+		n = min(len, a.len);
+		for (i = 0; i < n; i++) {
+			carry += (aaa[i] + a.aaa[i]);
+			aaa[i] = carry % 10;
+			carry /= 10;
+		}
+		for (; i < len; i++) {
+			carry += aaa[i];
+			aaa[i] = carry % 10;
+			carry /= 10;
+		}
+		for (; i < a.len; i++) {
+			carry += a.aaa[i];
+			aaa[i] = carry % 10;
+			carry /= 10;
+		}
+		if (carry)
+			aaa[len++] = carry;
+	}
+	void show() {
+		for (int i = len - 1; i >= 0; i--)
+			cout << aaa[i];
+		cout << endl;
+	}
+};
+
+int main() {
+	int a, n;
+	while (cin >> a >> n) {
+		num ans(n, a);
+		for (--n; n; n--) {
+			num tmp(n, a);
+			ans.add(tmp);
+		}
+		ans.show();
+	}
+	return 0;
+}

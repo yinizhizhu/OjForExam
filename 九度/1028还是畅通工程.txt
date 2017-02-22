@@ -1,0 +1,73 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+const int N = 101;
+int road[N];
+
+struct edge {
+	int vi;
+	int vj;
+	int cost;
+	edge(int i, int j, int c) : vi(i), vj(j), cost(c) {}
+	bool operator<(const edge& rhs) const {  //for asc
+		return cost < rhs.cost;
+	}
+};
+
+int findRoot(int k) {
+	if (road[k] == -1)
+		return k;
+	int a = k;
+	for (; road[a] != -1; a = road[a]);
+	road[k] = a;
+	return a;
+}
+
+bool check(int n) {
+	bool ans = false;
+	for (int i = 1; i <= n; i++) {
+		if (road[i] == -1) {
+			if (ans)
+				return false;
+			ans = true;
+		}
+	}
+	return true;
+}
+
+int main()
+{
+	vector<edge> ans;
+	int i, n, m, cost, vi, vj, s;
+	for (i = 0; i < N; i++) road[i] = -1;
+	while (cin >> n && n) {
+		ans.clear();
+		m = n*(n - 1) / 2;
+		for (i = 0; i < m; i++) {
+			cin >> vi >> vj >> cost >> s;
+			if (s) {
+				vi = findRoot(vi);
+				vj = findRoot(vj);
+				if (vi != vj)
+					road[vi] = vj;
+			}
+			else ans.push_back(edge(vi, vj, cost));
+		}
+		cost = 0;
+		sort(ans.begin(), ans.end());
+		for (i = 0; !check(n); i++) {
+			vi = findRoot(ans[i].vi);
+			vj = findRoot(ans[i].vj);
+			if (vi != vj) {
+				road[vi] = vj;
+				cost += ans[i].cost;
+			}
+		}
+		cout << cost << endl;
+		for (i = 1; i <= n; i++) road[i] = -1;
+	}
+	return 0;
+}

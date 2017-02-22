@@ -1,0 +1,27 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<char> res(201, 'A');
+void show(int n) {
+	int i;
+	for (i = 0; i < n; i++)
+		cout << res[i];
+	cout << endl;
+}
+
+int main() {
+	int i, n;
+	string a;
+	while (cin >> a) {
+		n = a.size();
+		for (i = 0; i < n; i++)
+			res[i] = a[i];
+		sort(res.begin(), res.begin() + n);
+		show(n);
+	}
+	return 0;
+}

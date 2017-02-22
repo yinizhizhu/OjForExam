@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+const int N = 1001;
+
+vector<int> edge[N];
+int inDegree[N];
+queue<int> Q;
+
+int position(vector<string>& con, string a, int& n) {
+	for (int i = 1; i < n; i++)
+		if (a == con[i])
+			return i;
+	con[n] = a;
+	return (n++);
+}
+
+int calc(int n) {
+	int ans = 0;
+	for (--n; n > 0; n--)
+		ans += inDegree[n];
+	return ans;
+}
+
+int main() {
+	int i, j = N, n, start, end, cnt, nowP, p;
+	string a, b;
+	vector<string> con(N, "");
+	while (cin >> n && n) {
+		for (i = 1; i < j; i++) {
+			inDegree[i] = 0;
+			edge[i].clear();
+		}
+		for (i = 0, j = 1; i < n; i++) {
+			cin >> a >> b;
+			start = position(con, a, j);
+			end = position(con, b, j);
+			inDegree[end]++;
+			edge[start].push_back(end);
+		}
+		for (; !Q.empty(); Q.pop());
+		cnt = 0;
+		for (i = 1; i < j; i++)
+			if (inDegree[i] == 0) {
+				cnt++;
+				Q.push(i);
+			}
+		if (cnt - 1)
+			cout << "No" << endl;
+		else {
+			while (!Q.empty()) {
+				nowP = Q.front();
+				Q.pop();
+				for (i = 0; i < edge[nowP].size(); i++) {
+					p = edge[nowP][i];
+					inDegree[p]--;
+					if (inDegree[p] == 0)
+						Q.push(p);
+				}
+			}
+			cout << (calc(j) ? "No" : "Yes") << endl;
+		}
+	}
+	return 0;
+}

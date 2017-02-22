@@ -1,0 +1,29 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+const int N = 21;
+
+int main() {
+	int i, n;
+	int res[N];
+	int minI, maxI;
+	while (cin >> n) {
+		minI = maxI = 0;
+		for (i = 0; i < n; i++) cin >> res[i];
+		for (i = 0; i < n; i++) {
+			if (res[i] < res[minI])
+				minI = i;
+			if (res[i] > res[maxI])
+				maxI = i;
+		}
+		i = res[minI];
+		res[minI] = res[maxI];
+		res[maxI] = i;
+		for (i = 0; i < n - 1; i++)
+			cout << res[i] << " ";
+		cout << res[i] << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,48 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+const int N = 501;
+
+vector<int> edge[N];
+int inDegree[N];
+vector<int> Q;
+
+int main(){
+	int cnt, p, nowP;
+	int a, b, i, n, m;
+	while (cin >> n >> m && (n || m)) {
+		for (i = 1; i <= n; i++) {
+			inDegree[i] = 0;
+			edge[i].clear();
+		}
+		while (m--) {
+			cin >> a >> b;
+			inDegree[b]++;
+			edge[a].push_back(b);
+		}
+		Q.clear();
+		for (i = 1; i <= n; i++)
+			if (inDegree[i] == 0)
+				Q.push_back(i);
+		cnt = 0;
+		while (Q.size()) {
+			nowP = Q[0];
+			Q.erase(Q.begin());
+			cnt++;
+			cout << nowP;
+			cout << (cnt == n ? "\n" : " ");
+			for (i = 0; i < edge[nowP].size(); i++) {
+				p = edge[nowP][i];
+				inDegree[p] --;
+				if (inDegree[p] == 0)
+					Q.push_back(p);
+			}
+			sort(Q.begin(), Q.end());
+		}
+	}
+	return 0;
+}
