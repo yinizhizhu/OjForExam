@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int charToI(string a) {
+	int ans = 0, i;
+	ans += a[0] * 36000;
+	ans += a[1] * 3600;
+	ans += a[3] * 600;
+	ans += a[4] * 60;
+	ans += a[6] * 10;
+	return (ans + a[7]);
+}
+
+struct stu {
+	string id;
+	int start, end;
+	stu(string i, string s, string e) {
+		id = i;
+		start = charToI(s);
+		end = charToI(e);
+	}
+};
+
+int main() {
+	int i, m, n, s, e;
+	string id, head, tail;
+	while (cin >> n) {
+		for (; n; n--) {
+			cin >> m;
+			vector<stu> res;
+			for (i = 0; i < m; i++) {
+				cin >> id >> head >> tail;
+				res.push_back(stu(id, head, tail));
+			}
+			s = res[0].start;
+			e = res[0].end;
+			head = tail = res[0].id;
+			for (i = 1; i < m; i++) {
+				if (res[i].start < s) {
+					s = res[i].start;
+					head = res[i].id;
+				}
+				if (res[i].end > e) {
+					e = res[i].end;
+					tail = res[i].id;
+				}
+			}
+			cout << head << " " << tail << endl;
+		}
+	}
+	return 0;
+}

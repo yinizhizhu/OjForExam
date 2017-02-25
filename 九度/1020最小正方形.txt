@@ -1,0 +1,32 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	int counter = 0, x, y;
+	int xmin, ymin;
+	int xmax, ymax;
+	while (cin >> x >> y) {
+		if (x == y && 0 == x) {
+			if (counter) {
+				cout << xmin << " " << ymin << " " << xmax << " " << ymax << endl;
+				counter = 0;
+			}
+			else break;
+		}
+		else {
+			if (counter == 0) {
+				xmin = xmax = x;
+				ymin = ymax = y;
+			}
+			else {
+				if (xmin > x) xmin = x;
+				if (xmax < x) xmax = x;
+				if (ymin > y) ymin = y;
+				if (ymax < y) ymax = y;
+			}
+			counter++;
+		}
+	}
+	return 0;
+}

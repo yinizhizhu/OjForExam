@@ -1,0 +1,70 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int cti(char c) {
+	return c - '0';
+}
+
+int ToI(string& a) {
+	int ans = 0;
+	ans += cti(a[0]) * 600;
+	ans += cti(a[1]) * 60;
+	ans += cti(a[3]) * 10;
+	return ans + cti(a[4]);
+}
+
+struct boat {
+	int start;
+	int end;
+	int time;
+	boat() : start(-1), end(-1), time(-1) {}
+	void setS(string& s) {
+		start = ToI(s);
+	}
+	void setE(string& e) {
+		end = ToI(e);
+		if (start + 1)
+			time = end - start;
+	}
+};
+
+int main() {
+	char c;
+	string a;
+	int num, time = 0;
+	float average = 0;
+	vector<boat> con(101, boat());
+	for (;;) {
+		cin >> num;
+		if (num == -1) break;
+		else if (num == 0) {
+			cin >> c >> a;
+			if (time == 0)
+				cout << "0 0" << endl;
+			else {
+				average /= time;
+				if (average - (int)average >= 0.5)
+					cout << time << " " << (int)average + 1 << endl;
+				else
+					cout << time << " " << (int)average << endl;
+			}
+			time = average = 0;
+		}
+		else {
+			cin >> c >> a;
+			if (c == 'S')
+				con[num].setS(a);
+			else {
+				con[num].setE(a);
+				if (con[num].time != -1) {
+					time++;
+					average += con[num].time;
+				}
+			}
+		}
+	}
+	return 0;
+}

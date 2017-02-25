@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdio>
+#include <cstring>
+
+using namespace std;
+
+void clear(char str[]) {
+	int i, j, len = strlen(str);
+	for (i = 0; i < len; i++) {
+		if (str[i] == ' ') {
+			for (j = i + 1; j < len; j++)
+				str[j - 1] = str[j];
+			i--, len--;
+		}
+	}
+	str[i] = '\0';
+}
+
+int main() {
+	int pos, len;
+	char str[333];
+	string in, line;
+	cin >> in;
+	gets(str);
+	len = in.size();
+	while (gets(str)) {
+		clear(str);
+		line = str;
+		pos = line.find(in);
+		while (pos + 1) {
+			line.erase(pos, len);
+			pos = line.find(in);
+		}
+		cout << line << endl;
+	}
+	return 0;
+}

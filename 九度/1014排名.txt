@@ -1,0 +1,52 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+const int N = 1001;
+const int M = 11;
+int basis[M];
+int con[M];
+
+struct stu {
+	string id;
+	int grade;
+	stu(string& i, int m) {
+		id = i;
+		grade = 0;
+		for (int j = 0; j < m; j++) grade += basis[con[j]];
+	}
+};
+
+bool cmp(const stu& s1, const stu& s2) {
+	if (s1.grade == s2.grade)
+		return s1.id < s2.id;
+	return s1.grade > s2.grade;
+}
+
+int main() {
+	string id;
+	int i, j, n, m, g;
+	while (cin >> n && n) {
+		cin >> m >> g;
+		for (i = 1; i <= m; i++) cin >> basis[i];
+		vector<stu> container;
+		for (i = 0; i < n; i++) {
+			cin >> id >> m;
+			for (j = 0; j < m; j++) cin >> con[j];
+			stu tmp(id, m);
+			if (tmp.grade >= g)
+				container.push_back(tmp);
+		}
+		n = container.size();
+		sort(container.begin(), container.end(), cmp);
+		cout << n << endl;
+		if (n) {
+			for (i = 0; i < n; i++)
+				cout << container[i].id << " " << container[i].grade << endl;
+		}
+	}
+	return 0;
+}

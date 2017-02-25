@@ -1,0 +1,38 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdio>
+
+using namespace std;
+
+void handle(string& s, string& a, string& b) {
+	int i, j, lena = a.size(), lenb = b.size();
+	for (i = 0; i < s.size(); i++) {
+		for (j = i + 1; j < s.size(); j++)
+			if (s[j] == ' ')
+				break;
+		if (j - i == lena) {
+			if (i == s.find(a, i)) {
+				s.erase(i, lena);
+				s.insert(i, b);
+				i += lena - lenb;
+			}
+		}
+		else
+			i = j;
+	}
+}
+
+int main() {
+	int pos, len, add;
+	char str[3333];
+	string a, b, s;
+	while (gets(str)) {
+		s = str;
+		cin >> a >> b;
+		handle(s, a, b);
+		cout << s << endl;
+		getchar();
+	}
+	return 0;
+}

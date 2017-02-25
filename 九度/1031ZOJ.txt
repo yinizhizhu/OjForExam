@@ -1,0 +1,50 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int pos(char c) {
+	if (c == 'Z')
+		return 0;
+	if (c == 'O')
+		return 1;
+	return 2;
+}
+
+void out(int n) {
+	if (n == 0)
+		cout << "Z";
+	else if (n == 1)
+		cout << "O";
+	else
+		cout << "J";
+}
+
+bool check(int* res) {
+	return (res[0] + res[1] + res[2]);
+}
+
+void show(int* res) {
+	int i;
+	while (check(res)) {
+		for (i = 0; i < 3; i++) {
+			if (res[i] > 0) {
+				out(i);
+				res[i]--;
+			}
+		}
+	}
+}
+
+int main() {
+	string str;
+	int i, res[3];
+	res[0] = res[1] = res[2] = 0;
+	while (cin >> str && str != "E") {
+		for (i = 0; i < str.size(); i++)
+			res[pos(str[i])]++;
+		show(res);
+		cout << endl;
+	}
+	return 0;
+}

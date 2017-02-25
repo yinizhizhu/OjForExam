@@ -1,0 +1,40 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+const int N = 1001;
+int container[N][N];
+
+void init(int n) {
+	int i, j;
+	for (i = 1; i <= n; i++)
+		for (j = 1; j <= n; j++)
+			container[i][j] = 0;
+}
+
+int dfs(int n) {
+	int i, j, ans;
+	for (i = 1; i <= n; i++) {
+		ans = 0;
+		for (j = 1; j <= n; j++)
+			ans += container[i][j];
+		if (ans % 2)
+			return 0;
+	}
+	return 1;
+}
+
+int main() {
+	int n, m, i, x, y;
+	while (cin >> n && n) {
+		init(n);
+		cin >> m;
+		for (i = 0; i < m; i++) {
+			cin >> x >> y;
+			container[x][y] = container[y][x] = 1;
+		}
+		cout << dfs(n) << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,73 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+const int N = 31;
+
+struct bg {
+	int happy;
+	int sustain;
+	int leavet;
+	float grade;
+	bg(int h, int s, int t) {
+		grade = (float)h / s;
+		happy = h;
+		sustain = s;
+		leavet = t;
+	}
+};
+
+bool cmp(const bg& s1, const bg& s2) {
+	if (s1.leavet == s2.leavet)
+		return s1.grade > s2.grade;
+	return s1.leavet > s2.leavet;
+}
+
+void show(vector<bg>& list) {
+	int i, len = list.size();
+	cout << endl;
+	for (i = 0; i < len; i++)
+		cout << list[i].happy << " " << list[i].sustain << " " << list[i].leavet << " " << list[i].grade << endl;
+	cout << endl;
+}
+
+void plan(vector<bg>& list) {
+	int i = 0, ans, time, t;
+	ans = list[i].happy;
+	time = list[i].leavet - list[i].sustain;
+	//cout << i << ": " << time << " " << ans << endl;
+	for (++i; i < list.size(); i++) {
+		t = list[i].leavet;
+		if (time >= t) {
+			time = t - list[i].sustain;
+			ans += list[i].happy;
+		}
+		else {
+			t = list[i].sustain;
+			if (time >= t) {
+				time = time - t;
+				ans += list[i].happy;
+			}
+		}
+		//cout << i << ": " << time << " " << ans << endl;
+	}
+	cout << ans << endl;
+}
+
+int main() {
+	int n, h, s, t, i;
+	while (cin >> n && n >= 0) {
+		vector<bg> list;
+		for (i = 0; i < n; i++) {
+			cin >> h >> s >> t;
+			list.push_back(bg(h, s, t));
+		}
+		//show(list);
+		sort(list.begin(), list.end(), cmp);
+		//show(list);
+		plan(list);
+	}
+	return 0;
+}

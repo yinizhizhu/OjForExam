@@ -1,0 +1,28 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 100001;
+int container[N];
+
+void show(int n) {
+	for (int i = 0; i < n; i++)
+		cout << container[i] << " ";
+	cout << endl;
+}
+
+int main() {
+	int i, j, n, m, len;
+	while (cin >> n >> m && (n || m)) {
+		for (i = 0; i < n; i++) cin >> container[i];
+		//show(n);
+		sort(container, container + n);
+		//show(n);
+		len = (n > m ? m : n);
+		for (j = 0, i = n - 1; j < len - 1; i--, j++)
+			cout << container[i] << " ";
+		cout << container[i] << endl;
+	}
+	return 0;
+}

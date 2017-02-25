@@ -1,0 +1,81 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 26;
+int container[N];
+
+int cti(char c) {
+	return (c - 'A');
+}
+
+int findRoot(int n) {
+	if (container[n] == -1)
+		return n;
+	while (container[n] != -1)
+		n = container[n];
+	return n;
+}
+
+void output(int n, int tag) {
+	for (; n > 2; n--) cout << "great-";
+	if (tag) {
+		if (n == 2) cout << "grandparent" << endl;
+		else cout << "parent" << endl;
+	}
+	else {
+		if (n == 2) cout << "grandchild" << endl;
+		else cout << "child" << endl;
+	}
+}
+
+void get(int posa, int posb) {
+	int a = posa, b = posb, step = 0;
+	while (container[a] != -1) {
+		step++;
+		a = container[a];
+		if (a == posb) {
+			output(step, 1);
+			return;
+		}
+	}
+	step = 0;
+	while (container[b] != -1) {
+		step++;
+		b = container[b];
+		if (b == posa) {
+			output(step, 0);
+			return;
+		}
+	}
+	cout << "-" << endl;
+}
+
+int main() {
+	char a, b, c;
+	int posa, posb, posc;
+	int n, m, i;
+	while (cin >> n >> m && (n || m)) {
+		for (i = 0; i < N; i++) container[i] = -1;
+		for (i = 0; i < n; i++) {
+			cin >> a >> b >> c;
+			posa = cti(a);
+			if (b != '-') {
+				posb = cti(b);
+				container[posb] = posa;
+			}
+			if (c != '-') {
+				posc = cti(c);
+				container[posc] = posa;
+			}
+		}
+		for (i = 0; i < m; i++) {
+			cin >> a >> b;
+			posa = cti(a);
+			posb = cti(b);
+			get(posa, posb);
+		}
+	}
+	return 0;
+}

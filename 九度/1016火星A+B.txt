@@ -1,0 +1,87 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int N = 30;
+int basis[N];
+
+int charToI(string&a, int head, int tail) {
+	int ans = a[tail--] - '0', basis = 10;
+	for (; tail >= head; tail--, basis *= 10)
+		ans += (a[tail] - '0') * basis;
+	return ans;
+}
+
+struct num{
+	int len;
+	int bit[N];
+	num(string& a) {
+		int i = a.size() - 1, j;
+		for (len = 0; i >= 0; i--) {
+			for (j = i - 1; j >= 0; j--)
+				if (a[j] == ',')
+					break;
+			if (j == 0)
+				j = -1;
+			bit[len++] = charToI(a, j + 1, i);
+			i = j;
+		}
+	}
+	void add(num& a) {
+		int i, n, carry = 0;
+		n = (len > a.len ? a.len : len);
+		for (i = 0; i < n; i++) {
+			carry += bit[i] + a.bit[i];
+			bit[i] = carry % basis[i];
+			carry /= basis[i];
+		}
+		for (; i < len; i++) {
+			carry += bit[i];
+			bit[i] = carry % basis[i];
+			carry /= basis[i];
+		}
+		for (; i < a.len; i++) {
+			carry += a.bit[i];
+			bit[i] = carry % basis[i];
+			carry /= basis[i];
+		}
+		len = i;
+		if (carry)
+			bit[len++] = carry;
+	}
+	void show() {
+		int i = len - 1;
+		for (; i > 0; i--)
+			cout << bit[i] << ",";
+		cout << bit[i] << endl;
+	}
+};
+
+bool check(int n) {
+	int i;
+	for (i = 3; i < n; i += 2)
+		if (n % i == 0)
+			return false;
+	return true;
+}
+
+void init() {
+	int i, j;
+	basis[0] = 2;
+	for (i = 3, j = 1; j < N; i += 2)
+		if (check(i))
+			basis[j++] = i;
+}
+
+int main() {
+	string a, b;
+	init();
+	while (cin >> a >> b && a != "0" && b != "0") {
+		num m(a);
+		num n(b);
+		m.add(n);
+		m.show();
+	}
+	return 0;
+}

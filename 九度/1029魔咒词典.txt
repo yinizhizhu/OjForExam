@@ -1,0 +1,81 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstdio>
+#include <cstring>
+
+using namespace std;
+
+const int N = 100001;
+
+struct magic {
+	int tail; //the postion of ']'
+	string line;
+	magic(string& l) {
+		line = l;
+		for (int i = 0; i < line.size(); i++)
+			if (l[i] == ']') {
+				tail = i;
+				break;
+			}
+	}
+};
+
+void search(vector<magic>& container, string& line) {
+	string tmp;
+	int lenl = line.size(), lent;
+	int i, j, k, tag = line[0] - '[';
+	for (i = 0; i < container.size(); i++) {
+		tmp = container[i].line;
+		lent = tmp.size();
+		if (tag) {
+			j = container[i].tail + 2;
+			if (lent - j == lenl) {
+				for (k = 0; j < lent; j++, k++)
+					if (line[k] != tmp[j])
+						break;
+				if (k == lenl) {
+					for (j = 1; j < container[i].tail; j++)
+						cout << tmp[j];
+					cout << endl;
+					return;
+				}
+			}
+		}
+		else {
+			if (lenl == container[i].tail + 1) {
+				for (j = 1, k = 1; j < lenl; j++, k++)
+					if (line[j] != tmp[k])
+						break;
+				if (j == lenl) {
+					for (j = container[i].tail + 2; j < lent; j++)
+						cout << tmp[j];
+					cout << endl;
+					return;
+				}
+			}
+		}
+	}
+	cout << "what?" << endl;
+}
+
+void show(vector<magic>& container) {
+	int i, len = container.size();
+	for (i = 0; i < len; i++)
+		cout << container[i].line << endl;
+}
+
+int main() {
+	int n, i;
+	string line;
+	vector<magic> container;
+	while (getline(cin, line) && line != "@END@")
+		container.push_back(magic(line));
+	cin >> n;
+	getchar();	//del the enter
+	for (i = 0; i < n; i++) {
+		getline(cin, line);
+		search(container, line);
+	}
+	return 0;
+}
