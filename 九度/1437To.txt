@@ -1,0 +1,74 @@
+#include <iostream>
+#include <algorithm>
+#include <stdio.h>
+
+using namespace std;
+
+const int N = 501;
+struct station {
+	float price;
+	int distance;
+	station() {
+		price = 0;
+		distance = 0;
+	}
+};
+station container[N];
+float price[N];
+
+bool cmp(const station& s1, const station& s2) {
+	if (s1.distance == s2.distance)
+		return s1.price < s2.price;
+	return s1.distance < s2.distance;
+}
+
+void showC(int n) {
+	for (int i = 0; i < n; i++)
+		cout << container[i].price << "	" << container[i].distance << endl;
+	cout << endl;
+}
+
+void showP(int n) {
+	for (int i = 0; i < n; i++) cout << price[i] << " ";
+	cout << endl;
+}
+
+int main() {
+	float ans, p;
+	int Cmax, D, Davg, N, i, step;
+	while (cin >> Cmax >> D >> Davg >> N) {
+		for (i = 0; i < N; i++)
+			cin >> container[i].price >> container[i].distance;
+		//showC(N);
+		sort(container, container + N, cmp);
+		showC(N);
+		//showP(N);
+		for (i = 0, ans = 1000; i < N; i++) {
+			if (ans > container[i].price)
+				ans = container[i].price;
+			price[i] = ans;
+		}
+		showP(N);
+		Cmax *= Davg;
+		ans = p = step = 0;
+		for (i = 0; i < N; i++) {
+			//printf("ans:%f, pri:%f, step:%d, dis:%d\n", ans, p, step, container[i].distance);
+			if (Cmax < container[i].distance - step) break;
+			ans += p*(container[i].distance - step) / Davg;
+			step = container[i].distance;
+			p = price[i];
+			//printf("%f\n", p);
+		}
+		//printf("%f\n", p);
+		if (i == N)
+			printf("%.2f\n", ans);
+		else {
+			//printf("ans:%f, pri:%f, step:%d, dis:%d\n", ans, p, step, D);
+			if (Cmax < D - step)
+				printf("The maximum travel distance = %.2f\n", step);
+			else
+				printf("%.2f\n", ans + p*(D - step) / Davg);
+		}
+	}
+	return 0;
+}

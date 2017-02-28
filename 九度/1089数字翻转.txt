@@ -1,0 +1,28 @@
+#include <iostream>
+
+using namespace std;
+
+int reverse(int a) {
+	int ans = 0, basis = 1;
+	while (a) {
+		ans *= basis;
+		ans += (a % 10);
+		a /= 10;
+		basis *= 10;
+	}
+	return ans;
+}
+
+int main() {
+	int a, b, n, ans;
+	cin >> n;
+	for (; n; n--) {
+		cin >> a >> b;
+		ans = a + b;
+		if (reverse(ans) == reverse(a) + reverse(b))
+			cout << ans << endl;
+		else
+			cout << "NO" << endl;
+	}
+	return 0;
+}

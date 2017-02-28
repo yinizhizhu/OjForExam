@@ -1,0 +1,17 @@
+#include <iostream>  
+
+using namespace std;
+
+const int N = 31;
+int dp[N];
+
+int main() {
+	int n;
+	dp[0] = 0;
+	dp[1] = 1;
+	for (n = 2; n < N; n++)
+		dp[n] = dp[n - 2] + dp[n - 1];
+	while (cin >> n)
+		cout << dp[n] << endl;
+	return 0;
+}

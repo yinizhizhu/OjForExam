@@ -1,0 +1,86 @@
+#include <iostream>  
+#include <string>  
+  
+using namespace std;  
+  
+int main()  
+{  
+    string str;  
+  
+    while (cin >> str)  
+    {  
+        int z_index=-1, j_index=-1;  
+        bool more_than_one_z_or_j = false;  
+        for (size_t i = 0; i < str.size(); ++ i)  
+        {  
+            if (str[i]=='z' && z_index==-1)  
+            {  
+                z_index = i;  
+            } else if (str[i]=='j' && j_index==-1)  
+            {  
+                j_index = i;  
+            } else if (str[i] != 'o')  
+            {  
+                more_than_one_z_or_j = true;  
+                break;  
+            }  
+        }  
+        if (more_than_one_z_or_j == false  
+            && z_index != -1  
+            && j_index != -1  
+            && z_index + 1 < j_index  
+            && z_index*(j_index-z_index-1) == (str.size()-1-j_index))  
+        {  
+            cout << "Accepted" << endl;  
+        } else  
+        {  
+            cout << "Wrong Answer" << endl;  
+        }  
+    }  
+  
+    return 0;  
+}  
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int a, b, c;
+
+void get(string& str) {
+    a = b = c = 0;
+    int i, len = str.size();
+    for (i = 0; i < len; i++) {
+        if (str[i] == 'z')
+            break;
+        a++;
+    }
+    for (++i; i < len; i++) {
+        if (str[i] == 'j')
+            break;
+        if (str[i] == 'z') {
+            cout << "Wrong Answer" << endl;
+            return;
+        }
+        b++;
+    }
+    c = len - i - 1;
+    for (++i; i < len; i++) {
+        if (str[i] == 'j' || str[i] == 'z') {
+            cout << "Wrong Answer" << endl;
+            return;
+        }
+    }
+    if (b != 0 && a*b == c)
+        cout << "Accepted" << endl;
+    else
+        cout << "Wrong Answer" << endl;
+}
+
+int main() {
+    string str;
+    while (cin >> str)
+        get(str);
+    return 0;
+}

@@ -1,0 +1,85 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 1000001;
+long C[2 * N];
+long A[N], B[N];
+
+void showA(int n) {
+	for (int i = 0; i < n; i++) cout << A[i] << " ";
+	cout << endl;
+}
+
+void showB(int n) {
+	for (int i = 0; i < n; i++) cout << B[i] << " ";
+	cout << endl;
+}
+
+void showC(int n) {
+	for (int i = 0; i < n; i++) cout << C[i] << " ";
+	cout << endl;
+}
+
+int main() {
+	int i, j, k, n, m;
+	while (cin >> n) {
+		for (i = 0; i < n; i++) cin >> A[i];
+		cin >> m;
+		for (i = 0; i < m; i++) cin >> B[i];
+		for (i = 0, j = 0, k = 0; i < n && j < m;) {
+			if (A[i] >= B[j])
+				C[k++] = B[j++];
+			else
+				C[k++] = A[i++];
+		}
+		for (; i < n; i++, k++) C[k] = A[i];
+		for (; j < m; j++, k++) C[k] = B[j];
+		showA(n);
+		showB(m);
+		showC(k);
+		if (k % 2)
+			cout << C[k / 2] << endl;
+		else
+			cout << (C[k / 2 - 1] + C[k / 2]) / 2 << endl;
+	}
+	return 0;
+}
+#include <iostream>
+
+using namespace std;
+
+const int N = 1000001;
+long A[N], B[N];
+
+int main() {
+	int i, j, k, n, m;
+	while (cin >> n) {
+		for (i = 0; i < n; i++) cin >> A[i];
+		cin >> m;
+		for (i = 0; i < m; i++) cin >> B[i];
+		k = m + n;
+		if (k % 2) k >>= 1;
+		else k = (k >> 1) - 1;
+		for (i = 0, j = 0; i < n && j < m;) {
+			if (A[i] >= B[j]) {
+				if (k == 0)
+					cout << B[j] << endl;
+				j++;
+			}
+			else {
+				if (k == 0)
+					cout << A[i] << endl;
+				i++;
+			}
+			k--;
+		}
+		for (; i < n; i++, k--)
+			if (k == 0)
+				cout << A[i] << endl;
+		for (; j < m; j++, k--)
+			if (k == 0)
+				cout << B[j] << endl;
+	}
+	return 0;
+}

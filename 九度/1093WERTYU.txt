@@ -1,0 +1,20 @@
+#include<stdio.h>  
+#include<string.h>  
+char s1[] = "`1234567890-=QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./";
+char a[128];
+char s2[1000];
+void Init() {
+	for (int i = 1; i<sizeof(s1) / sizeof(char); i++)
+		a[s1[i]] = s1[i - 1];
+	a[' '] = ' ';
+}
+int main() {
+	Init();
+	int i;
+	while (gets(s2)) {
+		for (i = 0; i<strlen(s2); i++)
+			printf("%c", a[s2[i]]);
+		printf("\n");
+	}
+	return 0;
+}

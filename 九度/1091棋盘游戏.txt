@@ -1,0 +1,68 @@
+#include <iostream>  
+
+using namespace std;
+
+unsigned int cost;
+const int N = 6;
+int container[N][N];
+class node {
+public:
+	int x, y;
+	node() : x(0), y(0) {}
+	node(int a, int b) : x(a), y(b) {}
+	node& operator+=(const node& a) {
+		x += a.x;
+		y += a.y;
+		return *this;
+	}
+	bool operator==(const node& a) {
+		if (x == a.x && y == a.y)
+			return true;
+		return false;
+	}
+	void operator=(const node& a) {
+		x = a.x;
+		y = a.y;
+	}
+	void show() {
+		cout << x << ", " << y << endl;
+	}
+};
+node up(0, -1);
+node down(0, 1);
+node left(-1, 0);
+node right(1, 0);
+
+bool check(node& a) {
+	if (a.x < 0 || a.x > 5)
+		return false;
+	if (a.y < 0 || a.y > 5)
+		return false;
+	return true;
+}
+
+void dfs(unsigned int c, node& move, node& tail) {
+	if (cost != -1 && c > cost)
+		return;
+	if (move == tail)
+		cost = c;
+	else {
+		node tmp = move;
+	}
+}
+
+int main() {
+	int i, j, n;
+	node head, tail;
+	cin >> n;
+	for (; n; n--) {
+		for (i = 0; i < N; i++)
+			for (j = 0; j < N; j++)
+				cin >> container[i][j];
+		cin >> head.x >> head.y;
+		cin >> tail.x >> tail.y;
+		cost = -1;	//set the unreachable
+		dfs(0, head, tail);
+	}
+	return 0;
+}

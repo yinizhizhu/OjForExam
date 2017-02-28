@@ -1,0 +1,129 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+struct sch {
+	int total;
+	vector<int> students;
+	void show() {
+		int i = 0, len = students.size() - 1;
+		if (len >= 0) {
+			for (; i < students.size() - 1; i++)
+				cout << students[i] << " ";
+			cout << students[i];
+		}
+		cout << endl;
+	}
+};
+
+struct stu {
+	int num;
+	int GE, GI, order;
+	float GF;
+	vector<int> prefer;
+	stu(int n, int e, int i) {
+		num = n;
+		GE = e;
+		GI = i;
+		GF = (float)(e + i) / 2;
+	}
+	void getPre(int k) {
+		prefer.resize(k);
+		for (int i = 0; i < k; i++) cin >> prefer[i];
+	}
+	void show() {
+		cout << order << " - " << num << ": " << GE << " " << GI << " ";
+		for (unsigned int i = 0; i < prefer.size(); i++)
+			cout << prefer[i] << " ";
+		cout << GF << endl;
+	}
+};
+
+void showSchools(vector<sch>& schools) {
+	for (int j = 0; j < schools.size(); j++)
+		schools[j].show();
+}
+
+void showStudents(vector<stu>& students) {
+	for (int j = 0; j < students.size(); j++)
+		students[j].show();
+}
+
+bool cmp(const stu& s1, const stu& s2) {
+	if (s1.GF == s2.GF)
+		return s1.GE > s2.GE;
+	return s1.GF > s2.GF;
+}
+
+bool compare(stu& s1, stu& s2) {
+	if (s1.GF == s2.GF && s1.GE == s2.GE)
+		return true;
+	return false;
+}
+
+void getOrder(vector<stu>& students) {
+	int i, ans = 1, len = students.size();
+	for (i = 0; i < len; i++) {
+		if (i + 1 < len && compare(students[i + 1], students[i]))
+			students[i].order = ans;
+		else {
+			students[i].order = ans;
+			ans = i + 2;	//get the next order
+		}
+	}
+}
+
+void admission(vector<sch>& schools, vector<stu>& students) {
+	int i, j, k, len = students.size(), order;
+	for (i = 0; i < len; i++) {
+		//cout << "---" << students[i].num << ": "; //
+		//for (k = 0; k < students[i].prefer.size(); k++) //
+		//	cout << students[i].prefer[k] << " "; //
+		//cout << endl; //
+		for (k = 0; k < students[i].prefer.size(); k++) {
+			order = students[i].order;
+			j = students[i].prefer[k];
+			if (schools[j].total > 0) {
+				schools[j].total--;
+				schools[j].students.push_back(students[i].num);
+				while (i + 1 < len && students[i + 1].order == order) {
+					schools[j].students.push_back(students[i + 1].num);
+					schools[j].total--;
+					i++;
+				}
+				break;
+			}
+		}
+		//showSchools(schools); //
+	}
+}
+
+void handle(vector<sch>& schools) {
+	for (int i = 0; i < schools.size(); i++)
+		sort(schools[i].students.begin(), schools[i].students.end());
+}
+
+int main() {
+	int n, m, e, i, j, k;
+	while (cin >> n >> m >> k) {
+		vector<sch> schools(m);
+		for (i = 0; i < m; i++) cin >> schools[i].total;
+		vector<stu> students;
+		for (j = 0; j < n; j++) {
+			cin >> e >> i;
+			students.push_back(stu(j, e, i));
+			students[j].getPre(k);
+		}
+		//showStudents(students); //
+		sort(students.begin(), students.end(), cmp);
+		getOrder(students);
+		//showStudents(students); //
+		admission(schools, students);
+		//showStudents(students); //
+		handle(schools);
+		showSchools(schools);
+	}
+	return 0;
+}

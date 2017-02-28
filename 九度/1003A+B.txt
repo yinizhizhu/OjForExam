@@ -1,0 +1,30 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+long long value(string& a) {
+	long long ans = 0, basis = 1;
+	int tail = 0;
+	if (a[0] == '-') tail = 1;
+	for (int i = a.size() - 1; i >= tail; i--) {
+		if (a[i] != ',') {
+			ans += (a[i] - '0')*basis;
+			basis *= 10;
+		}
+	}
+	if (tail)
+		return -ans;
+	return ans;
+}
+
+int main() {
+	long long a, b;
+	string x, y;
+	while (cin >> x >> y) {
+		a = value(x);
+		b = value(y);
+		cout << a + b << endl;
+	}
+	return 0;
+}

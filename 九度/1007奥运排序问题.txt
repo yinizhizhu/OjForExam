@@ -1,0 +1,104 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+struct country {
+	int num;
+	int goldn, medn, peon;
+	float goldp, medp;
+	country(int i, int g, int m, int p) {
+		num = i;
+		goldn = g;
+		medn = m;
+		peon = p;
+		goldp = (float)g / p;
+		medp = (float)m / p;
+	}
+};
+
+bool cmp1(const country& s1, const country& s2) {
+	return s1.goldn > s2.goldn;
+}
+
+bool cmp2(const country& s1, const country& s2) {
+	return s1.medn > s2.medn;
+}
+
+bool cmp3(const country& s1, const country& s2) {
+	return s1.goldp > s2.goldp;
+}
+
+bool cmp4(const country& s1, const country& s2) {
+	return s1.medp > s2.medp;
+}
+
+int getList(vector<country>& contain, int cmp, int n) {
+	int ans = 0, len = contain.size();
+	for (int i = 0; i < len; i++) {
+		if (contain[i].num == n)
+			return ans + 1;
+		if (cmp == 1) {
+			if (i + 1 < len && contain[i].goldn != contain[i + 1].goldn)
+				ans++;
+		}
+		else if (cmp == 2) {
+			if (i + 1 < len && contain[i].medn != contain[i + 1].medn)
+				ans++;
+		}
+		else if (cmp == 3) {
+			if (i + 1 < len && contain[i].goldp != contain[i + 1].goldp)
+				ans++;
+		}
+		else {
+			if (i + 1 < len && contain[i].medp != contain[i + 1].medp)
+				ans++;
+		}
+	}
+}
+
+int main() {
+	int list, cmp, tmp;
+	int n, m, goldn, medn, peon, i;
+	while (cin >> n >> m) {
+		vector<country> contain;
+		vector<int> search(m, 0);
+		for (i = 0; i < n; i++) {
+			cin >> goldn >> medn >> peon;
+			contain.push_back(country(i, goldn, medn, peon));
+		}
+		for (i = 0; i < m; i++) cin >> search[i];
+		for (i = 0; i < m; i++) {
+			list = n + 1;
+			cmp = 0;
+			sort(contain.begin(), contain.end(), cmp1);
+			tmp = getList(contain, 1, search[i]);
+			if (tmp < list) {
+				list = tmp;
+				cmp = 1;
+			}
+			sort(contain.begin(), contain.end(), cmp2);
+			tmp = getList(contain, 2, search[i]);
+			if (tmp < list) {
+				list = tmp;
+				cmp = 2;
+			}
+			sort(contain.begin(), contain.end(), cmp3);
+			tmp = getList(contain, 3, search[i]);
+			if (tmp < list) {
+				list = tmp;
+				cmp = 3;
+			}
+			sort(contain.begin(), contain.end(), cmp4);
+			tmp = getList(contain, 4, search[i]);
+			if (tmp < list) {
+				list = tmp;
+				cmp = 4;
+			}
+			cout << list << ":" << cmp << endl;
+		}
+		cout << endl;
+	}
+	return 0;
+}

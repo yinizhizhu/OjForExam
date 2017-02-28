@@ -1,0 +1,38 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void output(string& str, int n2, int n3) {
+	int i = 0, j = str.size() - 1, k, s;
+	for (k = 0; k < n3 - 1; k++) {
+		cout << str[i++];
+		for (s = 0; s < n2 - 2; s++) cout << " ";
+		cout << str[j--];
+		cout << endl;
+	}
+	for (; i <= j; i++) cout << str[i];
+	cout << endl;
+}
+
+int main() {
+	string str;
+	int n1, n2, n3, n, i;
+	while (cin >> str) {
+		n = str.size();
+		n2 = n, n3 = 0;
+		for (i = n; i >= 3; i--) {
+			n1 = n + 2 - i;
+			if (n1 % 2) continue;
+			n1 >>= 1;
+			if (n1 > i) break;
+			if (n1 > n3) {
+				n3 = n1;
+				n2 = i;
+			}
+		}
+		//cout << n3 << " " << n2 << " " << n3 << endl;//
+		output(str, n2, n3);
+	}
+	return 0;
+}
