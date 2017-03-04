@@ -1,0 +1,22 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+	int i, j, len, lena, lenb;
+	string a, b, c;
+	while (cin >> a >> b) {
+		c = "";
+		lena = a.size(), lenb = b.size();
+		len = (lena > lenb ? lenb : lena);
+		for (i = 0, j = lenb - 1; i < len; i++, j--) {
+			c += a[i];
+			c += b[j];
+		}
+		for (; i < lena; i++) c += a[i];
+		for (; j >= 0; j--) c += b[j];
+		cout << c << endl;
+	}
+	return 0;
+}

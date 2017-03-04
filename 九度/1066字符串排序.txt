@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <string.h>
+
+const int N = 256;
+int container[N];
+
+int main() {
+	int i, j, max, min;
+	char str[20];
+	for (i = 0; i < N; i++)  container[i] = 0;
+	while (scanf("%s", str)!=EOF) {
+		min = N, max = 0;
+		i = strlen(str) - 1;
+		for (; i >= 0; i--)  {
+			j = str[i];
+			if (j > max) max = j;
+			if (j < min) min = j;
+			container[j]++;
+		}
+		for (i = min; i <= max; i++) {
+			for (j = 0; j < container[i]; j++)
+				printf("%c", i);
+			container[i] = 0;
+		}
+		printf("\n");
+	}
+	return 0;
+}

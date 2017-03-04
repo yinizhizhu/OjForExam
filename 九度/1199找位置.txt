@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+void show(vector< vector<int> >& con, int n, char c) {
+	int i, j, len;
+	for (i = 0; i < n; i++) {
+		len = con[i].size();
+		if (len > 1) {
+			for (j = 0; j < len - 1; j++)
+				cout << char(i + c) << ":" << con[i][j] << ",";
+			cout << char(i + c) << ":" << con[i][j] << endl;
+		}
+	}
+}
+
+int main() {
+	int i;
+	string str;
+	while (cin >> str) {
+		vector< vector<int> > alpa(26);
+		vector< vector<int> > alpA(26);
+		vector< vector<int> > num(10);
+		for (i = 0; i < str.size(); i++) {
+			if (str[i] >= 'A' && str[i] <= 'Z')
+				alpA[str[i] - 'A'].push_back(i);
+			else if (str[i] >= '0' && str[i] <= '9')
+				num[str[i] - '0'].push_back(i);
+			else
+				alpa[str[i] - 'a'].push_back(i);
+		}
+		show(alpa, 26, 'a');
+		show(num, 10, '0');
+		show(alpA, 26, 'A');
+	}
+	return 0;
+}

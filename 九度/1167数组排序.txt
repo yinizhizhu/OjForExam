@@ -1,0 +1,60 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+struct num {
+	int serial, value, order;
+	num() {}
+	void setSV(int s, int v) {
+		serial = s;
+		value = v;
+	}
+	void setO(int o) {
+		order = o;
+	}
+};
+
+bool cmpS(const num& s1, const num& s2) {
+	return s1.serial < s2.serial;
+}
+
+bool cmpV(const num& s1, const num& s2) {
+	return s1.value < s2.value;
+}
+
+void show(vector<num>& res) {
+	int i, len = res.size();
+	for (i = 0; i < len; i++)
+		cout << res[i].serial << " " << res[i].value << " " << res[i].order << endl;
+	cout << endl;
+}
+
+void getO(vector<num>& res) {
+	int i, len = res.size(), ans = 0;
+	for (i = 0; i < len; i++, ans++) {
+		res[i].order = ans;
+		while (i + 1 < len && res[i + 1].value == res[i].value)
+			res[++i].order = ans;
+		//show(res);
+	}
+}
+
+int main() {
+	int i, n;
+	while (cin >> n) {
+		vector<num> res(n);
+		for (i = 0; i < n; i++) {
+			cin >> res[i].value;
+			res[i].serial = i;
+		}
+		sort(res.begin(), res.end(), cmpV);
+		getO(res);
+		sort(res.begin(), res.end(), cmpS);
+		for (i = 0, --n; i < n; i++)
+			cout << res[i].order + 1 << " ";
+		cout << res[i].order + 1 << endl;
+	}
+	return 0;
+}

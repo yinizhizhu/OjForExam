@@ -1,0 +1,21 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int main() {
+	string a;
+	while (cin >> a) {
+		vector<string> ans;
+		while (a.size()) {
+			ans.push_back(a);
+			a.erase(a.begin());
+		}
+		sort(ans.begin(), ans.end());
+		for (int i = 0; i < ans.size(); i++)
+			cout << ans[i] << endl;
+	}
+	return 0;
+}

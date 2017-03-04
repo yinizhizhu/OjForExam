@@ -1,0 +1,27 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int container[70];
+
+int main() {
+	int t, i, n;
+	while (cin >> t) {
+		for (; t; t--) {
+			cin >> n;
+			for (i = 0; n; i++) {
+				container[i] = n % 2;
+				n >>= 1;
+			}
+			if (i) {
+				for (--i; i >= 0; i--)
+					cout << container[i];
+			}
+			else
+				cout << 0;
+			cout << endl;
+		}
+	}
+	return 0;
+}

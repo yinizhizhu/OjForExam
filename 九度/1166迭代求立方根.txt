@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+double f(double x, double y) {
+	double ans = y * 2 / 3;
+	ans += x / (3 * y*y);
+	return ans;
+}
+
+int main() {
+	int n;
+	double x, y;
+	while (scanf("%lf %d", &x, &n) != EOF) {
+		y = x;
+		for (; n; n--) y = f(x, y);
+		printf("%.6lf\n", y);
+	}
+	return 0;
+}

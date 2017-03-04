@@ -1,0 +1,15 @@
+#include <stdio.h>    
+#include <math.h>    
+     
+int main()   
+{   
+    double x0,y0,z0,x1,y1,z1;   
+    while(scanf("%lf %lf %lf %lf %lf %lf",&x0,&y0,&z0,&x1,&y1,&z1) != EOF)   
+    {   
+        double R,S;   
+        R = sqrt((x0 - x1)*(x0 - x1) + (y0 - y1)*(y0- y1) + (z0 - z1)*(z0 - z1));   
+        S = 4.0 / 3 * acos(-1) * R * R * R;   
+        printf("%.3lf %.3lf\n",R,S);   
+    }   
+    return 0;   
+}   

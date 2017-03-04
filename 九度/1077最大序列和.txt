@@ -1,0 +1,34 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int N = 1000001;
+long long container[N];
+
+void init(int n) {
+	for (int i = 0; i < n; i++)
+		cin >> container[i];
+}
+
+void handle(int n) {
+	int i;
+	long long tmp, max = container[0];
+	for (i = 1; i < n; i++) {
+		tmp = container[i] + container[i - 1];
+		if (tmp > container[i])
+			container[i] = tmp;
+		if (container[i] > max)
+			max = container[i];
+	}
+	cout << max << endl;
+}
+
+int main() {
+	int i, n;
+	while (cin >> n) {
+		init(n);
+		handle(n);
+	}
+	return 0;
+}

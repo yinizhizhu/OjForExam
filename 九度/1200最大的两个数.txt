@@ -1,0 +1,42 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	int p, q;
+	int i, j, n;
+	int maxp[5];
+	int minp[5];
+	int container[4][5];
+	while (cin >> n) {
+		for (; n; n--) {
+			for (i = 0; i < 4; i++)
+				for (j = 0; j < 5; j++)
+					cin >> container[i][j];
+			for (i = 0; i < 5; i++) {
+				p = 0;//p-max;
+				for (j = 1; j < 4; j++) {
+					if (container[p][i] < container[j][i])
+						p = j;
+				}
+				q = 0;//q-nextmax;
+				if (p == 0) q = 1;
+				for (j = 0; j < 4; j++) {
+					if (j != p && j != q) {
+						if (container[q][i] < container[j][i])
+							q = j;
+					}
+				}
+				maxp[i] = p;
+				minp[i] = q;
+			}
+			for (i = 0; i < 5; i++)
+				cout << container[maxp[i]][i] << " ";
+			cout << endl;
+			for (i = 0; i < 5; i++)
+				cout << container[minp[i]][i] << " ";
+			cout << endl;
+		}
+	}
+	return 0;
+}

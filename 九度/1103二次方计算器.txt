@@ -1,0 +1,121 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <stdio.h>
+#include <cmath>
+
+using namespace std;
+
+class quad {
+public:
+	float a, b, c;
+	float delta, x1, x2;
+	quad() { a = b = c = 0; }
+	void seta(int n) { a = n; }
+	void setb(int n) { b = n; }
+	void setc(int n) { c = n; }
+	quad& operator-=(const quad& s) {
+		a -= s.a;
+		b -= s.b;
+		c -= s.c;
+		return *this;
+	}
+	void getDelta() {
+		delta = b*b - 4 * a*c;
+	}
+	void getX() {
+		x1 = (-b + sqrt(delta)) / (2 * a);
+		x2 = (-b - sqrt(delta)) / (2 * a);
+	}
+	void show() {
+		getDelta();
+		if (delta < 0)
+			printf("No Solution\n");
+		else {
+			getX();
+			if (x1 > x2)
+				printf("%.2f %.2f", x2, x1);
+			else
+				printf("%.2f %.2f", x1, x2);
+		}
+	}
+};
+
+void show(string&e, int head, int tail) {
+	for (; head <= tail; head++) cout << e[head];
+	cout << endl;
+}
+
+int value(string& e, int head, int tail) {
+	//show(e, head, tail);//
+	if (head == tail) return 1;
+	int flag = 1, ans = 0;//positive
+	if (e[head] == '+') {
+		if (head + 1 == tail)
+			return 1;
+	}
+	else if (e[head] == '-') {
+		flag = -1; //negative
+		if (head + 1 == tail)
+			return -1;
+	}
+	else
+		ans = e[head] - '0';
+	for (++head; head < tail; head++) {
+		ans *= 10;
+		ans += e[head] - '0';
+	}
+	return ans*flag;
+}
+
+int getOne(quad& ans, string& e, int head) {
+	int i, j, len = e.size();
+	for (i = head; i < len;) {
+		for (j = i; j < len; j++) {
+			if (e[j] >= '0' && e[j] <= '9') continue;
+			if (e[j] == '-' || e[j] == '+') continue;
+			break;
+		}
+		if (e[j] == 'x') {
+			if (j + 1 < len &&e[j + 1] == '^') {
+				ans.seta(value(e, i, j));
+				i = j + 3;
+			}
+			else {
+				ans.setb(value(e, i, j));
+				i = j + 1;
+			}
+		}
+		else if (e[j] == '=') {
+			i = j + 1;
+			break;
+		}
+		else {
+			if (j + 1 < len && e[j + 1] != 'x')
+				ans.setc(value(e, i, j));
+			if (j == len)
+				ans.setc(value(e, i, j));
+			i = j + 1;
+		}
+	}
+	return i;
+}
+
+void calculator(string& e) {
+	int head = 0;
+	quad ans;
+	head = getOne(ans, e, head);
+	//ans.show();
+	quad second;
+	getOne(second, e, head);
+	//second.show();s
+	ans -= second;
+	ans.show();
+}
+
+int main() {
+	string equation;
+	while (cin >> equation)
+		calculator(equation);
+	return 0;
+}

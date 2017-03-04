@@ -1,0 +1,72 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+struct price {
+	int distance;
+	int cost;
+	float average;
+	price() {}
+	void set(int d, int c) {
+		distance = d;
+		cost = c;
+		average = (float)cost / distance;
+	}
+	void show() {
+		cout << distance << " " << cost << " " << average << endl;
+	}
+};
+
+bool cmp(const price& s1, const price & s2) {
+	if (s1.average == s2.average)
+		return s1.cost < s2.cost;
+	return s1.average < s2.average;
+}
+
+int calculate(int a, int b, vector<price>& p, vector<int>& con) {
+	int ans = 0, i, tmp;
+	for (; a < b; a++) {
+		tmp = con[a];
+		for (i = 0; i < 3; i++)
+			if (p[i].distance >= tmp) {
+				ans += p[i].cost;
+				break;
+			}
+	}
+	return ans;
+}
+
+void showP(vector<price>& p) {
+	for (int i = 0; i < 3; i++) p[i].show();
+}
+
+void showC(vector<int>& con) {
+	for (int i = 0; i < con.size(); i++) cout << con[i] << " ";
+	cout << endl;
+}
+
+int main()
+{
+	vector<price> p(3);
+	int i, j, a, b, n, ans;
+	int l1, l2, l3, c1, c2, c3;
+	while (cin >> l1 >> l2 >> l3 >> c1 >> c2 >> c3) {
+		cin >> a >> b >> n;
+		vector<int> con(n, 0);
+		for (i = 1; i < n; i++) {
+			cin >> con[i];
+			con[i] = con[i] - con[i - 1];
+		}
+		p[0].set(l1, c1);
+		p[1].set(l2, c2);
+		p[2].set(l3, c3);
+		//showP(p);
+		sort(p.begin(), p.end(), cmp);
+		//showP(p);
+		//showC(con);
+		cout << calculate(a, b, p, con) << endl;
+	}
+	return 0;
+}

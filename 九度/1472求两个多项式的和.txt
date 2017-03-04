@@ -1,0 +1,77 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+struct item {
+	int coe, exp;
+	item() {}
+	item(int c, int e) : coe(c), exp(e) {}
+	void add(const item& a) {
+		coe += a.coe;
+	}
+};
+
+bool cmp(const item& s1, const item& s2) {
+	return s1.exp > s2.exp;
+}
+
+class quard {
+public:
+	vector<item> expression;
+	quard(int n) {
+		int a, b;
+		for (; n; n--) {
+			cin >> a >> b;
+			expression.push_back(item(a, b));
+		}
+	}
+	quard& operator+=(const quard& s) {
+		int i, j, e, es;
+		int len = expression.size(), lens = s.expression.size();
+		for (i = 0, j = 0; i < len && j < lens;) {
+			e = expression[i].exp;
+			es = s.expression[j].exp;
+			if (e < es) {
+				expression.push_back(s.expression[j]);
+				j++;
+			}
+			else if (e > es) i++;
+			else {
+				expression[i].add(s.expression[j]);
+				i++, j++;
+			}
+		}
+		for (; j < lens; j++)
+			expression.push_back(s.expression[j]);
+		len = expression.size();
+		for (i = 0; i < len; i++) //remove 0
+			if (expression[i].coe == 0) {
+				expression.erase(expression.begin() + i);
+				i--, len--;
+			}
+		sort(expression.begin(), expression.end(), cmp);
+		return *this;
+	}
+	void show() {
+		int i, len = expression.size();
+		if (len == 0) return;
+		cout << expression[0].coe << " " << expression[0].exp;
+		for (i = 1; i < len; i++)
+			cout << " " << expression[i].coe << " " << expression[i].exp;
+		cout << endl;
+	}
+};
+
+int main() {
+	int n;
+	while (cin >> n) {
+		quard x(n);
+		cin >> n;
+		quard y(n);
+		x += y;
+		x.show();
+	}
+	return 0;
+}

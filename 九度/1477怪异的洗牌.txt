@@ -1,0 +1,38 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 1000;
+int container[N];
+
+void reverse(int i, int tail) {
+	int j, tmp;
+	for (j = tail - 1; i < j; i++, j--) {
+		tmp = container[i];
+		container[i] = container[j];
+		container[j] = tmp;
+	}
+}
+
+void show(int i, int tail) {
+	for (; i < tail; i++)
+		cout << container[i] << " ";
+	cout << endl;
+}
+
+int main() {
+	int n, i, k, x;
+	while (cin >> n && n) {
+		for (i = 0; i < n; i++) container[i] = i + 1;
+		cin >> k;
+		for (; k; k--) {
+			cin >> x;
+			reverse(0, x);
+			reverse(x, n);
+			reverse(0, n);
+			reverse(0, n / 2);
+		}
+		show(0, n);
+	}
+	return 0;
+}

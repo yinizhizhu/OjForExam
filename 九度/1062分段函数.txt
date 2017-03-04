@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+void f(float n) {
+	if (n >= 0 && n < 2)
+		printf("%.3f\n", 2.5 - n);
+	else if (n >= 2 && n < 4)
+		printf("%.3f\n", 2 - 1.5*(n - 3)*(n - 3));
+	else if (n >= 4 && n < 6)
+		printf("%.3f\n", n / 2 - 1.5);
+}
+
+int main() {
+	float n;
+	while (scanf("%f", &n) != EOF) f(n);
+	return 0;
+}

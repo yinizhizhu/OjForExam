@@ -1,0 +1,30 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int calc(int n) {
+	int ans = 1, i;
+	for (i = 2; i < n; i++)
+		if (n % i == 0)
+			ans += i;
+	return ans;
+}
+
+int main() {
+	int i, tmp;
+	vector<int> e, g;
+	for (int i = 2; i <= 60; i++) {
+		tmp = calc(i);
+		if (tmp == i)
+			e.push_back(i);
+		if (tmp > i)
+			g.push_back(i);
+	}
+	cout << "E:";
+	for (i = 0; i < e.size(); i++) cout << " " << e[i];
+	cout << endl << "G:";
+	for (i = 0; i < g.size(); i++) cout << " " << g[i];
+	cout << endl;
+	return 0;
+}

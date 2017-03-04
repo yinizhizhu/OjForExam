@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int N = 101;
+int container[N][N];
+
+void init() {
+	int i;
+	for (i = 0; i < N; i++)
+		container[i][0] = container[0][i] = 0;
+}
+
+int max(int a, int b) {
+	return (a > b ? a : b);
+}
+
+void dp(string& a, string& b) {
+	int i, j, lena, lenb;
+	lena = a.size(), lenb = b.size();
+	for (i = 1; i <= lena; i++)
+		for (j = 1; j <= lenb; j++) {
+			if (a[i - 1] - b[j - 1])
+				container[i][j] = max(container[i - 1][j], container[i][j - 1]);
+			else
+				container[i][j] = container[i - 1][j - 1] + 1;
+		}
+}
+
+int main() {
+	init();
+	string a, b;
+	while (cin >> a >> b) {
+		dp(a, b);
+		cout << container[a.size()][b.size()] << endl;
+	}
+	return 0;
+}

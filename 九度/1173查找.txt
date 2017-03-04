@@ -1,0 +1,30 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 101;
+int a[N], b[N];
+
+void search(int n, int m) {
+	int i, j;
+	for (i = 0; i < m; i++) {
+		for (j = 0; j < n; j++) {
+			if (b[i] == a[j]) {
+				cout << "YES" << endl;
+				break;
+			}
+		}
+		if (j == n) cout << "NO" << endl;
+	}
+}
+
+int main() {
+	int n, m, i;
+	while (cin >> n) {
+		for (i = 0; i < n; i++) cin >> a[i];
+		cin >> m;
+		for (i = 0; i < m; i++) cin >> b[i];
+		search(n, m);
+	}
+	return 0;
+}

@@ -1,0 +1,15 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 21;
+long long container[N];
+
+int main() {
+	int n;
+	container[1] = 1;
+	for (n = 2; n < N; n++) container[n] = container[n - 1] * n;
+	while (cin >> n)
+		cout << container[n] << endl;
+	return 0;
+}

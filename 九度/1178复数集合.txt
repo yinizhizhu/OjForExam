@@ -1,0 +1,67 @@
+#include<iostream>  
+#include<vector>  
+#include<string.h>  
+#include<string>  
+using namespace std;
+struct complex{
+	int a;
+	int b;
+	int m;
+};
+vector<complex> V;
+complex Pop(){
+	complex tmp = V[0];
+	vector<complex>::iterator itr = V.begin();
+	vector<complex>::iterator index = V.begin();
+	for (; itr != V.end(); itr++){
+		if ((*itr).m>(*index).m){
+			index = itr;
+		}
+		else if ((*itr).m == (*index).m){
+			if ((*itr).b<(*index).b){
+				index = itr;
+			}
+		}
+	}
+	tmp = *index;
+	V.erase(index);
+	return tmp;
+}
+void Insert(int a, int b){
+	complex c; c.a = a; c.b = b;
+	c.m = a*a + b*b;
+	V.insert(V.begin(), c);
+}
+int main(){
+	int n; string cmd; char ch[100];
+	while (cin >> n){
+		V.clear(); cin.ignore();
+		for (int i = 0; i<n; i++){
+			cin.getline(ch, 100); cmd = ch;
+			if (cmd.substr(0, 3) == "Pop"){
+				if (V.size() == 0)
+					cout << "empty" << endl;
+				else{
+					complex c = Pop();
+					cout << c.a << "+i" << c.b << endl;
+					cout << "SIZE = " << V.size() << endl;
+				}
+			}
+			else if (cmd.substr(0, 6) == "Insert"){
+				int start = cmd.find_first_of(' ');
+				int end = cmd.find_first_of("+i");
+				int a = 0;
+				for (int i = start + 1; i<end; i++){
+					a = cmd[i] - '0' + a * 10;
+				}
+				int b = 0;
+				for (int i = end + 2; i<cmd.length(); i++){
+					b = cmd[i] - '0' + b * 10;
+				}
+				Insert(a, b);
+				cout << "SIZE = " << V.size() << endl;
+			}
+		}
+	}
+	return 0;
+}

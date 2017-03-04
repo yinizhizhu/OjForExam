@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector< vector<int> > con;
+
+void show(int n) {
+	int i, j, len;
+	for (i = 0; i < n - 1; i++) {
+		len = con[i].size() - 1;
+		for (j = 0; j < len; j++)
+			cout << con[i][j] << " ";
+		cout << con[i][j] << endl;
+	}
+}
+
+void ver(int n) {
+	int i, j, len = con.size();
+	if (len + 1 >= n)
+		show(n);
+	else {
+		i = len;
+		for (; i < n - 1; i++) {
+			con.push_back(vector<int>(i + 2, 1));
+			for (j = 1; j < i + 1; j++)
+				con[i][j] = con[i - 1][j] + con[i - 1][j - 1];
+		}
+		show(n);
+	}
+}
+
+int main() {
+	int i, n;
+	con.push_back(vector<int>(2, 1));
+	while (cin >> n)
+		ver(n);
+	return 0;
+}

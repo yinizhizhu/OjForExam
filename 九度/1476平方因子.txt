@@ -1,0 +1,22 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+void handle(int n) {
+	int i, len = (int)(sqrt(n)) + 1, t;
+	for (i = 2; i <= len; i++) {
+		t = i*i;
+		if (n%t == 0) {
+			cout << "Yes" << endl;
+			return;
+		}
+	}
+	cout << "No" << endl;
+}
+
+int main() {
+	int n;
+	while (cin >> n && n) handle(n);
+	return 0;
+}

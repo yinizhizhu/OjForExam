@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int cti(char c) {
+	if (c >= '0' && c <= '9')
+		return c - '0';
+	return 10 + c - 'a';
+}
+
+int value(string& str) {
+	return (cti(str[0]) * 16 + cti(str[1]));
+}
+
+int main() {
+	string str;
+	int i, j, k, n;
+	int sPort[2], dPort[2];
+	int headlen, totallen;
+	int sIP[4], dIP[4];
+	while (cin >> n) {
+		for (k = 1; k <= n; k++) {
+			cin >> str;
+			headlen = cti(str[1]) * 4;
+			for (i = 2; i <= 4; i++) cin >> str;
+			totallen = value(str);
+			for (; i <= 12; i++) cin >> str;
+			for (j = 0; i <= 16; j++, i++) {
+				cin >> str;
+				sIP[j] = value(str);
+			}
+			for (j = 0; i <= 20; j++, i++) {
+				cin >> str;
+				dIP[j] = value(str);
+			}
+			for (; i <= headlen; i++) cin >> str;
+			for (j = 0; i <= headlen + 2; j++, i++) {
+				cin >> str;
+				sPort[j] = value(str);
+			}
+			for (j = 0; i <= headlen + 4; j++, i++) {
+				cin >> str;
+				dPort[j] = value(str);
+			}
+			for (; i <= 52; i++) cin >> str;
+			cout << "Case #" << k << endl;
+			cout << "Total length = " << totallen << " bytes" << endl;
+			cout << "Source = " << sIP[0];
+			for (j = 1; j < 4; j++) cout << "." << sIP[j];
+			cout << endl;
+			cout << "Destination = " << dIP[0];
+			for (j = 1; j < 4; j++) cout << "." << dIP[j];
+			cout << endl;
+			cout << "Source Port = " << sPort[0] * 256 + sPort[1] << endl;
+			cout << "Destination Port = " << dPort[0] * 256 + dPort[1] << endl;
+			cout << endl;
+		}
+	}
+	return 0;
+}

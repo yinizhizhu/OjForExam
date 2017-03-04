@@ -1,0 +1,44 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 10;
+int ans[N][N];
+
+void change(int n, int a, int b) {
+	if (a == b) return;
+	int i, j, tmp;
+	for (i = 0; i < n; i++) {
+		tmp = ans[a][i];
+		ans[a][i] = ans[b][i];
+		ans[b][i] = tmp;
+	}
+}
+
+void show(int n) {
+	int i, j;
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n - 1; j++)
+			cout << ans[i][j] << " ";
+		cout << ans[i][j] << endl;
+	}
+}
+
+int main() {
+	int i, j, n, max;
+	while (cin >> n) {
+		for (i = 0; i < n; i++)
+			for (j = 0; j < n; j++)
+				cin >> ans[i][j];
+		for (i = 0; i < n - 1; i++) {
+			max = i;
+			for (j = i + 1; j < n; j++) {
+				if (ans[max][i] < ans[j][i])
+					max = j;
+			}
+			change(n, i, max);
+		}
+		show(n);
+	}
+	return 0;
+}

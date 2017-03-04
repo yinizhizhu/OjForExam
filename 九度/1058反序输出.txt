@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+	char c, str[5];
+	while (scanf("%s", str) != EOF) {
+		c = str[0];
+		str[0] = str[3];
+		str[3] = c;
+
+		c = str[1];
+		str[1] = str[2];
+		str[2] = c;
+		printf("%s\n", str);
+	}
+	return 0;
+}

@@ -1,0 +1,19 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int a, n, min, max;
+	while (cin >> n) {
+		cin >> a;
+		min = max = a;
+		for (; n > 1; n--) {
+			cin >> a;
+			if (min > a) min = a;
+			if (max < a) max = a;
+		}
+		cout << max << ' ' << min << endl;
+	}
+	return 0;
+}

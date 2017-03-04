@@ -1,0 +1,90 @@
+#include<stdio.h>  
+#include<stdlib.h>  
+#include<string.h>  
+  
+char order[101],string[101];  
+  
+//翻转  
+void Rotate(int index,int len){  
+    char temp;  
+    for(int i = 0;i < len/2;i++){  
+        temp = string[index+i];  
+        string[index+i] = string[index+len-1-i];  
+        string[index+len-1-i] = temp;  
+    }  
+}  
+//替换  
+void Replace(int index,int len){  
+    for(int i = 0;i < len;i++){  
+        string[index+i] = order[3+i];  
+    }  
+}  
+int main()  
+{  
+    int n,i,j;  
+    //freopen("C:\\Users\\SJF\\Desktop\\acm.txt","r",stdin);  
+    while(scanf("%s",string)!=EOF)  
+    {  
+        //命令个数  
+        scanf("%d",&n);  
+        //输入命令  
+        for(i = 0;i < n;i++){  
+            scanf("%s",order);  
+            int index = order[1]-'0',len = order[2]-'0';  
+            //翻转  
+            if(order[0] == '0'){  
+                Rotate(index,len);  
+            }  
+            //替换  
+            else if(order[0] == '1'){  
+                Replace(index,len);  
+            }  
+            //输出  
+            for(j = 0;j < strlen(string);j++){  
+                printf("%c",string[j]);  
+            }  
+            printf("\n");  
+        }  
+    }  
+    return 0;  
+}  
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void reverse(string& str, int i, int tail) {
+    char c;
+    for (int j = tail - 1; i < j; i++, j--) {
+        c = str[i];
+        str[i] = str[j];
+        str[j] = c;
+    }
+}
+
+int main() {
+    int i, j, n, len;
+    string str, order, tmp;
+    while (cin >> str) {
+        cin >> n;
+        for (; n; n--) {
+            cin >> order;
+            i = order[1] - '0';
+            len = order[2] - '0' + i;
+            if (order[0] == '0')
+                reverse(str, i, len);
+            else {
+                if (order[3] == str[i]) {
+                    tmp = "";
+                    for (j = 0; j < i; j++) tmp += str[j];
+                    for (j = 3; j < order.size(); j++) tmp += order[j];
+                    for (j = len; j < str.size(); j++)  tmp += str[j];
+                    str = tmp;
+                }
+            }
+            cout << str << endl;
+        }
+    }
+    return 0;
+}

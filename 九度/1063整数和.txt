@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+int f(int n) {
+	return (n + 1)*n / 2;
+}
+
+int calc(int n) {
+	if (n < 0)
+		return f(-n - 1) - f(-2 * n);
+	return f(2 * n) - f(n - 1);
+}
+
+int main() {
+	int n;
+	while (scanf("%d", &n) != EOF)
+		printf("%d\n", calc(n));
+	return 0;
+}

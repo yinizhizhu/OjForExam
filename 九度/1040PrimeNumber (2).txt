@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+const int N = 10001;
+long long container[N];
+
+bool prime(long long n) {
+	long long i, len = (int)sqrt(n) + 1;
+	for (i = 3; i < len; i += 2) {
+		if (n % i) continue;
+		return false;
+	}
+	return true;
+}
+
+void init() {
+	int j;
+	long long i;
+	container[1] = 2;
+	container[2] = 3;
+	container[3] = 5;
+	for (i = 7, j = 4; j < N; i += 2)
+		if (prime(i))
+			container[j++] = i;
+}
+
+int main() {
+	int n;
+	init();
+	while (cin >> n)
+		cout << container[n] << endl;
+	return 0;
+}

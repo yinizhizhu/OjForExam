@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int N = 26;
+int container[N];
+
+void init() {
+	for (int i = 0; i < N; i++) container[i] = 0;
+}
+
+void handle(char c) {
+	int pos = c - 'A';
+	if (pos >= 0 && pos < N)
+		container[pos]++;
+}
+
+void show() {
+	for (char i = 'A'; i <= 'Z'; i++)
+		cout << i << ":" << container[i - 'A'] << endl;
+}
+
+int main() {
+	string a;
+	while (cin >> a) {
+		init();
+		for (int i = 0; i < a.size(); i++)
+			handle(a[i]);
+		show();
+	}
+	return 0;
+}

@@ -1,0 +1,29 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int N = 101;
+long long container[N][N];
+
+void check(int n) {
+	int i, j;
+	for (i = 0; i < n - 1; i++)
+		for (j = i + 1; j < n; j++)
+			if (container[i][j] != container[j][i]) {
+				cout << "No!" << endl;
+				return;
+			}
+	cout << "Yes!" << endl;
+}
+
+int main() {
+	int i, j, n;
+	while (cin >> n) {
+		for (i = 0; i < n; i++)
+			for (j = 0; j < n; j++)
+				cin >> container[i][j];
+		check(n);
+	}
+	return 0;
+}

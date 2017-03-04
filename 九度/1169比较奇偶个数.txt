@@ -1,0 +1,18 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	int n, a, b, tmp;
+	while (cin >> n) {
+		a = b = 0;//a - ji, b - ou
+		for (; n; n--) {
+			cin >> tmp;
+			if (tmp % 2) a++;
+			else b++;
+		}
+		if (a < b) cout << "NO" << endl;
+		else cout << "YES" << endl;
+	}
+	return 0;
+}

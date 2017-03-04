@@ -1,0 +1,26 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+	int i, n, n2, t;
+	int container[4];
+	while (cin >> n) {
+		n2 = n*n;
+		for (t = 0; n; t++) {
+			container[t] = n % 10;
+			n /= 10;
+		}
+		for (i = 0; i < t; i++) {
+			if (container[i] != (n2 % 10))
+				break;
+			n2 /= 10;
+		}
+		if (i == t)
+			cout << "Yes!" << endl;
+		else
+			cout << "No!" << endl;
+	}
+	return 0;
+}

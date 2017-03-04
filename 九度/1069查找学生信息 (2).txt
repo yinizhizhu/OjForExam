@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+struct stu {
+	string id;
+	string name;
+	string sex;
+	int yearold;
+	stu(string& i, string& n, string& s, int y) {
+		id = i;
+		name = n;
+		sex = s;
+		yearold = y;
+	}
+};
+
+int main() {
+	int yearold, i, n, m;
+	string id, name, sex;
+	vector<stu> ans;
+	cin >> n;
+	for (i = 0; i < n; i++) {
+		cin >> id >> name >> sex >> yearold;
+		ans.push_back(stu(id, name, sex, yearold));
+	}
+	cin >> m;
+	for (; m; m--) {
+		cin >> id;
+		for (i = 0; i < n; i++) {
+			if (id == ans[i].id) {
+				cout << ans[i].id << " " << ans[i].name << " " << ans[i].sex << " " << ans[i].yearold << endl;
+				break;
+			}
+		}
+		if (i == n)
+			cout << "No Answer!" << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,85 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+bool check(char a, char b) {
+	if (a >= 'a' && a <= 'z') {
+		if (b >= 'a' && b <= 'z') {
+			if (a == b)
+				return true;
+		}
+		else if (b >= 'A' && b <= 'Z') {
+			if (a - 'a' == b - 'A')
+				return true;
+		}
+	}
+	else if (a >= 'A' && a <= 'Z') {
+		if (b >= 'a' && b <= 'z') {
+			if (a - 'A' == b - 'a')
+				return true;
+		}
+		else if (b >= 'A' && b <= 'Z') {
+			if (a == b)
+				return true;
+		}
+	}
+	else {
+		if (a == b)
+			return true;
+	}
+	return false;
+}
+
+bool equal(string& a, string& b) {	//a: dic, b: model
+	int i, len = a.size();
+	if (len == b.size()) {
+		for (i = 0; i < len; i++)
+			if (!check(a[i], b[i]))
+				return false;
+		return true;
+	}
+	return false;
+}
+
+void search(string& str, vector<string>& res) {
+	int i, j, len = str.size(), h, t;
+	string head = "", tail = "", tmp;
+	for (i = 0; i < len; i++) {
+		if (str[i] == '[') {
+			h = i + 1;
+			break;
+		}
+		head += str[i];
+	}
+	for (; i < len; i++) {
+		if (str[i] == ']') {
+			t = i;
+			break;
+		}
+	}
+	for (++i; i < len; i++) tail += str[i];
+	len = res.size();
+	for (i = 0; i < len; i++) {
+		for (j = h; j < t; j++) {
+			tmp = head + str[j] + tail;
+			if (equal(tmp, res[i])) {
+				cout << i + 1 << " " << res[i] << endl;
+				break;
+			}
+		}
+	}
+}
+
+int main() {
+	int i, n, len;
+	string str;
+	while (cin >> n) {
+		vector<string> res(n, "");
+		for (i = 0; i < n; i++) cin >> res[i];
+		cin >> str;
+		search(str, res);
+	}
+	return 0;
+}

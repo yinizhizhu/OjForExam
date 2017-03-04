@@ -1,0 +1,15 @@
+#include <iostream>
+
+using namespace std;
+
+long long container[10001];
+
+int main() {
+	int i, n;
+	while (cin >> n) {
+		for (i = 0; i < n; i++) cin >> container[i];
+		for (--n; n; n--) cout << container[n] << " ";
+		cout << container[n] << endl;
+	}
+	return 0;
+}

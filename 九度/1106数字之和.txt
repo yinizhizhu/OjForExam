@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void calculate(int n) {
+	int ans = 0;
+	while (n) {
+		ans += n % 10;
+		n /= 10;
+	}
+	cout << ans;
+}
+
+int main() {
+	int n;
+	while (cin >> n && n) {
+		calculate(n);
+		n *= n;
+		cout << " ";
+		calculate(n);
+		cout << endl;
+	}
+	return 0;
+}

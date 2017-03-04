@@ -1,0 +1,56 @@
+#include <iostream>
+
+using namespace std;
+
+struct node {
+	int value;
+	node *lchild, *rchild;
+	node(int v) {
+		value = v;
+		lchild = rchild = NULL;
+	}
+};
+
+void insert(node* root, int n) {
+	int tmp = root->value;
+	if (n < tmp) {
+		if (root->lchild)
+			insert(root->lchild, n);
+		else {
+			cout << tmp << endl;
+			root->lchild = new node(n);
+		}
+	}
+	else {
+		if (root->rchild)
+			insert(root->rchild, n);
+		else {
+			cout << tmp << endl;
+			root->rchild = new node(n);
+		}
+	}
+}
+
+void del(node* root) {
+	if (root) {
+		del(root->lchild);
+		del(root->rchild);
+		delete root;
+	}
+}
+
+int main() {
+	int n, num;
+	node* root = NULL;
+	while (cin >> n) {
+		cin >> num;
+		cout << "-1" << endl;
+		root = new node(num);
+		for (--n; n; n--) {
+			cin >> num;
+			insert(root, num);
+		}
+		del(root);
+	}
+	return 0;
+}

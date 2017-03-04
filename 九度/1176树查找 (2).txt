@@ -1,0 +1,22 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 1001;
+int container[N];
+
+int main() {
+	int d, i, n, len;
+	while (cin >> n) {
+		for (i = 1; i <= n; i++) cin >> container[i];
+		cin >> d;
+		i = (1 << (d - 1));
+		len = (1 << d) - 1;
+		if (n < len)
+			len = n;
+		for (; i < len; i++)
+			cout << container[i] << " ";
+		cout << container[i] << endl;
+	}
+	return 0;
+}

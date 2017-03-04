@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int days[2][13] = {
+	0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+	0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+};
+bool leap(int year) {
+	if ((year % 4 == 0 && year % 100) || year % 400 == 0)
+		return true;
+	return false;
+}
+class date {
+public:
+	int year;
+	int month;
+	int day;
+	int total;
+	date(int y, int m, int d) {
+		int i;
+		total = 0, year = y, month = m;
+		int pos = leap(year);
+		for (i = 1; i < month; i++) total += days[pos][i];
+		day = d;
+		total += day;
+	}
+	void show() {
+		cout << total << endl;
+	}
+};
+
+int main() {
+	int d, m, y;
+	while (cin >> y >> m >> d) {
+		date ans(y, m, d);
+		ans.show();
+	}
+	return 0;
+}

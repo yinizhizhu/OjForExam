@@ -1,0 +1,31 @@
+#include <iostream>
+#include <functional>
+#include <queue>
+#include <vector>
+
+using namespace std;
+
+priority_queue<int, vector<int>, greater<int> > xiao;
+
+int main() {
+	int ans, n, i;
+	while (cin >> n) {
+		for (; n; n--) {
+			cin >> i;
+			xiao.push(i);
+		}
+		ans = 0;
+		while (!xiao.empty()) {
+			i = xiao.top();
+			xiao.pop();
+			if (xiao.empty())
+				break;
+			i += xiao.top();
+			xiao.pop();
+			xiao.push(i);
+			ans += i;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

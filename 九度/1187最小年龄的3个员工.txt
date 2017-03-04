@@ -1,0 +1,44 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+struct worker {
+	int id, age;
+	string name;
+	worker(int i, int a, string& n) {
+		id = i, age = a;
+		name = n;
+	}
+	void show() {
+		cout << id << " " << name << " " << age << endl;
+	}
+};
+
+bool cmp(const worker& s1, const worker& s2) {
+	if (s1.age == s2.age) {
+		if (s1.id == s2.id)
+			return s1.name < s2.name;
+		return s1.id < s2.id;
+	}
+	return s1.age < s2.age;
+}
+
+int main() {
+	string name;
+	int i, id, age, n;
+	while (cin >> n) {
+		vector<worker> ans;
+		for (i = 0; i < n; i++) {
+			cin >> id >> name >> age;
+			ans.push_back(worker(id, age, name));
+		}
+		sort(ans.begin(), ans.end(), cmp);
+		if (n > 3) n = 3;
+		for (i = 0; i < n; i++)
+			ans[i].show();
+	}
+	return 0;
+}
