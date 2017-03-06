@@ -1,0 +1,25 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+const int N = 101;
+string container[N];
+
+bool cmp(const string& s1, const string& s2) {
+	if (s1.size() == s2.size())
+		return s1 < s2;
+	return s1.size() < s2.size();
+}
+
+int main() {
+	int i, n;
+	while (cin >> n) {
+		for (i = 0; i < n; i++) cin >> container[i];
+		sort(container, container + n, cmp);
+		for (i = 0; i < n; i++)
+			cout << container[i] << endl;
+	}
+	return 0;
+}

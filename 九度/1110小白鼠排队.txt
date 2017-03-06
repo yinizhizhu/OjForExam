@@ -1,0 +1,35 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+struct mouse {
+	int weight;
+	string color;
+	mouse(int w, string& c) {
+		weight = w;
+		color = c;
+	}
+};
+
+bool cmp(const mouse& s1, const mouse& s2) {
+	return s1.weight > s2.weight;
+}
+
+int main() {
+	int i, n, w;
+	string str;
+	while (cin >> n) {
+		vector<mouse> ans;
+		for (i = 0; i < n; i++) {
+			cin >> w >> str;
+			ans.push_back(mouse(w, str));
+		}
+		sort(ans.begin(), ans.end(), cmp);
+		for (i = 0; i < n; i++)
+			cout << ans[i].color << endl;
+	}
+	return 0;
+}

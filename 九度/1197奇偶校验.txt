@@ -1,0 +1,40 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+void show(vector<int>& ans) {
+	for (int i = 7; i >= 0; i--)
+		cout << ans[i];
+	cout << endl;
+}
+
+void output(char c) {
+	int n = c, sum = 0, i, tmp;
+	vector<int> ans;
+	while (n) {
+		tmp = n & 1;
+		sum += tmp;
+		ans.push_back(tmp);
+		n >>= 1;
+	}
+	for (i = ans.size(); i < 7; i++)
+		ans.push_back(0);
+	if (sum & 1)
+		ans.push_back(0);
+	else
+		ans.push_back(1);
+	show(ans);
+}
+
+int main() {
+	int i, len;
+	string str;
+	while (cin >> str) {
+		len = str.size();
+		for (i = 0; i < len; i++)
+			output(str[i]);
+	}
+	return 0;
+}

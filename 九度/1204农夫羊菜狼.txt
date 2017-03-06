@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string act[4] = {
+	"vegetable_",	//0
+	"sheep_",		//1
+	"wolf_",		//2
+	"nothing_"		//3
+};
+
+void action(int i, int tag) {
+	cout << act[i];
+	if (tag) //1-"go"
+		cout << "go";
+	else
+		cout << "come";
+	cout << endl;
+}
+
+int main() {
+	for (int i = 0; i < 2; i++) {
+		action(1, 1);
+		action(3, 0);
+		if (i) action(0, 1);
+		else action(2, 1);
+		action(1, 0);
+		if (i) action(2, 1);
+		else action(0, 1);
+		action(3, 0);
+		action(1, 1);
+		cout << "succeed" << endl << endl;
+	}
+	return 0;
+}

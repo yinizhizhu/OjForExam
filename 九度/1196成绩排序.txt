@@ -1,0 +1,33 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+struct stu {
+	int id, grade;
+	stu() {}
+	void setv(int i, int g) {
+		id = i;
+		grade = g;
+	}
+};
+const int N = 101;
+stu container[N];
+
+bool cmp(const stu& s1, const stu& s2) {
+	if (s1.grade == s2.grade)
+		return s1.id < s2.id;
+	return s1.grade < s2.grade;
+}
+
+int main() {
+	int i, n;
+	while (cin >> n) {
+		for (i = 0; i < n; i++)
+			cin >> container[i].id >> container[i].grade;
+		sort(container, container + n, cmp);
+		for (i = 0; i < n; i++)
+			cout << container[i].id << " " << container[i].grade << endl;
+	}
+	return 0;
+}

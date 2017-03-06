@@ -1,0 +1,27 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+const int N = 101;
+int container[N][N];
+ 
+int main() {
+    int i, j, k, n, tmp;
+    while (cin >> n) {
+        for (i = 0; i < n; i++)
+            for (j = 0; j < n; j++)
+                cin >> container[i][j];
+        for (i = 0; i < n - 1; i++)
+            for (j = i + 1; j < n; j++) {
+                tmp = container[i][j];
+                container[i][j] = container[j][i];
+                container[j][i] = tmp;
+            }
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < n - 1; j++)
+                cout << container[i][j] << " ";
+            cout << container[i][j] << endl;
+        }
+    }
+    return 0;
+}

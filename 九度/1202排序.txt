@@ -1,0 +1,19 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 101;
+int container[N];
+
+int main() {
+	int i, n;
+	while (cin >> n) {
+		for (i = 0; i < n; i++) cin >> container[i];
+		sort(container, container + n);
+		for (i = 0; i < n; i++)
+			cout << container[i] << " ";
+		cout << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <string.h>
+
+const int N = 202;
+void connect(char *a, char *b) {
+	int i = strlen(a), lenb = strlen(b), j;
+	for (j = 0; j < lenb; j++, i++)
+		a[i] = b[j];
+	a[i] = '\0';
+	printf("%s\n", a);
+}
+
+int main() {
+	char a[N], b[N];
+	while (scanf("%s %s", a, b) != EOF)
+		connect(a, b);
+	return 0;
+}

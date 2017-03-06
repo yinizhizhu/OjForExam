@@ -1,0 +1,24 @@
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+int main() {
+	int n;
+	stack<int> ans;
+	while (cin >> n) {
+		while (n) {
+			ans.push(n%8);
+			n >>= 3;
+		}
+		if (ans.empty()) cout << 0;
+		else {
+			while (!ans.empty()) {
+				cout << ans.top();
+				ans.pop();
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}

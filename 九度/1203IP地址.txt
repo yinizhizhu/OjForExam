@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+bool en(int x) {
+	if (x >= 0 && x <= 255) return true;
+	return false;
+}
+
+int main() {
+	int a, b, c, d, n;
+	while (scanf("%d", &n) != EOF) {
+		for (; n; n--) {
+			scanf("%d.%d.%d.%d", &a, &b, &c, &d);
+			if (en(a) && en(b) && en(c) && en(d)) printf("Yes!\n");
+			else printf("No!\n");
+		}
+	}
+	return 0;
+}

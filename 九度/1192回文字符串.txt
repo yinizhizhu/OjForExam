@@ -1,0 +1,18 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+	int i, j, len;
+	string str;
+	while (cin >> str) {
+		j = str.size() - 1;
+		for (i = 0; i < j; i++, j--)
+			if (str[i] != str[j])
+				break;
+		if (i >= j) cout << "Yes!" << endl;
+		else cout << "No!" << endl;
+	}
+	return 0;
+}

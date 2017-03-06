@@ -1,0 +1,32 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 101;
+int container[N][N];
+
+int main() {
+	int sum, pmax;
+	int m, n, i, j, tmp;
+	while (cin >> m >> n) {
+		for (i = 0; i < m; i++)
+			for (j = 0; j < n; j++)
+				cin >> container[i][j];
+		for (i = 0; i < m; i++) {
+			pmax = 0, sum = container[i][0];
+			for (j = 1; j < n; j++) {
+				tmp = container[i][j];
+				if (tmp > container[i][pmax])
+					pmax = j;
+				sum += tmp;
+			}
+			container[i][pmax] = sum;
+		}
+		for (i = 0; i < m; i++) {
+			for (j = 0; j < n - 1; j++)
+				cout << container[i][j] << " ";
+			cout << container[i][j] << endl;
+		}
+	}
+	return 0;
+}
