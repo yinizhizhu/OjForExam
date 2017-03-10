@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+struct bign {
+	vector<int> bit;
+	void set(string& a) {
+		bit.clear();
+		int i = a.size() - 1;
+		for (; i >= 0; i--) bit.push_back(a[i] - '0');
+	}
+	int check(int k) {
+		int carry = 0, i = bit.size() - 1;
+		for (; i >= 0; i--) {
+			carry *= 10;
+			carry += bit[i];
+			if (carry < k) continue;
+			carry %= k;
+		}
+		//cout << k << ": " << carry << endl;
+		return carry;
+	}
+	void show() {
+		int k, len;
+		vector<int> ans;
+		for (k = 2; k <= 9; k++)
+			if (!check(k))
+				ans.push_back(k);
+		len = ans.size();
+		if (len--) {
+			for (k = 0; k < len; k++)
+				cout << ans[k] << " ";
+			cout << ans[k] << endl;
+		}
+		else cout << "none" << endl;
+	}
+};
+
+int main() {
+	bign ans;
+	string str;
+	while (cin >> str && str != "-1") {
+		ans.set(str);
+		ans.show();
+	}
+	return 0;
+}

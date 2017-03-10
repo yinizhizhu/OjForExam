@@ -1,0 +1,71 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct task {
+	int y, m, d;
+	int h, minute, s, ms;
+	double during;
+	string line;
+	task() {}
+	int cti(char c) { return c - '0'; }
+	task(string& str) {
+		int i = 0, j, basis;
+		line = str;
+		//getDate();
+		for (; str[i++] == ' '; i++);
+		for (; str[i] != ' '; i++);	//remove the name
+		for (; str[i] == ' '; i++);
+		y = 0;
+		for (j = 1000; j >= 1; j /= 10, i++) y += cti(str[i])*j;
+		i++; //remove "-"
+		m = cti(str[i]) * 10 + cti(str[i + 1]);
+		i += 3;//remove "-"
+		d = cti(str[i]) * 10 + cti(str[i + 1]);
+		i += 2;
+		//getTime();
+		for (; str[i] == ' '; i++);
+		h = cti(str[i]) * 10 + cti(str[i + 1]);
+		i += 3;
+		minute = cti(str[i]) * 10 + cti(str[i + 1]);
+		i += 3;
+		s = cti(str[i]) * 10 + cti(str[i + 1]);
+		i += 3;
+		ms = cti(str[i]) * 100 + cti(str[i + 1]) * 10 + cti(str[i + 2]);
+		i += 3;
+		//getDur();
+		for (; str[i] == ' '; i++);
+		during = 0;
+		for (j = str.size() - 1; str[j] != '('; j--);
+		during = cti(str[j - 3]) * 100 + cti(str[j - 2]) * 10 + cti(str[j - 1]);
+		during /= 1000;
+		for (j -= 5, basis = 1; j >= i; j--, basis *= 10)
+			during += cti(str[j])*basis;
+	}
+	void show() {
+		cout << "WTK!" << endl;
+		cout << y << "-" << m << "-" << d << endl;
+		cout << h << ":" << minute << ":" << s << "," << ms << endl;
+		cout << during << endl;
+	}
+};
+
+bool cmp(const task& s1, const task& s2) {
+	if (s1.during == s2.during)
+		return (s1.y < s2.y || s1.m < s2.m || s1.d < s2.d || s1.h < s2.h || s1.minute < s2.minute || s1.s < s2.s || s1.ms < s2.ms);
+	return s1.during < s2.during;
+}
+
+int main() {
+	string line;
+	vector<task> ans;
+	while (getline(cin, line) && line.size())
+		ans.push_back(task(line));
+	sort(ans.begin(), ans.end(), cmp);
+	for (int i = 0; i < ans.size(); i++)
+		cout << ans[i].line << endl;
+	return 0;
+}

@@ -1,0 +1,29 @@
+#include <iostream>
+#include <stdio.h>
+#include <string>
+
+using namespace std;
+
+void output(char c) {
+	if (c >= 'a' && c <= 'y') cout << (char)(c + 1);
+	else if (c >= 'A' && c <= 'Y') cout << (char)(c + 1);
+	else if (c == 'z') cout << 'a';
+	else if (c == 'Z') cout << 'A';
+	else cout << c;
+}
+
+int main() {
+	int i, n, len;
+	string str;
+	while (cin >> n) {
+		getchar();
+		for (; n; n--) {
+			getline(cin, str);
+			len = str.size();
+			for (i = 0; i < len; i++)
+				output(str[i]);
+			cout << endl;
+		}
+	}
+	return 0;
+}

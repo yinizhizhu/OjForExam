@@ -1,0 +1,43 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+struct bill {
+	int time, value;
+	double g;
+	bill(int t, int v) {
+		time = t;
+		value = v;
+		g = (double)t / v;
+	}
+};
+
+bool cmp(const bill& s1, const bill& s2) {
+	if (s1.g == s2.g)
+		return s1.value > s2.value;
+	return s1.g > s2.g;
+}
+
+int main() {
+	int total, i, m, t, v, sum;
+	while (cin >> total >> m) {
+		sum = 0;
+		vector<bill> ans;
+		for (i = 0; i < m; i++) {
+			cin >> t >> v;
+			ans.push_back(bill(t, v));
+		}
+		sort(ans.begin(), ans.end(), cmp);
+		for (i = 0; i < m; i++) {
+			t = ans[i].time;
+			if (total >= t) {
+				sum += ans[i].value;
+				total -= t;
+			}
+		}
+		cout << sum << endl;
+	}
+	return 0;
+}

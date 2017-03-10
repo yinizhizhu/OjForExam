@@ -1,0 +1,17 @@
+#include <iostream>
+#include <stdio.h>
+
+using namespace std;
+
+int main() {
+	int i;
+	double ans, n;
+	while (cin >> ans) {
+		for (i = 0; i < 11; i++) {
+			cin >> n;
+			ans += n;
+		}
+		printf("$%.2f\n", ans / 12);
+	}
+	return 0;
+}

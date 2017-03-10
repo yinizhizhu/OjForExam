@@ -1,0 +1,33 @@
+#include <iostream>
+
+using namespace std;
+
+void value(int n) {
+	long long ans = 1;
+	for (; n; n--) ans *= n;
+	cout << ans;
+}
+
+int main() {
+	char op;
+	int a, b;
+	while (cin >> a) {
+		cin >> op;
+		if (op == '!') value(a);
+		else {
+			cin >> b;
+			if (op == '+') cout << a + b;
+			else if (op == '-') cout << a - b;
+			else if (op == '*') cout << a * b;
+			else {
+				if (b == 0) cout << "error";
+				else {
+					if (op == '/') cout << a / b;
+					else cout << a % b;
+				}
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}

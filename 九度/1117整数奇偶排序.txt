@@ -1,0 +1,36 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+vector<int> odd, even;//odd - 1, even - 0
+
+void in(int n) {
+	if (n % 2) odd.push_back(n);
+	else even.push_back(n);
+}
+
+bool cmp(const int& s1, const int& s2) {
+	return s1 > s2;
+}
+
+int main() {
+	int i, n, leno, lene;
+	while (cin >> n) {
+		odd.clear();
+		even.clear();
+		in(n);
+		for (i = 0; i < 9; i++) {
+			cin >> n;
+			in(n);
+		}
+		sort(odd.begin(), odd.end(), cmp);
+		sort(even.begin(), even.end());
+		for (i = 0; i < even.size(); i++) odd.push_back(even[i]);
+		for (i = 0; i < 9; i++)
+			cout << odd[i] << " ";
+		cout << odd[i] << endl;
+	}
+	return 0;
+}

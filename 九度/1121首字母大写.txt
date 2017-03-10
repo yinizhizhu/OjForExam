@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int d = 'A' - 'a';
+
+bool check(char c) {
+	if (c == ' ' || c == '\t' || c == '\r')
+		return false;
+	return true;
+}
+
+char upper(char c) {
+	if (c >= 'a' && c <= 'z') return c + d;
+	return c;
+}
+
+void change(string& str) {
+	int flag = 1;
+	int i, len = str.size();
+	for (i = 0; i < len; i++) {
+		if (flag) {
+			if (check(str[i])) {
+				str[i] = upper(str[i]);
+				flag = 0;
+			}
+		}
+		else {
+			if (!check(str[i]))
+				flag = 1;
+		}
+	}
+}
+
+int main() {
+	string str;
+	while (getline(cin, str)) {
+		change(str);
+		cout << str << endl;
+	}
+	return 0;
+}

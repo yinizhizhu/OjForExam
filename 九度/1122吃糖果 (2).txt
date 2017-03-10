@@ -1,0 +1,21 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+const int N = 21;
+int container[N];
+
+void init() {
+	container[1] = 1;
+	container[2] = 2;
+	for (int i = 3; i < N; i++)
+		container[i] = container[i - 1] + container[i - 2];
+}
+
+int main() {
+	int n;
+	init();
+	while (cin >> n) cout << container[n] << endl;
+	return 0;
+}

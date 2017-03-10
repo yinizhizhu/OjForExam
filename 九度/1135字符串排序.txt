@@ -1,0 +1,31 @@
+#include <iostream>
+#include <algorithm>
+#include <stdio.h>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+bool cmp(const string& s1, const string& s2) {
+	return s1.size() < s2.size();
+}
+
+int main() {
+	int i, n;
+	string str;
+	while (cin >> n) {
+		getchar();
+		vector<string> ans;
+		for (i = 0; i < n; i++) {
+			getline(cin, str);
+			if (str == "stop")
+				break;
+			ans.push_back(str);
+		}
+		n = ans.size();
+		sort(ans.begin(), ans.end(), cmp);
+		for (i = 0; i < n; i++)
+			cout << ans[i] << endl;
+	}
+	return 0;
+}
