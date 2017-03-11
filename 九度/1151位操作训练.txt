@@ -1,0 +1,52 @@
+#include <iostream>
+
+using namespace std;
+
+void swap(int& a, int& b) {
+	int tmp = a;
+	a = b;
+	b = tmp;
+}
+
+void move(int& a) {
+	int tag = (1 << 15) & a;
+	a <<= 1;
+	if (tag) {
+		a -= (1 << 16);
+		a++;
+	}
+}
+
+int count(int a) {
+	int ans = 0;
+	for (; a; a >>= 1) ans += (a & 1);
+	return ans;
+}
+
+void showB(int a) {
+	for (; a; a >>= 1) cout << (a & 1);
+	cout << endl;
+}
+
+int main() {
+	int i, n, a, b;
+	while (cin >> n) {
+		for (; n; n--) {
+			cin >> a >> b;
+			if (a > b) swap(a, b);
+			if (count(a) == count(b)) {
+				//showB(b);
+				//showB(a);
+				for (i = 0; i < 16; i++) {
+					if (a == b) break;
+					move(a);
+					//showB(a);
+				}
+				if (i == 16) cout << "NO" << endl;
+				else cout << "YES" << endl;
+			}
+			else cout << "NO" << endl;
+		}
+	}
+	return 0;
+}

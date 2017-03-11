@@ -1,0 +1,46 @@
+#include <iostream>
+
+using namespace std;
+
+const int dp = 23, de = 28, di = 33;
+
+void output(int ans, int day) {
+	cout << "Case " << ans << ": ";
+	cout << "the next triple peak occurs in " << day;
+	cout << " days." << endl;
+}
+
+int pos(int p, int e, int i) {
+	if (p < e) {
+		if (p < i) return 1;	//p < i, p < e: 1
+		return 3;	//i < p < e: 3
+	}
+	if (i < e) return 3;	//i < e < p: 3
+	return 2;	//e < p, e < i: 2
+}
+
+int value(int p, int e, int i, int d) {
+	int r;
+	if (p == d)	p += dp;
+	if (e == d) e += de;
+	if (i == d) i += di;
+	while (true) {
+		if (p == e && e == i && i > d) break;
+		r = pos(p, e, i);
+		//cout << p << " " << e << " " << i << " - " << r << endl;
+		if (r == 1) p += dp;
+		else if (r == 2) e += de;
+		else i += di;
+	}
+	return p - d;
+}
+
+int main() {
+	int p, e, i, d, ans = 1;
+	while (cin >> p >> e >> i >> d) {
+		if (p == -1 && e == -1 && i == -1 && d == -1) break;
+		output(ans, value(p, e, i, d));
+		ans++;
+	}
+	return 0;
+}

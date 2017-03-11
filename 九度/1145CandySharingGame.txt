@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+bool check(vector<int>& ans) {
+	int i = ans.size() - 1;
+	int tmp = ans[i];
+	for (--i; i >= 0; i--)
+		if (tmp != ans[i])
+			return true;
+	return false;
+}
+
+void move(vector<int>& ans) {
+	int carry = 0, i, n= ans.size(), tmp;
+	carry = ans[n - 1] / 2;
+	for (i = n - 1; i > 0; i--) {
+		tmp = ans[i] / 2 + ans[i - 1] / 2;
+		if (tmp % 2) tmp++;
+		ans[i] = tmp;
+	}
+	if (n > 1) {
+		tmp = carry + ans[0] / 2;
+		if (tmp % 2) tmp++;
+		ans[0] = tmp;
+	}
+}
+
+void show(vector<int>& ans) {
+	for (int i = 0; i < ans.size(); i++)
+		cout << ans[i] << "　";
+	cout << endl;
+}
+
+int main() {
+	int i, n;
+	int blow, aver;
+	while (cin >> n && n) {
+		blow = 0;
+		vector<int> ans(n, 0);
+		for (i = 0; i < n; i++) cin >> ans[i];
+		while (check(ans)) {
+			move(ans);
+			//show(ans);
+			blow++;
+		}
+		cout << blow << " " << ans[0] << endl;
+	}
+	return 0;
+}

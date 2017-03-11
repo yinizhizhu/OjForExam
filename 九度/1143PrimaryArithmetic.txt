@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+	int ans, carry;
+	vector<int> x, y;
+	unsigned int a, b;
+	int i, len, lenx, leny;
+	while (cin >> a >> b && (a || b)) {
+		x.clear();
+		y.clear();
+		for (; a; a /= 10) x.push_back(a % 10);
+		for (; b; b /= 10) y.push_back(b % 10);
+		ans = carry = 0;
+		lenx = x.size();
+		leny = y.size();
+		len = (lenx > leny ? leny : lenx);
+		for (i = 0; i < len; i++) {
+			carry += x[i] + y[i];
+			carry /= 10;
+			if (carry) ans++;
+		}
+		for (; i < lenx; i++) {
+			carry += x[i];
+			carry /= 10;
+			if (carry) ans++;
+		}
+		for (; i < leny; i++) {
+			carry += y[i];
+			carry /= 10;
+			if (carry) ans++;
+		}
+		if (ans == 0) cout << "NO";
+		else cout << ans;
+		cout << " carry operation";
+		if (ans < 2) cout << ".\n";
+		else cout << "s.\n";
+	}
+	return 0;
+}

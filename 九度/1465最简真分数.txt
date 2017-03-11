@@ -1,0 +1,27 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+const int N = 601;
+int container[N];
+
+int gcd(int a, int b) {
+	if (b == 0) return a;
+	return gcd(b, a%b);
+}
+
+int main() {
+	int ans, i, j, n;
+	while (cin >> n && n) {
+		for (i = 0; i < n; i++) cin >> container[i];
+		sort(container, container + n);
+		ans = 0;
+		for (i = 0; i < n - 1; i++)
+			for (j = i + 1; j < n; j++)
+				if (gcd(container[j], container[i]) == 1)
+					ans++;
+		cout << ans << endl;
+	}
+	return 0;
+}
