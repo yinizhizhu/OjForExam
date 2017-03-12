@@ -1,0 +1,43 @@
+#include <iostream>
+#include <algorithm>
+#define INF 0x7fffffff
+
+using namespace std;
+
+int list[20001];
+int dp[1001][2001];
+
+int dou(int a) { return a*a; }
+
+void showL(int n) {
+	for (int i = 1; i <= n; i++) cout << list[i] << " ";
+	cout << endl;
+}
+
+void showD(int i, int n) {
+	cout << endl;
+	for (int j = 1; j <= n; j++) cout << dp[i][j] << " ";
+	cout << endl;
+}
+
+int main() {
+	int i, j, k, n;
+	while (cin >> n >> k) {
+		for (i = 1; i <= n; i++) cin >> list[i];
+		sort(list + 1, list + n + 1);
+		//showL(n);
+		for (i = 1; i <= n; i++) dp[0][i] = 0;
+		//showD(0, n);
+		for (i = 1; i <= k; i++) {
+			for (j = 2 * i; j <= n; j++) {
+				if (j > 2 * i) dp[i][j] = dp[i][j - 1];
+				else dp[i][j] = INF;
+				if (dp[i][j] > dp[i - 1][j - 2] + dou(list[j] - list[j - 1]))
+					dp[i][j] = dp[i - 1][j - 2] + dou(list[j] - list[j - 1]);
+				//showD(i, n);
+			}
+		}
+		cout << dp[k][n] << endl;
+	}
+	return 0;
+}

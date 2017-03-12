@@ -1,0 +1,138 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+const int N = 201;
+char map[N][N];
+int flag[N][N];
+int url[4][2] = {
+	1, 0,	//x: 0 - down
+	-1, 0,	//x: 1 - up
+	0, 1,	//y: 2 - right
+	0, -1	//y: 3 - left
+};
+int m, n;
+
+class node {
+public:
+	int x, y;
+	const node& operator=(const node& s) {
+		x = s.x;
+		y = s.y;
+		return *this;
+	}
+	void set(int a, int b) {
+		x = a;
+		y = b;
+	}
+	bool check(int p) {
+		if (x == m - 1 && p == 0) return false;
+		if (x == 0 && p == 1) return false;
+		if (y == n - 1 && p == 2) return false;
+		if (y == 0 && p == 3) return false;
+		int a = x + url[p][0];
+		int b = y + url[p][1];
+		if (flag[a][b]) return false;
+		return true;
+	}
+	bool move(int p) {
+		if (check(p)) {
+			x += url[p][0];
+			y += url[p][1];
+			return true;
+		}
+		return false;
+	}
+	void show() {
+		cout << x << " " << y << endl;
+	}
+};
+unsigned int res;
+node cur, tar;
+
+void showA(vector<node>& ans) {
+	int i, n = ans.size();
+	for (i = 0; i < n; i++)
+		ans[i].show();
+}
+
+void showM() {
+	int i, j;
+	cout << endl;
+	for (i = 0; i < m; i++) {
+		for (j = 0; j < n; j++)
+			cout << map[i][j];
+		cout << endl;
+	}
+}
+
+void showF() {
+	int i, j;
+	cout << endl;
+	for (i = 0; i < m; i++) {
+		for (j = 0; j < n; j++)
+			cout << flag[i][j];
+		cout << endl;
+	}
+}
+
+bool reach() {
+	if (cur.x == tar.x && cur.y == tar.y) return true;
+	return false;
+}
+
+void del(vector<node>& ans) {//delete the tail of the road
+	ans.erase(ans.end() - 1);
+}
+
+void handle(vector<node>& ans, int t) {
+	int len = ans.size();
+	if (len >= res) return;
+	if (reach() && res > len) {
+		res = len;
+		return;
+	}
+	ans.push_back(cur);
+	flag[cur.x][cur.y] = 1;
+	showF();
+	for (int i = 0; i < 3; i++) {
+		if (cur.move(i)) {
+			if (map[cur.x][cur.y] == '#') {
+				if (t == 0) {
+					del(ans);
+					cur = ans[ans.size() - 1];
+				}
+				else handle(ans, t - 1);
+			}
+			else handle(ans, t);
+			del(ans);
+		}
+	}
+}
+
+void init() {
+	int i, j;
+	for (i = 0; i < m; i++)
+		for (j = 0; j < n; j++)
+			flag[i][j] = 0;
+	res = -1;
+}
+
+int main() {
+	int i, j, t;
+	vector<node> ans;
+	while (cin >> m >> n >> t) {
+		init();
+		for (i = 0; i < m; i++)
+			for (j = 0; j < n; j++) {
+				cin >> map[i][j];
+				if (map[i][j] == '@') cur.set(i, j);
+				else if (map[i][j] == '+') tar.set(i, j);
+			}
+		handle(ans, t);
+		cout << res << endl;
+	}
+	return 0;
+}

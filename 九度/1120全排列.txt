@@ -1,0 +1,33 @@
+#include<stdio.h>  
+#include<string.h>  
+
+const int N = 7;
+int len;//  
+bool visit[N];
+char str[N], a[N];
+
+void perm(int m) {
+    if (m == len) puts(a);
+    else {
+        for (int i = 0; i < len; i++) //in order
+            if (visit[i] == false) {
+                visit[i] = true;
+                a[m] = str[i];
+                perm(m + 1);
+                visit[i] = false;
+            }
+    }
+}
+
+int main() {
+    while (scanf("%s", str) != EOF) {
+        for (int i = 0; i < N; i++) {
+            visit[i] = false;
+            a[i] = '\0';
+        }
+        len = strlen(str);
+        perm(0);
+        printf("\n");
+    }
+    return 0;
+}

@@ -1,0 +1,61 @@
+#include<cstdio>
+#include<iostream>
+#include<cstring>
+#include<string>
+#include<cmath>
+#include<algorithm>
+#define maxSize 10010
+using namespace  std;
+
+int cir[maxSize] = { 0 }; //记录排列
+bool hashArray[maxSize] = { false };//是否加入队列
+
+void myPrint(int n) {//打印
+	for (int i = 1; i < n; i++) {
+		printf("%d ", cir[i]);
+	}
+	printf("%d\n", cir[n]);
+}
+
+bool isPrime(int n) {//判断是否为素数
+	int sqr = round(sqrt(n));
+	for (int i = 2; i <= sqr; i++) {
+		if (n % i == 0)
+			return false;
+	}
+	return true;
+}
+
+void F(int n, int index) {
+	if (index == n + 1) {//递归基
+		//判断首尾相加是否为素数，若成功 打印
+		if (isPrime(cir[n] + cir[1])) {
+			myPrint(n);
+		}
+	}
+	else {//0~index-1  已满足
+		for (int i = 2; i <= n; i++) {
+			if (hashArray[i] || (!isPrime(i + cir[index - 1])))
+				continue;
+			else {
+				hashArray[i] = true;
+				cir[index] = i;
+				F(n, index + 1);//递归
+				hashArray[i] = false;//恢复
+			}
+		}
+	}
+}
+
+int main() {
+	int n, num = 1;
+
+	while (scanf("%d", &n) != EOF) {
+		printf("Case %d:\n", num++);//输出编号
+		cir[1] = 1;
+		hashArray[1] = true;//起点
+		F(n, 2);
+		cout << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,27 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+	int i, j;
+	int n, t;
+	int len, minn, maxn;
+	cin >> n;
+	minn = maxn = 0;
+	if (!(n & 1)) {
+		len = n / 2;
+		for (i = 0; i <= len; i++) {
+			j = n - 2 * i;
+			if (j % 4) continue;
+			j /= 4;
+			t = i + j;
+			if (minn) {
+				if (t < minn) minn = t;
+				if (t > maxn) maxn = t;
+			}
+			else minn = maxn = t;
+		}
+	}
+	cout << minn << " " << maxn << endl;
+	return 0;
+}

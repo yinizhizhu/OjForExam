@@ -83,3 +83,29 @@ int main() {
 	}
 	return 0;
 }
+
+# include <stdio.h>  
+# include <math.h>  
+# include <stdlib.h>  // ？  
+
+char a[20];
+
+double exp()
+{
+	scanf("%s", a);
+	switch (a[0]) {
+	case '+': return exp() + exp();
+	case '-': return exp() - exp();
+	case '*': return exp()*exp();
+	case '/': return exp() / exp();
+	default: return atof(a);    // ？   
+	}
+	return a[0];
+}
+
+int main() {
+	double ans = 0;
+	ans = exp();
+	printf("%lf\n", ans);
+	return 0;
+}

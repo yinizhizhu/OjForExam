@@ -1,0 +1,20 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void show(string& str) {
+	int ans = 0, basis = 2, i = str.size() - 1;
+	for (; i >= 0; i--) {
+		ans += (str[i] - '0')*(basis - 1);
+		basis <<= 1;
+	}
+	cout << ans << endl;
+}
+
+int main() {
+	string str;
+	while (cin >> str && str != "0")
+		show(str);
+	return 0;
+}
