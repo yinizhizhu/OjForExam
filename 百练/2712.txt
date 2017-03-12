@@ -1,0 +1,36 @@
+#include <iostream>
+
+using namespace std;
+
+int day[13] = {
+	0, 31, 28,
+	31, 30,
+	31, 30,
+	31, 31,
+	30, 31,
+	30, 31
+};
+
+int get(int m, int d) {
+	int ans = d;
+	for (--m; m >= 1; m--) ans += day[m];
+	return ans;
+}
+
+int main() {
+	int m, d;
+	int x, n;
+	long long ans;
+	while (cin >> n) {
+		for (; n; n--) {
+			cin >> m >> d;
+			x = get(m, d);
+			cin >> ans;
+			cin >> m >> d;
+			x = get(m, d) - x;
+			ans <<= x;
+			cout << ans << endl;
+		}
+	}
+	return 0;
+}

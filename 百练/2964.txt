@@ -1,0 +1,66 @@
+#include <iostream>
+#include <stdio.h>
+
+using namespace std;
+
+int year[2] = { 365, 366 };
+int month[2][13] {
+	{ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
+	{ 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
+};
+char week[7][20] = {
+	"Sunday", "Monday", "Tuesday",
+	"Wednesday", "Thursday",
+	"Friday", "Saturday"
+};
+
+bool leap(int y) {
+	if (y % 4) return false;
+	if (y % 100 == 0 && y % 400) return false;
+	return true;
+}
+
+class date {
+public:
+	int y, m, d, front, remain, incre;
+	date(int a, int b, int c) {
+		y = a;
+		m = b;
+		d = c;
+		front = 0;
+		for (int i = 1; i < y; i++) front += year[leap(i)];
+		int p = leap(y);
+		remain = c;
+		for (int i = 1; i < m; i++) remain += month[p][i];
+		//incre = front + remain;//
+		//cout << incre << endl;//
+		//show(a, b, c);//
+		//cout << y << " " << front << " " << remain << endl;
+	}
+	void add(int del) {
+		int a, b, c, p, re = remain + del;
+		a = y;
+		p = leap(a);
+		incre = front + re;
+		while (re > year[p]) {
+			re -= year[p];
+			p = leap(++a);
+		}
+		p = leap(a);
+		for (b = 1; re > month[p][b]; b++) re -= month[p][b];
+		c = re;
+		show(a, b, c);
+	}
+	void show(int a, int b, int c) {
+		printf("%04d-%02d-%02d %s\n", a, b, c, week[incre % 7]);
+	}
+};
+
+int main() {
+	date ans(2000, 1, 1);
+	int incre;
+	while (cin >> incre && incre + 1) {
+		ans.add(incre);
+	}
+	return 0;
+}

@@ -1,0 +1,162 @@
+#include <iostream>
+//#include <fstream>
+#include <stack>
+
+using namespace std;
+
+char container[24][108];
+char hori = '-', vert = '|';
+//ofstream out("out.txt", 'w');
+
+void draw0(int i, int s) {
+	int j, k = 1, row = 2 * s + 3, col = s + 2;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i] = container[k][i + s + 1] = vert;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i] = container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+}
+
+void draw1(int i, int s) {
+	int j, k = 1, row = 2 * s + 3, col = s + 2;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i + s + 1] = vert;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i + s + 1] = vert;
+}
+
+void draw2(int i, int s) {
+	int j, k = 1, row = 2 * s + 3, col = s + 2;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+}
+
+void draw3(int i, int s) {
+	int j, k = 1, row = 2 * s + 3, col = s + 2;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+}
+
+void draw4(int i, int s) {
+	int j, k = 1, row = 2 * s + 3, col = s + 2;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i] = container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i + s + 1] = vert;
+}
+
+void draw5(int i, int s) {
+	int j, k = 1, row = 2 * s + 3, col = s + 2;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+}
+
+void draw6(int i, int s) {
+	int j, k = 1, row = 2 * s + 3, col = s + 2;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i] = container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+}
+
+void draw7(int i, int s) {
+	int j, k = 1, row = 2 * s + 3, col = s + 2;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i + s + 1] = vert;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i + s + 1] = vert;
+}
+
+void draw8(int i, int s) {
+	int j, k = 1, row = 2 * s + 3, col = s + 2;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i] = container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i] = container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+}
+
+void draw9(int i, int s) {
+	int j, k = 1, row = 2 * s + 3, col = s + 2;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i] = container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+	for (j = 1, k++; j <= s; j++, k++)
+		container[k][i + s + 1] = vert;
+	for (j = 1; j <= s; j++) container[k][i + j] = hori;
+}
+
+void show(int row, int col) {
+	int i, j;
+	for (i = 1; i <= row; i++) {
+		for (j = 1; j <= col; j++) {
+			cout << container[i][j];
+			//out << container[i][j];
+		}
+		cout << endl;
+		//out << '\n';
+	}
+	cout << endl;
+	//out << '\n';
+}
+
+void init(int row, int col) {
+	int i, j;
+	for (i = 1; i <= row; i++) {
+		for (j = 1; j <= col; j++)
+			container[i][j] = ' ';
+	}
+}
+
+int main() {
+	int i, s, n, t;
+	stack<int> ans;
+	while (cin >> s >> n && (s || n)) {
+		init(2 * s + 3, 108);
+		if (n == 0) ans.push(0);
+		for (; n; n /= 10) ans.push(n % 10);
+		i = 1;
+		while (!ans.empty()) {
+			t = ans.top();
+			ans.pop();
+			if (t == 0) draw0(i, s);
+			else if (t == 1) draw1(i, s);
+			else if (t == 2) draw2(i, s);
+			else if (t == 3) draw3(i, s);
+			else if (t == 4) draw4(i, s);
+			else if (t == 5) draw5(i, s);
+			else if (t == 6) draw6(i, s);
+			else if (t == 7) draw7(i, s);
+			else if (t == 8) draw8(i, s);
+			else draw9(i, s);
+			i += s + 3;
+		}
+		show(2 * s + 3, i - 2);
+	}
+	//out.close();
+	return 0;
+}

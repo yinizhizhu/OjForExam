@@ -1,0 +1,26 @@
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int main() {
+	char c;
+	int i, len;
+	string code = "VWXYZABCDEFGHIJKLMNOPQRSTU", str;
+	while (cin >> str && str != "ENDOFINPUT") {
+		getchar();
+		getline(cin, str);
+		len = str.size();
+		for (i = 0; i < len; i++) {
+			c = str[i];
+			if (c >= 'A' && c <= 'Z') cout << code[c - 'A'];
+			else cout << c;
+		}
+		cout << endl;
+		cin >> str;
+		getchar();
+	}
+	return 0;
+}

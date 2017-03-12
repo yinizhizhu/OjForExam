@@ -1,0 +1,85 @@
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <stack>
+
+using namespace std;
+
+int cti(char c) { return c - '0'; }
+
+double value(string& str, int i, int t) {
+	double ans = 0, basis = 1;
+	for (--t; str[t] != '.' && t >= i; t--) {
+		ans += cti(str[t])*basis;
+		basis *= 10;
+	}
+	if (t > i)
+		ans /= basis;
+	basis = 1;
+	for (--t; t >= i; t--) {
+		ans += cti(str[t])*basis;
+		basis *= 10;
+	}
+	return ans;
+}
+
+bool check(char c) {
+	if (c == '+') return true;
+	if (c == '-') return true;
+	if (c == '*') return true;
+	if (c == '/') return true;
+	return false;
+}
+
+void get(double& x, double& y, char c) {
+	if (c == '+') x += y;
+	else if (c == '-') x -= y;
+	else if (c == '*') x *= y;
+	else x /= y;
+}
+
+int main() {
+	string str;
+	double x, y;
+	int i, j, s, len;
+	stack<char> op;
+	stack<double> num;
+	while (getline(cin, str)) {
+		len = str.size();
+		for (i = s = 0; i < len; i = j + 1) {
+			for (; i < len && str[i] == ' '; i++);
+			for (j = i + 1; j < len && str[j] != ' '; j++);
+			if (j == i + 1 && check(str[i])) {
+				op.push(str[i]);
+				s = 0;
+			}
+			else {
+				num.push(value(str, i, j));
+				s++;
+				if (s == 2) {
+					x = num.top();
+					num.pop();
+					y = num.top();
+					num.pop();
+					get(x, y, op.top());
+					num.push(x);
+					op.pop();
+					s = 1;
+				}
+			}
+
+		}
+		while (!op.empty()) {
+			x = num.top();
+			num.pop();
+			y = num.top();
+			num.pop();
+			get(x, y, op.top());
+			num.push(x);
+			op.pop();
+		}
+		printf("%f\n", num.top());
+		num.pop();
+	}
+	return 0;
+}

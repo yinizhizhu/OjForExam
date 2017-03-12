@@ -1,0 +1,23 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 21;
+int container[N];
+
+void init() {
+	container[1] = container[2] = 1;
+	for (int i = 3; i < N; i++)
+		container[i] = container[i - 1] + container[i - 2];
+}
+
+int main() {
+	init();
+	int a, n;
+	cin >> n;
+	for (; n; n--) {
+		cin >> a;
+		cout << container[a] << endl;
+	}
+	return 0;
+}

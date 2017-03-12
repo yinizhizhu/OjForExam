@@ -1,0 +1,152 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class num {
+public:
+	int flag;
+	vector<int> bit;
+	num() : flag(0) {}
+	num(string& a) {
+		flag = 0;
+		int i = a.size() - 1;
+		for (; i >= 0; i--) bit.push_back(a[i] - '0');
+		for (i = bit.size() - 1; i >= 0; i--) {
+			if (bit[i]) break;
+			bit.erase(bit.end() - 1);
+		}
+	}
+	bool operator<(const num& a) {
+		int len = bit.size(), lena = a.bit.size();
+		if (len == lena) {
+			for (int i = len - 1; i >= 0; i--) {
+				if (bit[i] == a.bit[i]) continue;
+				return bit[i] < a.bit[i];
+			}
+			return true;
+		}
+		return len < lena;
+	}
+	num& operator+=(const num& a) {
+		int i, len = bit.size(), lena = a.bit.size();
+		int n = (len < lena ? len : lena), carry = 0;
+		for (i = 0; i < n; i++) {
+			carry += bit[i] + a.bit[i];
+			bit[i] = carry % 10;
+			carry /= 10;
+		}
+		for (; i < len; i++) {
+			carry += bit[i];
+			bit[i] = carry % 10;
+			carry /= 10;
+		}
+		for (; i < lena; i++) {
+			carry += a.bit[i];
+			bit.push_back(carry % 10);
+			carry /= 10;
+		}
+		if (carry)
+			bit.push_back(carry);
+		return *this;
+	}
+	num& operator=(const num& a) {
+		bit.clear();
+		flag = a.flag;
+		for (int i = 0; i < a.bit.size(); i++) bit.push_back(a.bit[i]);
+		return *this;
+	}
+	num& operator-=(const num& a) {
+		int f;
+		num b = a, tmp;
+		f = *this < a;
+		if (f) {
+			tmp = b;
+			b = *this;
+			*this = tmp;
+		}
+		flag = f;
+		int i, carry = 0;
+		int len = bit.size(), lena = b.bit.size();
+		for (i = 0; i < lena; i++) {
+			carry += bit[i] - b.bit[i];
+			if (carry >= 0) {
+				bit[i] = carry;
+				carry = 0;
+			}
+			else {
+				bit[i] = carry + 10;
+				carry = -1;
+			}
+		}
+		for (; i < len; i++) {
+			carry += bit[i];
+			if (carry >= 0) {
+				bit[i] = carry;
+				carry = 0;
+			}
+			else {
+				bit[i] = carry + 10;
+				carry = -1;
+			}
+		}
+		for (i = len - 1; i >= 0; i--) {
+			if (bit[i]) break;
+			bit.erase(bit.end() - 1);
+		}
+		return *this;
+	}
+	void move() {
+		bit.insert(bit.begin(), 0);
+	}
+	void multi(int n) {
+		int i, len = bit.size(), carry = 0;
+		for (i = 0; i < len; i++) {
+			carry += bit[i] * n;
+			bit[i] = carry % 10;
+			carry /= 10;
+		}
+		if (carry)
+			bit.push_back(carry);
+	}
+	num& operator*=(const num& a) {
+		if (bit.size() && a.bit.size()) {
+			int len = a.bit.size();
+			if (len) {
+				num tmp, step = *this;
+				multi(a.bit[0]);
+				step.move();
+				for (int i = 1; i < len; i++) {
+					tmp = step;
+					tmp.multi(a.bit[i]);
+					*this += tmp;
+					step.move();
+				}
+			}
+		}
+		else bit.clear();
+		return *this;
+	}
+	void show() {
+		int i = bit.size() - 1;
+		if (i < 0) {
+			cout << 0 << endl;
+			return;
+		}
+		if (flag) cout << "-";
+		for (; i >= 0; i--) cout << bit[i];
+		cout << endl;
+	}
+};
+
+int main() {
+	string a, b;
+	while (cin >> a >> b) {
+		num x(a), y(b);
+		num z = x;
+		x *= y;
+		x.show();
+	}
+	return 0;
+}

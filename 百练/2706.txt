@@ -1,0 +1,69 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 501;
+int container[N];
+
+bool dou() {
+	int i, n = container[0], carry = 0;
+	for (i = 1; i <= n && i < N; i++) {
+		carry += container[i] << 1;
+		container[i] = carry % 10;
+		carry /= 10;
+	}
+	if (i < N) {
+		if (carry) {
+			container[i] = carry;
+			container[0] = i;
+		}
+		return true;
+	}
+	return false;
+}
+
+void dec() {
+	int i, n = container[0], carry = -1;
+	for (i = 1; i <= n; i++) {
+		carry += container[i];
+		if (carry < 0) {
+			container[i] = 9;
+			carry = -1;
+		}
+		else {
+			container[i] = carry;
+			carry = 0;
+			break;
+		}
+	}
+	if (container[n] == 0) container[0] = n - 1;
+}
+
+void showT() {
+	int i = container[0];
+	for (; i; i--) cout << container[i];
+	cout << endl;
+}
+
+void show() {
+	int i = container[0], j, k, d = 500 - i;
+	for (j = 1, k = 0; j <= 500; j++) {
+		if (k < d) {
+			cout << 0;
+			k++;
+		}
+		else cout << container[i--];
+		if (j % 50 == 0) cout << endl;
+	}
+}
+
+int main() {
+	int p;
+	while (cin >> p) {
+		container[0] = container[1] = 1;
+		for (; p; p--) dou();
+		dec();
+		show();
+	}
+	return 0;
+}

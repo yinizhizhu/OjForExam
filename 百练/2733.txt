@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int num;
+	cin >> num;
+	if (num % 4) cout << "N";
+	else
+	{
+		if (num % 100 == 0 && num % 400) cout << "N";
+		else if (num % 3200 == 0) cout << "N";
+		else cout << "Y";
+	}
+	cout << endl;
+	return 0;
+}
