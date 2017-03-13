@@ -1,0 +1,34 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int main() {
+	int n, x, t;
+	string str;
+	vector<string> min, max;
+	cin >> str;
+	n = x = str.size();
+	min.push_back(str);
+	max.push_back(str);
+	while (cin >> str) {
+		t = str.size();
+		if (t == n) min.push_back(str);
+		else if (t < n) {
+			n = t;
+			min.clear();
+			min.push_back(str);
+		}
+		if (t == x) max.push_back(str);
+		else if (t > x) {
+			x = t;
+			max.clear();
+			max.push_back(str);
+		}
+	}
+	for (t = 0; t < min.size(); t++) cout << min[t] << endl;
+	for (t = 0; t < max.size(); t++) cout << max[t] << endl;
+	return 0;
+}

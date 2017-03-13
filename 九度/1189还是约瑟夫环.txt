@@ -1,0 +1,33 @@
+#include <stdio.h>  
+#include <string.h>  
+
+#define N 21  
+
+int n, p, cur, cur0;
+int next[N + 1];
+
+void init() {
+	n = 21;
+	p = 17;
+	for (int i = 1; i<n; i++) next[i] = i + 1;
+	next[n] = 1;
+	cur0 = n;
+	cur = 1;
+}
+
+int main(void) {
+	int i;
+	init();
+	while (n > 1) {
+		for (i = 1; i<(p%n == 0 ? n : p%n); i++) {
+			cur0 = cur;
+			cur = next[cur];
+		}
+		n--;
+		//printf("%d ", cur);  
+		cur = next[cur];
+		next[cur0] = cur;
+	}
+	printf("%d\n", cur);
+	return 0;
+}
