@@ -37,3 +37,48 @@ int main() {
 	}
 	return 0;
 }
+
+#include<stdio.h>  
+#include<stdlib.h>  
+#include<string.h>  
+  
+typedef struct Character{  
+    char c;//字符  
+    int count;//个数  
+    int location[101];//数组中位置  
+    int flag;//标记已输出  
+}Character;  
+int main()  
+{  
+    int i,index,j;  
+    char str[101];  
+    Character c[150];  
+    while(gets(str)){  
+        //初始化  
+        for(i = 0;i < 150;i++){  
+            c[i].count = 0;  
+            c[i].flag = 0;  
+        }  
+        //统计字符个数，字符位置  
+        for(i = 0;i < strlen(str);i++){  
+            c[str[i]].c = str[i];  
+            index = c[str[i]].count;  
+            c[str[i]].location[index] = i;  
+            c[str[i]].count++;  
+        }  
+        for(i = 0;i < strlen(str);i++){  
+            //有重复的字符且没有输出过  
+            index = str[i];  
+            if(c[index].count > 1 && c[index].flag == 0){  
+                //输出重复字符  
+                for(j = 0;j < c[index].count-1;j++){  
+                    printf("%c:%d,",str[i],c[index].location[j]);  
+                }  
+                printf("%c:%d\n",str[i],c[index].location[j]);  
+                //标记已读  
+                c[index].flag = 1;  
+            }  
+        }  
+    }  
+    return 0;  
+}  

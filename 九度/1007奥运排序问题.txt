@@ -102,3 +102,138 @@ int main() {
 	}
 	return 0;
 }
+
+#include <iostream>  
+#include <algorithm>  
+#include <vector>  
+#include <climits>  
+
+using namespace std;
+
+struct Country
+{
+	int m_id;
+	int m_rank[5];
+	double m_golden_medal;
+	double m_medal;
+	double m_population;
+};
+
+bool golden_medal_cmp(const Country& a, const Country& b)
+{
+	return a.m_golden_medal > b.m_golden_medal;
+}
+
+bool medal_cmp(const Country& a, const Country& b)
+{
+	return a.m_medal > b.m_medal;
+}
+
+bool golden_medal_percentage_cmp(const Country& a, const Country& b)
+{
+	return a.m_golden_medal / a.m_population > b.m_golden_medal / b.m_population;
+}
+
+bool medal_percentage_cmp(const Country& a, const Country& b)
+{
+	return a.m_medal / a.m_population > b.m_medal / b.m_population;
+}
+
+bool id_cmp(const Country& a, const Country& b)
+{
+	return a.m_id < b.m_id;
+}
+
+int n, m, country_id;
+Country countries[100000];
+vector<Country> vt;
+
+int main()
+{
+	while (cin >> n >> m)
+	{
+		vt.clear();
+		for (int i = 0; i < n; ++i)
+		{
+			countries[i].m_id = i;
+			cin >> countries[i].m_golden_medal >> countries[i].m_medal >> countries[i].m_population;
+		}
+		for (int i = 0; i < m; ++i)
+		{
+			cin >> country_id;
+			vt.push_back(countries[country_id]);
+		}
+		sort(vt.begin(), vt.end(), golden_medal_cmp);
+		for (size_t i = 0; i < vt.size();)
+		{
+			size_t next = i + 1;
+			for (; next<vt.size()
+				&& vt[i].m_golden_medal == vt[next].m_golden_medal; ++next) {
+			}
+			for (size_t j = i; j < next; ++j)
+			{
+				vt[j].m_rank[1] = i + 1;
+			}
+			i = next;
+		}
+		sort(vt.begin(), vt.end(), medal_cmp);
+		for (size_t i = 0; i < vt.size();)
+		{
+			size_t next = i + 1;
+			for (; next<vt.size()
+				&& vt[i].m_medal == vt[next].m_medal; ++next) {
+			}
+			for (size_t j = i; j < next; ++j)
+			{
+				vt[j].m_rank[2] = i + 1;
+			}
+			i = next;
+		}
+		sort(vt.begin(), vt.end(), golden_medal_percentage_cmp);
+		for (size_t i = 0; i < vt.size();)
+		{
+			size_t next = i + 1;
+			for (; next<vt.size()
+				&& vt[i].m_golden_medal / vt[i].m_population == vt[next].m_golden_medal / vt[next].m_population;
+				++next) {
+			}
+			for (size_t j = i; j < next; ++j)
+			{
+				vt[j].m_rank[3] = i + 1;
+			}
+			i = next;
+		}
+		sort(vt.begin(), vt.end(), medal_percentage_cmp);
+		for (size_t i = 0; i < vt.size();)
+		{
+			size_t next = i + 1;
+			for (; next<vt.size()
+				&& vt[i].m_medal / vt[i].m_population == vt[next].m_medal / vt[next].m_population;
+				++next) {
+			}
+			for (size_t j = i; j < next; ++j)
+			{
+				vt[j].m_rank[4] = i + 1;
+			}
+			i = next;
+		}
+		sort(vt.begin(), vt.end(), id_cmp);
+		for (size_t i = 0; i < vt.size(); ++i)
+		{
+			int rank = INT_MAX;
+			int index = -1;
+			for (int j = 1; j <= 4; ++j)
+			{
+				if (rank > vt[i].m_rank[j])
+				{
+					rank = vt[i].m_rank[j];
+					index = j;
+				}
+			}
+			cout << rank << ":" << index << endl;
+		}
+		cout << endl;
+	}
+
+	return 0;
+}

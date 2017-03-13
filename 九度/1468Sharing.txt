@@ -67,3 +67,64 @@ int main() {
 	}
 	return 0;
 }
+
+#include <stdio.h>  
+   
+#define MAXN 100001  
+   
+typedef struct node{  
+    char data;  
+    int next;  
+}Node;  
+   
+int main(void){  
+    int first, second, N;  
+    Node word[MAXN];  
+    char data;  
+    int addr, next, i;  
+    int len1, len2;  
+    int tfirst, tsecond;  
+   
+    while (scanf ("%d %d %d", &first, &second, &N) != EOF){  
+        for (i=0; i<N; ++i){  
+            scanf ("%d %c %d", &addr, &data, &next);  
+            word[addr].data = data;  
+            word[addr].next = next;  
+        }  
+        len1 = len2 = 0;  
+        tfirst = first;  
+        tsecond = second;  
+        for (i=0; i<N; ++i){           //求得两个单词的长度  
+            if (tfirst != -1){  
+                ++len1;  
+                tfirst = word[tfirst].next;  
+            }  
+            if (tsecond != -1){  
+                ++len2;  
+                tsecond = word[tsecond].next;  
+            }  
+        }  
+        while (len1 > len2){  
+            first = word[first].next;  
+            --len1;  
+        }  
+        while (len2 > len1){  
+            second = word[second].next;  
+                --len2;  
+        }  
+        while (len1 > 0){  
+            if (first == second){  
+                printf ("%05d\n", first);  
+                break;  
+            }  
+            else{  
+                first = word[first].next;  
+                second = word[second].next;  
+            }  
+            --len1;  
+        }  
+        if (len1 == 0)  
+            printf ("-1\n");  
+    }  
+    return 0;  
+}  
