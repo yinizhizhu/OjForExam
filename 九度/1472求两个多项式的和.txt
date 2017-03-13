@@ -75,3 +75,45 @@ int main() {
 	}
 	return 0;
 }
+
+#include<stdio.h>  
+#include<string.h>  
+  
+int array[2001];  
+  
+int main () {  
+    int n,m,i,a,b,first;  
+    while (scanf("%d",&n) != EOF){  
+        first = 1;  
+        memset(array,0,sizeof(array));  
+        //多项式一  
+        for(i = 0;i < n;i ++){  
+            scanf ("%d %d",&a,&b);  
+            array[b + 1000] = a;  
+        }  
+        //多项式二  
+        scanf("%d",&m);  
+        for(i = 0;i < m;i ++){  
+            scanf ("%d %d",&a,&b);  
+            //相同次数系数相加  
+            array[b + 1000] += a;  
+        }  
+        //输出  
+        for(i = 2001;i >= 0;i --){  
+            //系数为0的整数对不用输出  
+            if(array[i] == 0){  
+                continue;  
+            }  
+            //控制格式  
+            if(first){  
+                first = 0;  
+            }  
+            else{  
+                printf(" ");  
+            }  
+            printf("%d %d",array[i],i - 1000);  
+        }  
+        printf("\n");  
+    }  
+    return 0;  
+}  

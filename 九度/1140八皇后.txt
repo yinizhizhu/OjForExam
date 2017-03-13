@@ -1,0 +1,48 @@
+#include<stdio.h>  
+#include<string.h>  
+
+int data[100][8] = { 0 };
+int tmp[8] = { 0 };
+int count;
+int valid(int x, int y) {
+	int j;
+	for (int i = 0; i<x; i++) {
+		j = tmp[i];
+		if (j == y) return 0;
+		if (i == x) return 0;
+		if ((j + i) == (x + y)) return 0;
+		if ((y - x) == (j - i)) return 0;
+	}
+	return 1;
+}
+void copy() {
+	for (int i = 0; i<8; i++)
+		data[count][i] = tmp[i] + 1;
+}
+void process(int ind)  {
+	for (int i = 0; i<8; i++) {
+		if (valid(ind, i)) {
+			tmp[ind] = i;
+			if (ind == 7) {
+				copy();
+				count++;
+				return;
+			}
+			process(ind + 1);
+			tmp[ind] = 0;
+		}
+	}
+}
+
+int main() {
+	count = 0;
+	process(0);
+	int n, m;
+	scanf("%d", &n);
+	while (n--) {
+		scanf("%d", &m);
+		for (int i = 0; i<8; i++)
+			printf("%d", data[m - 1][i]);
+		printf("\n");
+	}
+}

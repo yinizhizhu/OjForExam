@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <string.h>
+
+int main(void) {
+	int m, n;
+	char server[5000][16];
+	char agency[1000][16];
+	int i;
+	int result, max, index, flag, start;
+	while (scanf("%d", &n) != EOF) {
+		for (i = 0; i<n; ++i) scanf("%s", agency[i]);
+		scanf("%d", &m);
+		for (i = 0; i<m; ++i) scanf("%s", server[i]);
+		if (n == 1) {
+			for (i = 0; i<m && (strcmp(agency[0], server[i]) != 0); ++i)
+				continue;
+			if (i < m) printf("-1\n");
+			else printf("0\n");
+		}
+		else {
+			flag = 1;
+			result = start = 0;
+			while (flag) {
+				max = -1;
+				flag = 0;
+				for (i = 0; i<n; ++i) {
+					index = start;
+					while (index < m && (strcmp(agency[i], server[index]) != 0))
+						++index;
+					if (index > max) max = index;
+				}
+				if (max != m) {
+					flag = 1;
+					++result;
+				}
+				start = max + 1;
+			}
+			printf("%d\n", result);
+		}
+	}
+	return 0;
+}

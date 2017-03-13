@@ -1,0 +1,58 @@
+#include <stdio.h>  
+using namespace std;  
+void change(int num,int *A,int m)  
+{  
+    int left=1,tmp;  
+    while(left<m)  
+    {  
+        tmp=A[left];  
+        A[left]=A[m];  
+        A[m]=tmp;  
+        left++;  
+        m--;  
+    }  
+}  
+void display(int *A,int num)  
+{  
+    for(int i=1;i<=num;i++)  
+        printf("%d ",A[i]);  
+    printf("\n");  
+}  
+int main()  
+{  
+    //freopen("data.in","r",stdin);  
+    int num,A[31],B[100];  
+    while(scanf("%d",&num)!=EOF&&num!=0)  
+    {  
+        int index=0;  
+        for(int i=1;i<=num;i++)  
+            scanf("%d",&A[i]);  
+        for(int i=num;i>=1;i--)//找最大的;  
+        {  
+            if(A[i]==i)//如果已经在最后了，那么就不需要旋转;  
+                continue;  
+            if(A[1]!=i)//如果目前最大的不在最前，则需要旋转一次，把最大的放到第一个;  
+            {  
+                for(int j=2;j<=num;j++)  
+                {  
+                    if(A[j]==i)  
+                    {  
+                        change(num,A,j);  
+                        //display(A,num);  
+                        B[index++]=j;  
+                    }  
+                }  
+            }  
+            change(num,A,i);  
+            //display(A,num);  
+            B[index++]=i;  
+        }  
+        printf("%d",index);  
+        for (int i=0;i<index;i++)  
+        {  
+            printf(" %d",B[i]);  
+        }  
+        printf("\n");  
+    }  
+    return 0;  
+}  

@@ -1,68 +1,102 @@
 #include <iostream>  
+#include <queue>  
 
 using namespace std;
 
-unsigned int cost;
-const int N = 6;
-int container[N][N];
-class node {
-public:
-	int x, y;
-	node() : x(0), y(0) {}
-	node(int a, int b) : x(a), y(b) {}
-	node& operator+=(const node& a) {
-		x += a.x;
-		y += a.y;
-		return *this;
-	}
-	bool operator==(const node& a) {
-		if (x == a.x && y == a.y)
-			return true;
-		return false;
-	}
-	void operator=(const node& a) {
-		x = a.x;
-		y = a.y;
-	}
-	void show() {
-		cout << x << ", " << y << endl;
-	}
+struct Node {
+	int x, y, sum, statu;
+	Node() {}
+	Node(int a, int b, int c, int d) : x(a), y(b), sum(c), statu(d) {}
 };
-node up(0, -1);
-node down(0, 1);
-node left(-1, 0);
-node right(1, 0);
-
-bool check(node& a) {
-	if (a.x < 0 || a.x > 5)
-		return false;
-	if (a.y < 0 || a.y > 5)
-		return false;
-	return true;
-}
-
-void dfs(unsigned int c, node& move, node& tail) {
-	if (cost != -1 && c > cost)
-		return;
-	if (move == tail)
-		cost = c;
-	else {
-		node tmp = move;
+queue<Node> q;
+Node start;
+int dir[4][2] = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+int ans, ex, ey, map[6][6];
+int opt[6][6][4];
+void bfs() {
+	q.push(start);
+	int x, y, cost, tmp;
+	while (!q.empty()) {
+		Node tn = q.front();
+		q.pop();
+		for (int i = 0; i < 4; i++) {
+			x = tn.x + dir[i][0];
+			y = tn.y + dir[i][1];
+			if (x >= 0 && x < 6 && y >= 0 && y < 6) {
+				cost = tn.statu * map[x][y];
+				tmp = tn.sum + cost;
+				cost %= 4;
+				if (tmp < opt[x][y][cost])
+					if (tmp < opt[ex][ey][cost]) {
+						opt[x][y][cost] = tmp;
+						q.push(Node(x, y, tmp, cost + 1));
+					}
+			}
+		}
 	}
 }
 
 int main() {
-	int i, j, n;
-	node head, tail;
-	cin >> n;
-	for (; n; n--) {
-		for (i = 0; i < N; i++)
-			for (j = 0; j < N; j++)
-				cin >> container[i][j];
-		cin >> head.x >> head.y;
-		cin >> tail.x >> tail.y;
-		cost = -1;	//set the unreachable
-		dfs(0, head, tail);
+	int k;
+	cin >> k;
+	while (k--) {
+		for (int i = 0; i < 6; i++)
+			for (int j = 0; j < 6; j++) {
+				cin >> map[i][j];
+				for (int k = 0; k<4; k++)
+					opt[i][j][k] = 100000;
+			}
+		ans = 100000;
+		start.sum = 0;
+		start.statu = 1;
+		cin >> start.x >> start.y >> ex >> ey;
+		bfs();
+		for (int i = 0; i < 4; i++)
+			if (ans > opt[ex][ey][i])
+				ans = opt[ex][ey][i];
+		cout << ans << endl;
+	}
+	return 0;
+}
+
+#include <iostream>  
+using namespace std;
+int map[6][6];
+int sx, sy, ex, ey, ans;
+int dir[4][2] = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+bool visit[6][6];
+void dfs(int x, int y, int sum, int statu) {
+	if (sum < ans) {
+		if (x == ex && y == ey) {
+			ans = sum;
+			return;
+		}
+		for (int i = 0; i<4; i++) {
+			int tempx = x + dir[i][0];
+			int tempy = y + dir[i][1];
+			if (visit[tempx][tempy] && tempx >= 0 && tempx < 6 && tempy >= 0 && tempy < 6) {
+				int cost = statu * map[tempx][tempy];
+				visit[tempx][tempy] = false;
+				dfs(tempx, tempy, sum + cost, cost % 4 + 1);
+				visit[tempx][tempy] = true;
+			}
+		}
+	}
+}
+
+int main() {
+	int k;
+	cin >> k;
+	while (k--) {
+		for (int i = 0; i<6; i++)
+			for (int j = 0; j<6; j++) {
+				cin >> map[i][j];
+				visit[i][j] = true;
+			}
+		cin >> sx >> sy >> ex >> ey;
+		ans = 1000000;
+		dfs(sx, sy, 0, 1);
+		cout << ans << endl;
 	}
 	return 0;
 }

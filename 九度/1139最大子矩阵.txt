@@ -1,0 +1,34 @@
+#include <string.h>  
+#include <stdio.h>  
+#define SIZE 100  
+int matrix[SIZE][SIZE];
+int lineral[SIZE];
+int max;
+int max_ctn_substr(int size){
+	int sum = lineral[0], max = sum;
+	for (int i = 1; i<size; i++){
+		sum = (lineral[i] < sum + lineral[i]) ? sum + lineral[i] : lineral[i];
+		if (sum > max) max = sum;
+	}
+	return max;
+}
+int main(){
+	int n;
+	while (scanf("%d", &n) != EOF){
+		for (int i = 0; i<n; i++)
+			for (int j = 0; j<n; j++)
+				scanf("%d", &(matrix[i][j]));
+		max = -200000;
+		for (int i = 0; i<n; i++){
+			memset(lineral, 0, n*sizeof(int));
+			for (int j = i; j<n; j++){
+				for (int k = 0; k<n; k++)
+					lineral[k] += matrix[j][k];
+				int sum = max_ctn_substr(n);
+				if (max<sum) max = sum;
+			}
+		}
+		printf("%d\n", max);
+	}
+	return 0;
+}

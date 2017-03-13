@@ -1,0 +1,49 @@
+#include <iostream>  
+#include <string.h>  
+
+using namespace std;
+
+int matrix[100][100], line[100];
+int n, m, ans, begin, end;
+int goal;
+
+int merge(int n) {
+	int ans = -1;
+	int start = 0, end = 0, sum = 0;
+	while (end < n) {
+		if (sum < goal)
+			sum += line[end];
+		while (sum >= goal) {
+			int len = end - start + 1;
+			if (ans == -1) ans = len;
+			else if (len < ans) ans = len;
+			sum -= line[start++];
+		}
+		++end;
+	}
+	return ans;
+}
+
+int main() {
+	while (cin >> n >> m >> goal) {
+		ans = -1;
+		for (int i = 0; i < n; ++i)
+			for (int j = 0; j < m; ++j)
+				cin >> matrix[i][j];
+		for (int i = 0; i < m; ++i) {
+			memset(line, 0, sizeof(line));
+			for (int j = i; j < m; ++j) {
+				for (int k = 0; k < n; ++k)
+					line[k] += matrix[k][j];
+				int temp = merge(n);
+				if (temp != -1) {
+					temp = temp * (j - i + 1);
+					if (ans == -1) ans = temp;
+					else if (temp < ans) ans = temp;
+				}
+			}
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

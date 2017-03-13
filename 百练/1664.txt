@@ -1,0 +1,57 @@
+#include <stdio.h>  
+
+int solve(int n, int m) {
+	if (n == 1 || m == 1 || n == 0) return 1;
+	if (n<m) return solve(n, n);
+	return solve(n, m - 1) + solve(n - m, m);
+}
+
+int main() {
+	int t, n, m;
+	scanf("%d", &t);
+	while (t--) {
+		scanf("%d%d", &n, &m);
+		printf("%d\n", solve(n, m));
+	}
+
+	return 0;
+}
+
+#include <iostream>
+
+using namespace std;
+
+int min(int a, int b) { return (a > b ? b : a); }
+
+int get(int p, int n) {
+	//cout << p << ": " << n << endl;
+	if (n == 0) return 1;
+	if (p == 1) {
+		if (n) return 1;
+		else return 0;
+	}
+	if (p == 2) return n / 2;
+	int i, s, re, avr, ans = 0;
+	s = min(p, n);
+	avr = n / p;
+	for (i = 1; i <= avr; i++) {
+		re = n - i;
+		ans += (get(p - 1, re) - i + 1);
+	}
+	return ans;
+}
+
+int main() {
+	int m, n;
+	int t, ans;
+	cin >> t;
+	for (; t; t--) {
+		ans = 0;
+		cin >> m >> n;
+		n = min(m, n);
+		for (; n; n--)
+			ans += get(n, m);
+		cout << ans << endl;
+	}
+	return 0;
+}

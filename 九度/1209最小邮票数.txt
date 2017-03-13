@@ -1,0 +1,35 @@
+#include <stdio.h>  
+
+#define INF 10000  
+
+int min(int a, int b){
+	return (a < b) ? a : b;
+}
+
+int MinNumOfStamp(int stamp[], int m, int n){
+	int dp[101];
+	int i, j;
+	for (i = 1; i <= m; ++i)
+		dp[i] = INF;
+	dp[0] = 0;
+	for (i = 0; i < n; ++i){
+		for (j = m; j >= stamp[i]; --j){
+			if (dp[j - stamp[i]] != INF)
+				dp[j] = min(dp[j], dp[j - stamp[i]] + 1);
+		}
+	}
+	return (dp[m] != INF) ? dp[m] : 0;
+}
+
+int main(void){
+	int m, n;
+	int stamp[20];
+	int i;
+	while (scanf("%d%d", &m, &n) != EOF){
+		for (i = 0; i<n; ++i)
+			scanf("%d", &stamp[i]);
+		printf("%d\n", MinNumOfStamp(stamp, m, n));
+	}
+
+	return 0;
+}

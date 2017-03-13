@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string>
+#include <stack>
+
+using namespace std;
+
+typedef struct btree {
+	char c;
+	btree *lchild, *rchild;
+	btree() { lchild = rchild = NULL; }
+	btree(char t) {
+		c = t;
+		lchild = rchild = NULL;
+	}
+	void set(char t) { c = t; }
+} *bt;
+stack<bt> ans;
+stack<int> child;
+
+void mid(btree *root) {
+	if (root) {
+		mid(root->lchild);
+		cout << root->c << " ";
+		mid(root->rchild);
+	}
+}
+
+void get(string& str) {
+	btree *tmp = NULL;
+	int t, i = 0, n = str.size();
+	btree *root = new btree(str[i++]);
+	ans.push(root);
+	child.push(0);
+	for (; i < n; i++) {
+		if (str[i] == '#') {
+			t = child.top() + 1;
+			child.pop();
+			child.push(t);
+			while (!child.empty() && child.top() == 2) {
+				ans.pop();
+				child.pop();
+			}
+		}
+		else {
+			t = child.top() + 1;
+			child.pop();
+
+			tmp = ans.top();
+			if (t == 1) {
+				tmp->lchild = new btree(str[i]);
+				ans.push(tmp->lchild);
+			}
+			else {
+				tmp->rchild = new btree(str[i]);
+				ans.push(tmp->rchild);
+			}
+			child.push(t);
+			child.push(0);
+		}
+	}
+	mid(root);
+	cout << endl;
+}
+
+int main() {
+	string str;
+	while (cin >> str) get(str);
+	return 0;
+}
