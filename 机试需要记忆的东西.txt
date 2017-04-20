@@ -2,5 +2,28 @@
 2.精度的设置头文件<iomanip>: setprecision, setiosflags
 3. printf("%.1f\n", res);scanf("%4d%2d%2d", &y2, &m2, &d2);scanf("%4d%2d%2d", &y1, &m1, &d1) != EOF;printf("%04d-%02d-%02d\n", y, i, n);
 4.  getline(cin, str);cout << str << endl;//读入一行包含空格的字符串为string
-5. #include <vector> #include <queue> #include <functional>： priority_queue
-6. 当两个节点之间有多条时，应该保存最小的那条
+5. #include <vector> #include <queue> #include <functional>： priority_queue<int>Q，priority<int ,vector<int>, greater<int>> Q最小堆（最大堆）
+6. 通过看二叉树包含中序遍历的两个遍历结果是否相同，可以得知两棵树是否相同
+7. DP关键：寻找一个好的状态
+8. 尽量用LONG LONG
+9. string: 
+	string e = "abcdefghijklmnopqrstuvwxyz";
+	cout << e << " -> ";
+	e.erase(10, 8);	//从s[10]到s[17]的8个字符
+	cout << e << endl;
+	string a = "asdfsdfadfafd";
+	string b = "fadf";
+	int pos = a.find(b, startPos);	//从startPos开始匹配b，返回下标，否则返回-1
+	cout << pos << endl;
+	string c = "AAAA";
+	string d = "BBB";
+	c.insert(2, d);
+	cout << c << endl;
+10. 大数计算时，若使用vector，需要留意bit在后续的push_back
+11. 对于字符串的输入数据，留意带有空格的输入特例没明显给出或明显没说
+12. 设计一行中多个浮点数读入，应该用c来，atof(a);# include <stdlib.h>
+13. next_permutation(a, a + n);#include <algorithm>  
+14. int gcd(int a, int b) {
+	if (b) return gcd(b, a%b);
+	return a;
+}
