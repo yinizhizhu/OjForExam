@@ -1,0 +1,82 @@
+#include<stdio.h>  
+#include<string.h>  
+#include<algorithm>  
+ 
+using namespace std;
+ 
+int f[3001000];
+int max(int a, int b)
+{
+    if (a > b)
+        return a;
+    else
+        return b;
+}
+int main()
+{
+    int N, i, j, t, m;
+    int flag;
+    double Q;
+    int q;
+    int Pay[30];
+    while (scanf("%lf%d", &Q, &N) != EOF)
+    {
+        q = (int)(Q * 100);
+        t = 1;
+        memset(Pay, 0, sizeof(Pay));
+        memset(f, 0, sizeof(f));
+        if (N == 0)
+            break;
+        while (N--)
+        {
+            int a, b, c;
+            a = b = c = 0;
+            flag = 1;
+            scanf("%d", &m);
+            for (i = 1; i <= m; i++)
+            {
+                char str[100];
+                char type;
+                double price;
+                int pri;
+                scanf("%s", str);
+                sscanf(str, "%c:%lf", &type, &price);
+                pri = (int)(price * 100);
+                if (type == 'A')
+                {
+                    a += pri;
+                }
+                else if (type == 'B')
+                {
+                    b += pri;
+                }
+                else if (type == 'C')
+                {
+                    c += pri;
+                }
+                else
+                {
+                    flag = 0;
+                }
+                if (a + b + c > 100000 || a > 60000 || b > 60000 || c > 60000)
+                {
+                    flag = 0;
+                }
+            }
+            if (flag)
+            {
+                Pay[t++] = a + b + c;
+            }
+        }
+        for (i = 1; i < t; i++)
+        {
+            for (j = q; j >= 1; j--)
+            {
+                if (Pay[i] <= j)
+                    f[j] = max(f[j], f[j - Pay[i]] + Pay[i]);
+            }
+        }
+        printf("%.2lf\n", f[q] / 100.00);
+    }
+    return 0;
+}

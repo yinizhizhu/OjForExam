@@ -1,0 +1,16 @@
+#include<stdio.h>  
+ 
+void printOneToNBit(int N) {
+    int i, j, number = 1;
+    for (i = 1; i <= N; i++)
+        number = 10 * number;
+    for (j = 1; j < number; j++)
+        printf("%d\n", j);
+}
+ 
+int main() {
+    int N;
+    scanf("%d", &N);
+    printOneToNBit(N);
+    return 0;
+}

@@ -1,0 +1,88 @@
+#include <iostream>
+#include <stack>
+ 
+using namespace std;
+ 
+int add(stack<int>& a, stack<int>& b) {
+    int ans = 0;
+    int m, n, carry = 0, bit = 1;
+    while (!a.empty() && !b.empty()) {
+        m = a.top(), n = b.top();
+        if (m & n) {
+            if (carry)
+                ans |= bit;
+            else
+                carry = 1;
+        }
+        else {
+            if (m | n) {
+                if (!carry)
+                    ans |= bit;
+            }
+            else {
+                if (carry) {
+                    carry = 0;
+                    ans |= bit;
+                }
+            }
+        }
+        bit <<= 1;
+        a.pop();
+        b.pop();
+    }
+    while (!a.empty()) {
+        m = a.top();
+        if (m) {
+            if (!carry)
+                ans |= bit;
+        }
+        else {
+            if (carry) {
+                carry = 0;
+                ans |= bit;
+            }
+        }
+        bit <<= 1;
+        a.pop();
+    }
+    while (!b.empty()) {
+        m = b.top();
+        if (m) {
+            if (!carry)
+                ans |= bit;
+        }
+        else {
+            if (carry) {
+                carry = 0;
+                ans |= bit;
+            }
+        }
+        bit <<= 1;
+        b.pop();
+    }
+    if (carry)
+        ans |= bit;
+    return ans;
+}
+ 
+void getBit(int n, stack<int>& a) {
+    stack<int> ans;
+    while (n) {
+        ans.push(n & 1);
+        n >>= 1;
+    }
+    while (!ans.empty()) {
+        a.push(ans.top());
+        ans.pop();
+    }
+}
+ 
+int main() {
+    int m, n;
+    stack<int> a, b;
+    while (cin >> m >> n) {
+        getBit(m, a);
+        getBit(n, b);
+        cout << add(a, b) << endl;
+    }
+}
