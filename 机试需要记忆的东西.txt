@@ -27,3 +27,4 @@
 	if (b) return gcd(b, a%b);
 	return a;
 }
+15. F[n] = (n-1)*(F[n-1]+F[n-2]);经典的排错公式
