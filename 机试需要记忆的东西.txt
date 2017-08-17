@@ -1,3 +1,44 @@
+排序、日期类、Hash、排版、查找、贪心、栈（括号匹配和表达式求值）、哈夫曼树的建立、二叉树和二叉排序树、%运算符、数位拆解、进制转换、
+最大公约数（GCD）：
+int gcd(int a, int b) {
+if (b == 0) return a;
+else	return gcd(b, a%b);
+}
+素数筛法、二分求幂、高精度整数、
+并查集：
+int findRoot(int x) {
+while (tree[x] != -1)
+	x = tree[x];
+return x;
+}
+最小生成树（MST:Prim、Kruaskal）
+利用并查集实现Kruaskal
+最短路径(Floyd、Dijkstra)
+for (int k=0; k<n; k++)
+	for (int i=0; i<n; i++)
+		for (int j=0; j<n; j++) {
+			if (ans[i][k] == INT_MAX || ans[k][j] == INT_MAX) continue;
+			if (ans[i][j] == INT_MAX || ans[i][k] + ans[k][j] < ans[i][j])
+				ans[i][j] = ans[i][k] + ans[k][j];
+		}
+拓扑排序（每次寻找入度为0的节点）、枚举、广度优先搜索（BFS：寻找最优解）、
+递归（汉诺伊）
+long long F(int num) {
+if (num == 1) return 2;
+return 3*F(num-1) + 2;
+}
+深度优先搜索（DFS：寻找所有状态）、动态规划（DP：N阶楼梯、排错公式、最长递增序列LIS、最长公共子序列LCS、）、
+背包
+0-1背包（多重背包）
+for (int i=1; i<=cnt; i++)
+	for (int j=s; j>=list[i].w; j--) 
+		dp[j] = max(dp[j], dp[j-list[i].w]+list[i].v);
+完全背包
+for (int i=1; i<=n; i++)
+	for (int j=list[i].w; j<s; j++) 
+		dp[j] = max(dp[j], dp[j-list[i].w]+list[i].v);
+标准模板库（STL）、
+		
 1.sort中比较函数的编写；<algrithom>
 2.精度的设置头文件<iomanip>: setprecision, setiosflags
 3. printf("%.1f\n", res);scanf("%4d%2d%2d", &y2, &m2, &d2);scanf("%4d%2d%2d", &y1, &m1, &d1) != EOF;printf("%04d-%02d-%02d\n", y, i, n);
